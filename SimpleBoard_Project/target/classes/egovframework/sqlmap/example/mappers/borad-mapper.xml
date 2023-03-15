@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<resultMap id="boardResultSet" type="board">
+		<result column="BOARD_NO" property="boardNo" />	
+		<result column="BOARD_TITLE" property="boardTitle" />	
+		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="BOARD_DATE" property="boardDate" />
+		<result column="BOARD_COUNT" property="boardCount" />
+		<result column="BOARD_REPLY" property="boardReply" />
+		<result column="BOARD_FILE" property="boardFile" />
+		<result column="BOARD_STATUS" property="boardStatus" />
+		<result column="MEMBER_NAME" property="memberName" />
+	</resultMap>
+	
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_STATUS = 'Y'
+	</select>
+	
+	<select id="selectList" resultMap="boardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_TITLE
+			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			,  BOARD_COUNT
+			,  MEMBER_NAME
+		FROM BOARD
+		JOIN MEMBER USING (MEMBER_NO)
+		WHERE BOARD_STATUS = 'Y'
+		ORDER BY BOARD_NO DESC
+	</select>
+
+	<update id="increaseCount" parameterType="_int">
+		UPDATE BOARD
+		SET BOARD_COUNT = BOARD_COUNT + 1
+		WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_TITLE
+			,  BOARD_CONTENT
+			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			,  BOARD_REPLY
+			,  BOARD_FILE
+			,  BOARD_COUNT
+			,  MEMBER_NAME
+		FROM BOARD
+		JOIN MEMBER USING (MEMBER_NO)
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
