@@ -153,13 +153,15 @@ public class MemberController {
 	
 	@RequestMapping("update.me")
 	public String updateMember(Member m, Model model, HttpSession session) {
-		
+		System.out.println(m);
 		int result = memberService.updateMember(m);
-		
+		System.out.println(result);
+
 		if(result > 0) {
 			Member updateMember = memberService.loginMember(m);
 			session.setAttribute("loginUser", updateMember);
 			session.setAttribute("alertMsg", "회원 정보 수정이 성공했습니다.");
+			System.out.println("updateMember: " + updateMember);
 			return "redirect:/myPage.me";
 			
 		} else {

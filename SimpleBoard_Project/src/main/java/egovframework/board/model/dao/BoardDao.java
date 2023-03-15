@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import egovframework.board.model.vo.Board;
+import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.PageInfo;
 
 @Repository
@@ -31,6 +32,30 @@ public class BoardDao {
 
 	public Board selectBoard(int bno, SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("boardMapper.selectBoard", bno);
+	}
+
+	public ArrayList<Reply> ajaxSelectReplyList(int bno, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.ajaxSelectReplyList", bno);
+	}
+
+	public int ajaxInsertReply(SqlSessionTemplate sqlSession, Reply r) {
+		return sqlSession.insert("boardMapper.ajaxInsertReply", r);
+	}
+
+	public int insertBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertBoard", b);
+	}
+
+	public int ajaxDeleteReply(SqlSessionTemplate sqlSession, int replyNo) {
+		return sqlSession.update("boardMapper.ajaxDeleteReply", replyNo);
+	}
+
+	public int updateBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.update("boardMapper.updateBoard", b);
+	}
+
+	public int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("boardMapper.deleteBoard", bno);
 	}
 
 }

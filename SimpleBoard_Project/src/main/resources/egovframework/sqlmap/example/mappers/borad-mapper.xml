@@ -6,12 +6,20 @@
 		<result column="BOARD_NO" property="boardNo" />	
 		<result column="BOARD_TITLE" property="boardTitle" />	
 		<result column="BOARD_CONTENT" property="boardContent" />
+		<result column="BOARD_WRITER" property="boardWriter" />
 		<result column="BOARD_DATE" property="boardDate" />
 		<result column="BOARD_COUNT" property="boardCount" />
-		<result column="BOARD_REPLY" property="boardReply" />
-		<result column="BOARD_FILE" property="boardFile" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
 		<result column="BOARD_STATUS" property="boardStatus" />
-		<result column="MEMBER_NAME" property="memberName" />
+	</resultMap>
+	
+	<resultMap id="replyResultSet" type="reply">
+		<result column="REPLY_NO" property="replyNo" />	
+		<result column="REPLY_WRITER" property="replyWriter" />
+		<result column="REPLY_CONTENT" property="replyContent" />
+		<result column="REPLY_DATE" property="replyDate" />
+		<result column="REPLY_STATUS" property="replyStatus" />
 	</resultMap>
 	
 	<select id="selectListCount" resultType="_int">
@@ -25,9 +33,8 @@
 			,  BOARD_TITLE
 			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
 			,  BOARD_COUNT
-			,  MEMBER_NAME
+			,  BOARD_WRITER
 		FROM BOARD
-		JOIN MEMBER USING (MEMBER_NO)
 		WHERE BOARD_STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
 	</select>
@@ -43,19 +50,73 @@
 			,  BOARD_TITLE
 			,  BOARD_CONTENT
 			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
-			,  BOARD_REPLY
-			,  BOARD_FILE
+			,  ORIGIN_NAME
+			,  CHANGE_NAME
 			,  BOARD_COUNT
-			,  MEMBER_NAME
+			,  BOARD_WRITER
 		FROM BOARD
-		JOIN MEMBER USING (MEMBER_NO)
 		WHERE BOARD_NO = #{boardNo}
 	</select>
 
+	<select id="ajaxSelectReplyList" parameterType="_int" resultMap="replyResultSet">
+		SELECT REPLY_NO
+			 , REPLY_WRITER
+			 , REPLY_CONTENT
+			 , TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') AS "REPLY_DATE"
+		FROM REPLY
+		WHERE REPLY_STATUS = 'Y'
+		AND BOARD_NO = #{boardNo}
+		ORDER BY REPLY_NO DESC
+	</select>
+	
+	<update id="ajaxDeleteReply" parameterType="_int">
+		UPDATE REPLY
+		   SET REPLY_STATUS = 'N'
+		 WHERE REPLY_NO = #{replyNo}
+	</update>
+	
+	<insert id="ajaxInsertReply" parameterType="reply">
+		INSERT INTO REPLY (REPLY_NO
+						 , REPLY_CONTENT
+						 , REPLY_WRITER
+						 , BOARD_NO)
+				   VALUES (SEQ_REPLY_NO.NEXTVAL
+				   		 , #{replyContent}
+				   		 , #{replyWriter}
+				   		 , #{boardNo})
+	</insert>
+	
+	<insert id="insertBoard" parameterType="board">
+		INSERT INTO BOARD (BOARD_NO
+						 , BOARD_TITLE
+						 , BOARD_WRITER
+						 , BOARD_CONTENT
+						 , ORIGIN_NAME
+						 , CHANGE_NAME
+						 , MEMBER_NO)
+				   VALUES (SEQ_BOARD_NO.NEXTVAL
+				   		 , #{boardTitle}
+				   		 , #{boardWriter}
+				   		 , #{boardContent}
+				   		 , #{originName}
+				   		 , #{changeName}
+				   		 , #{memberNo})
+	</insert>
 
+   <update id="updateBoard" parameterType="board">
+       UPDATE BOARD
+          SET BOARD_TITLE = #{boardTitle}
+            , BOARD_CONTENT = #{boardContent}
+            , ORIGIN_NAME = #{originName}
+            , CHANGE_NAME = #{changeName}
+        WHERE BOARD_NO = #{boardNo}
+    </update>
 
-
-
+   <update id="deleteBoard" parameterType="_int">
+   		UPDATE BOARD
+   		   SET BOARD_STATUS = 'N'
+   		 WHERE BOARD_NO = #{boardNo}	 
+   </update>
 
 
 

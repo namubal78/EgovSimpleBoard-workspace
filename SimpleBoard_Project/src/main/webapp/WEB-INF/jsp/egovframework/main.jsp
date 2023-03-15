@@ -60,7 +60,7 @@
                 		<tr>
 	                        <td>${ b.boardNo }</td>
 	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.memberName }</td>
+	                        <td>${ b.boardWriter }</td>
 	                        <td>${ b.boardCount }</td>
 	                        <td>${ b.boardDate }</td>
 	                    </tr>

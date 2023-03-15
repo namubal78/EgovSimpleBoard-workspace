@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.board.model.dao.BoardDao;
 import egovframework.board.model.vo.Board;
+import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.PageInfo;
 
 @Service
@@ -37,6 +38,36 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Board selectBoard(int bno) {
 		return boardDao.selectBoard(bno, sqlSession);
+	}
+
+	@Override
+	public ArrayList<Reply> ajaxSelectReplyList(int bno) {
+		return boardDao.ajaxSelectReplyList(bno, sqlSession);
+	}
+
+	@Override
+	public int ajaxInsertReply(Reply r) {
+		return boardDao.ajaxInsertReply(sqlSession, r);
+	}
+
+	@Override
+	public int insertBoard(Board b) {
+		return boardDao.insertBoard(sqlSession, b);
+	}
+
+	@Override
+	public int ajaxDeleteReply(int replyNo) {
+		return boardDao.ajaxDeleteReply(sqlSession, replyNo);
+	}
+
+	@Override
+	public int updateBoard(Board b) {
+		return boardDao.updateBoard(sqlSession, b);
+	}
+
+	@Override
+	public int deleteBoard(int bno) {
+		return boardDao.deleteBoard(sqlSession, bno);
 	}
 
 }

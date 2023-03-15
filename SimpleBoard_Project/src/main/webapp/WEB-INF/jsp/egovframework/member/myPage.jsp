@@ -17,6 +17,7 @@
             <br>
 
             <form action="update.me" method="post" accept-charset="utf-8">
+                <input type="hidden" name="memberPwd" value="${ loginUser.memberPwd }">
                 <div class="form-group">
                     <label for="memberId">* ID : </label>
                     <input type="text" class="form-control" id="memberId" value="${ loginUser.memberId }" name="memberId" readonly> <br>

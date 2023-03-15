@@ -61,4 +61,19 @@
 	<!-- /For Pagination Tag -->
 
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
+    
 </beans>
+
+<!-- 인터셉터 시도
+<beans:beans>
+
+	<interceptors>
+		<interceptor>
+			<mapping path="/myPage.me" />
+			<mapping path="/enrollForm.bo" />
+			<mapping path="/update.me" />
+			<beans:bean class="kr.co.gasystem.common.interceptor.LoginInterceptor" id="LoginInterceptor" />
+		</interceptor>
+	</interceptors>
+
+</beans:> -->

@@ -84,7 +84,9 @@
 	<div id="header">
         <div id="header_1">
             <div id="header_1_left">
-                <img src="images/logo-dark.png" alt="">
+            	<a href="list.bo">
+                	<img src="images/logo-dark.png" alt="logo">
+                </a>
             </div>
             <div id="header_1_center"></div>
             <div id="header_1_right">

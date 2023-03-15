@@ -31,23 +31,23 @@
                 </tr>
                 <tr>
                     <th>작성자</th>
-                    <td>${ b.memberName }</td>
+                    <td>${ b.boardWriter }</td>
                     <th>작성일</th>
                     <td>${ b.boardDate }</td>
                 </tr>
-<!--                 <tr> -->
-<!--                     <th>첨부파일</th> -->
-<!--                     <td colspan="3"> -->
-<%--                        <c:choose> --%>
-<%--                           <c:when test="${ empty b.originName }"> --%>
-<!--                              첨부파일이 없습니다. -->
-<%--                           </c:when> --%>
-<%--                           <c:otherwise> --%>
-<%--                              <a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>       --%>
-<%--                           </c:otherwise> --%>
-<%--                        </c:choose> --%>
-<!--                     </td> -->
-<!--                 </tr> -->
+                <tr>
+                    <th>첨부파일</th>
+                    <td colspan="3">
+                       <c:choose>
+                          <c:when test="${ empty b.originName }">
+								첨부파일이 없습니다.
+                          </c:when>
+                          <c:otherwise>
+                             <a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>      
+                          </c:otherwise>
+                       </c:choose>
+                    </td>
+                </tr>
                 <tr>
                     <th>내용</th>
                     <td colspan="3"></td>
@@ -59,7 +59,7 @@
             <br>
 
 
-         <c:if test="${ loginUser.memberNo eq b.memberNo }">
+         <c:if test="${ loginUser.memberId eq b.boardWriter }">
             <div align="center">
                 <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
                 <a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
@@ -67,27 +67,26 @@
             </div>
             <br><br>
             
-<!--             <form id="postForm" action="" method="post"> -->
-<%--             	<input type="hidden" name="bno" value="${ b.boardNo }"> --%>
-<%--             	<input type="hidden" name="filePath" value="${ b.changeName }"> --%>
-<!--             </form> -->
+            <form id="postForm" action="" method="post">
+            	<input type="hidden" name="bno" value="${ b.boardNo }">
+            	<input type="hidden" name="filePath" value="${ b.changeName }">
+            </form>
             
-<!--             <script>
-//             	function postFormSubmit(num) {
+            <script>
+            	function postFormSubmit(num) {
             		
-//             		// action 속성값을 부여 후 연이어서 submit 시키기
-//             		if(num == 1) { // 수정하기 버튼 클릭 시 num == 1 : updateForm.bo
+            		// action 속성값을 부여 후 연이어서 submit 시키기
+            		if(num == 1) { // 수정하기 버튼 클릭 시 num == 1 : updateForm.bo
             			
-//             			$("#postForm").attr("action", "updateForm.bo").submit();
-//             		} else { // 삭제하기 버튼 클릭 시 num == 2 : delete.bo
+            			$("#postForm").attr("action", "updateForm.bo").submit();
+            		} else { // 삭제하기 버튼 클릭 시 num == 2 : delete.bo
             		
-//             			$("#postForm").attr("action", "delete.bo").submit();
-//             		}
-//             	}
-             </script> -->
+            			$("#postForm").attr("action", "delete.bo").submit();
+            		}
+            	}
+             </script>
          </c:if>
 
-            <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
             <table id="replyArea" class="table" align="center">
                 <thead>
                     <tr>
@@ -118,79 +117,109 @@
         </div>
         <br><br>
         
-<!--         <script>
-//         	$(function() {
+        <script>
+        	$(function() {
         		
-//         		selectReplyList();
-//         	});
+        		selectReplyList();
+        	});
         	
-//         	function selectReplyList() { // 해당 게시글에 있는 댓글리스트 조회용 ajax 요청
+        	function selectReplyList() { // 해당 게시글에 있는 댓글리스트 조회용 ajax 요청
         		
-//         		$.ajax({
-//         			url : "rlist.bo",
-//         			data : {bno:${ b.boardNo }},
-//         			success : function(result) { 
+        		$.ajax({
+        			url : "rlist.bo",
+        			data : {bno:${ b.boardNo }},
+        			success : function(result) { 
         				
-//         				// colsole.log(result);
-//         				var resultStr = "";
+        				// colsole.log(result);
+        				var resultStr = "";
         				
-//         				for(var i = 0; i < result.length; i++) {
+        				for(var i = 0; i < result.length; i++) {
         					
-//         					resultStr += "<tr>"
-//         							  		+ "<td>" + result[i].replyWriter + "</td>"
-//         							  		+ "<td>" + result[i].replyContent + "</td>"
-//         							  		+ "<td>" + result[i].createDate + "</td>"
-//         							  + "</tr>";
-//         				}
+        					resultStr += "<tr>"
+        							  		+ "<td>" + result[i].replyWriter + "</td>"
+        							  		+ "<td>" + result[i].replyContent + "</td>"
+        							  		+ "<td>" + result[i].replyDate + "</td>";
+       	                                
+        							  		if("${loginUser.memberId}" == result[i].replyWriter || "${loginUser.memberId}" == "admin") {
+       	                                    
+       	                                    resultStr += "<td width='10%' align='center'>" 
+       	                                                + "<button class='btn btn-danger button btn-sm' type='submit' onclick='deleteReply(" + result[i].replyNo + ");'>"
+       	                                                + "삭제" + "</button>" 
+       	                                              + "</td>";
+       	                                	}
+       	                                
+        					resultStr += "</tr>";
+        				}
         				
-//         				$("#replyArea>tbody").html(resultStr);
+        				$("#replyArea>tbody").html(resultStr);
         				
-//         				// 댓글 개수 출력
-//         				$("#rcount").text(result.length);
-//         			},
-//         			error : function() {
-//         				console.log("댓글리스트 조회용 ajax 통신 실패!");
-//         			}
-//         		});
-//         	}
+        				// 댓글 개수 출력
+        				$("#rcount").text(result.length);
+        			},
+        			error : function() {
+        				console.log("댓글리스트 조회용 ajax 통신 실패!");
+        			}
+        		});
+        	}
         	
-//         	function addReply() { // 댓글 작성 요청용 ajax
+        	function addReply() { // 댓글 작성 요청용 ajax
         		
-//         		// form 태그 내에서는 required 속성이 적용되지만,
-//         		// form 태그 밖에서는 required 속서이 적용안됨.
-//         		// => 댓글 내용이 있는지 검사 후 있다면 ajax 요청 보내기
-//         		//	  (textarea 요소에 value 속성값 기준으로 공백 제거 후 길이가 0 이 아닌 경우)
-//         		if($("#content").val().trim().length != 0) {
+        		// form 태그 내에서는 required 속성이 적용되지만,
+        		// form 태그 밖에서는 required 속서이 적용안됨.
+        		// => 댓글 내용이 있는지 검사 후 있다면 ajax 요청 보내기
+        		//	  (textarea 요소에 value 속성값 기준으로 공백 제거 후 길이가 0 이 아닌 경우)
+        		if($("#content").val().trim().length != 0) {
         			
-//         			$.ajax({
-//         				url : "rinsert.bo",
-//         				data : { // ajax 요청 또한 커맨드객체 방식 가능 (키값을 필드명이랑 맞춰준다)
-//         					refBoardNo:${ b.boardNo },
-//         					replyWriter:"${ loginUser.userId }",
-//         					replyContent:$("#content").val()
-//         				},
-//         				success : function(result) {
+        			$.ajax({
+        				url : "rinsert.bo",
+        				data : { // ajax 요청 또한 커맨드객체 방식 가능 (키값을 필드명이랑 맞춰준다)
+        					boardNo:${ b.boardNo },
+        					replyWriter:"${ loginUser.memberId }",
+        					replyContent:$("#content").val()
+        				},
+        				success : function(result) {
         					
-//         					// "success" 또는 "fail" 문자열이 들어있음
-//         					if(result == "success") {
+        					// "success" 또는 "fail" 문자열이 들어있음
+        					if(result == "success") {
         						
-//         						// 댓글 작성 성공 시 댓글 리스트를 불러올 것
-//         						selectReplyList();
+        						// 댓글 작성 성공 시 댓글 리스트를 불러올 것
+        						selectReplyList();
         						
-//         						// 댓글 작성 창 초기화 효과
-//         						$("#content").val("");
-//         					}
-//         				},
-//         				error : function() {
-//         					console.log("댓글 작성용 ajax 통신 실패!");
-//         				}
-//         			});
-//         		} else {
+        						// 댓글 작성 창 초기화 효과
+        						$("#content").val("");
+        					}
+        				},
+        				error : function() {
+        					console.log("댓글 작성용 ajax 통신 실패!");
+        				}
+        			});
+        		} else {
         			
-//         			alertify.alert("댓글 작성 실패", "댓글 작성 후 등록을 요청해주세요.");
-//         		}
-//         	}
-         </script> -->
+        			alertify.alert("댓글 작성 실패", "댓글 작성 후 등록을 요청해주세요.");
+        		}
+        	}
+        	
+        	function deleteReply(replyNo) { // 댓글 삭제 요청용 ajax
+                        		
+                $.ajax({
+                    url : "rdelete.re",
+                    data : {replyNo:replyNo},
+                    success : function(result) {
+                        
+                        // "success" 또는 "fail" 문자열이 들어있음
+                        if(result == "success") {
+                            
+                            // 댓글 삭제 성공 시 댓글 리스트를 불러올 것
+                            selectReplyList();
+                        }
+                    },
+                    error : function() {
+                        console.log("댓글 삭제용 ajax 통신 실패!");
+                    }
+                });
+            }
+        	
+         </script>
 
     </div>
         
