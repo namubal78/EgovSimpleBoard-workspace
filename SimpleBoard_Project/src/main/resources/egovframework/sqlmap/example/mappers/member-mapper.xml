@@ -57,5 +57,28 @@
 		WHERE MEMBER_ID = #{memberId}
 		AND MEMBER_PWD = #{memberPwd}	
 	</update>
+	
+	<select id="selectMemberListCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE MEMBER_STATUS = 'Y'
+	</select>
+	
+	<select id="selectMemberList" resultMap="memberResultSet">
+		SELECT MEMBER_NO
+			,  MEMBER_ID
+			,  MEMBER_NAME
+			,  EMAIL
+			,  PHONE
+		FROM MEMBER
+		WHERE MEMBER_STATUS = 'Y'
+		ORDER BY MEMBER_NO DESC
+	</select>
+	
+	<update id="deleteAdminMember" parameterType="_int">
+		UPDATE MEMBER
+		SET MEMBER_STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}	
+	</update>
 
 </mapper>

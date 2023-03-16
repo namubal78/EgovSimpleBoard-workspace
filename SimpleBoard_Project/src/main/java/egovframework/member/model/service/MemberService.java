@@ -1,5 +1,8 @@
 package egovframework.member.model.service;
 
+import java.util.ArrayList;
+
+import egovframework.common.model.vo.PageInfo;
 import egovframework.member.model.vo.Member;
 
 public interface MemberService {
@@ -18,5 +21,14 @@ public interface MemberService {
 
 	// 회원 탈퇴
 	int deleteMember(Member m);
+
+	// 관리자 회원 전체조회 리스트 카운트
+	int selectMemberListCount();
+
+	// 관리자 회원 전체조회
+	ArrayList<Member> selectMemberList(PageInfo pi);
+
+	// 관리자 회원 탈퇴
+	int deleteAdminMember(int mno);
 
 }

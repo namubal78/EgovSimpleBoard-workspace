@@ -52,6 +52,27 @@ public class BoardController {
 		
 	}
 	
+	@RequestMapping("myList.bo")
+	public String selectMyList(@RequestParam(value="cpage", defaultValue="1")int currentPage, int mno, Model model) {
+				
+		int listCount = boardService.selectMyListCount(mno);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Board> list = boardService.selectMyList(pi, mno);
+		
+//		System.out.println("pi: " + pi);
+//		System.out.println("list: " + list);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);		
+		
+		return "member/myList";
+	}
+	
 	@RequestMapping("detail.bo")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
@@ -278,5 +299,6 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}	
+
 	
 }

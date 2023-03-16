@@ -17,7 +17,7 @@ public class BoardDao {
 		return sqlSession.selectOne("boardMapper.selectListCount");
 	}
 
-	public ArrayList<Board> selectListCount(PageInfo pi, SqlSessionTemplate sqlSession) {
+	public ArrayList<Board> selectList(PageInfo pi, SqlSessionTemplate sqlSession) {
 
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage() - 1) * limit;
@@ -56,6 +56,18 @@ public class BoardDao {
 
 	public int deleteBoard(SqlSessionTemplate sqlSession, int bno) {
 		return sqlSession.update("boardMapper.deleteBoard", bno);
+	}
+
+	public int selectMyListCount(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("boardMapper.selectMyListCount", mno);
+	}
+
+	public ArrayList<Board> selectMyList(PageInfo pi, SqlSessionTemplate sqlSession, int mno) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage() - 1) * limit;
+		
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (ArrayList)sqlSession.selectList("boardMapper.selectMyList", mno, rowBounds);
 	}
 
 }

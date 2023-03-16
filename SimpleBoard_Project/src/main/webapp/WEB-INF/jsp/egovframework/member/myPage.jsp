@@ -18,6 +18,7 @@
 
             <form action="update.me" method="post" accept-charset="utf-8">
                 <input type="hidden" name="memberPwd" value="${ loginUser.memberPwd }">
+                <input type="hidden" name="memberNo" value="${ loginUser.memberNo }">
                 <div class="form-group">
                     <label for="memberId">* ID : </label>
                     <input type="text" class="form-control" id="memberId" value="${ loginUser.memberId }" name="memberId" readonly> <br>
@@ -34,11 +35,21 @@
                 </div> 
                 <br>
                 <div class="btns" align="center">
+                    <button type="button" class="btn btn-success" id="myList">작성글확인</button>
                     <button type="submit" class="btn btn-primary">수정하기</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button>
                 </div>
             </form>
         </div>
+        
+        <script>
+        	$(function() {
+        		$("#myList").click(function() {
+        			location.href = "myList.bo?mno=" + $(this).parent().parent().children().eq(1).val();
+        		});
+        	});
+        	
+        </script>
         <br><br>
         
     </div>

@@ -1,5 +1,7 @@
 package egovframework.member.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.board.model.vo.Board;
+import egovframework.common.model.vo.PageInfo;
+import egovframework.common.template.Pagination;
 import egovframework.member.model.service.MemberService;
 import egovframework.member.model.vo.Member;
 
@@ -151,6 +157,11 @@ public class MemberController {
 		return "member/myPage";
 	}
 	
+	@RequestMapping("adminPage.me")
+	public String adminPage() {
+		return "member/adminPage";
+	}
+	
 	@RequestMapping("update.me")
 	public String updateMember(Member m, Model model, HttpSession session) {
 		System.out.println(m);
@@ -187,5 +198,40 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("memberList.me")
+	public String selectMemberList(@RequestParam(value="cpage", defaultValue="1")int currentPage, Model model) {
+				
+		int listCount = memberService.selectMemberListCount();
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Member> list = memberService.selectMemberList(pi);
+		
+//		System.out.println("pi: " + pi);
+//		System.out.println("list: " + list);
+		
+		model.addAttribute("pi", pi);
+		model.addAttribute("list", list);		
+		
+		return "member/memberList";
+	}
+	
+	@RequestMapping("adminDelete.me")
+	public String deleteAdminMember(int mno, Model model, HttpSession session) {
+		int result = memberService.deleteAdminMember(mno);
+
+		if(result > 0) {
+			session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다.");
+			return "member/memberList";
+		} else {
+			model.addAttribute("errorMsg", "회원 탈퇴에 실패했습니다.");
+			return "common/errorPage";
+		}
+		
+		
+	}	
 	
 }

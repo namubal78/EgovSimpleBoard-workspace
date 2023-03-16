@@ -16,6 +16,7 @@
 		<typeAlias alias="board" type="egovframework.board.model.vo.Board"/>
 		<typeAlias alias="Reply" type="egovframework.board.model.vo.Reply"/>
 		<typeAlias alias="PageInfo" type="egovframework.common.model.vo.PageInfo"/>
+		<typeAlias alias="Category" type="egovframework.common.model.vo.Category"/>
 	
     </typeAliases>
 

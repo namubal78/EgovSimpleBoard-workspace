@@ -38,5 +38,11 @@ public interface BoardService {
 	// 게시글 삭제
 	int deleteBoard(int bno);
 
+	// 작성글 조회 리스트 카운트
+	int selectMyListCount(int mno);
+
+	// 작성글 조회
+	ArrayList<Board> selectMyList(PageInfo pi, int mno);
+
 
 }

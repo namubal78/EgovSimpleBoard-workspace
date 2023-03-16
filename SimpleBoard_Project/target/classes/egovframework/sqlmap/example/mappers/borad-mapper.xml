@@ -28,6 +28,13 @@
 		WHERE BOARD_STATUS = 'Y'
 	</select>
 	
+	<select id="selectMyListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD
+		WHERE BOARD_STATUS = 'Y'
+		AND MEMBER_NO = #{memberNo}
+	</select>
+	
 	<select id="selectList" resultMap="boardResultSet">
 		SELECT BOARD_NO
 			,  BOARD_TITLE
@@ -36,6 +43,18 @@
 			,  BOARD_WRITER
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
+		ORDER BY BOARD_NO DESC
+	</select>
+	
+	<select id="selectMyList" parameterType="_int" resultMap="boardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_TITLE
+			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			,  BOARD_COUNT
+			,  BOARD_WRITER
+		FROM BOARD
+		WHERE BOARD_STATUS = 'Y'
+		AND MEMBER_NO = #{memberNo}
 		ORDER BY BOARD_NO DESC
 	</select>
 

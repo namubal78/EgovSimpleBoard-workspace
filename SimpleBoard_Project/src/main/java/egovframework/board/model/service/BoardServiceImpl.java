@@ -27,7 +27,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public ArrayList<Board> selectList(PageInfo pi) {
-		return boardDao.selectListCount(pi, sqlSession);
+		return boardDao.selectList(pi, sqlSession);
 	}
 
 	@Override
@@ -68,6 +68,16 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public int deleteBoard(int bno) {
 		return boardDao.deleteBoard(sqlSession, bno);
+	}
+
+	@Override
+	public int selectMyListCount(int mno) {
+		return boardDao.selectMyListCount(sqlSession, mno);
+	}
+
+	@Override
+	public ArrayList<Board> selectMyList(PageInfo pi, int mno) {
+		return boardDao.selectMyList(pi, sqlSession, mno);
 	}
 
 }
