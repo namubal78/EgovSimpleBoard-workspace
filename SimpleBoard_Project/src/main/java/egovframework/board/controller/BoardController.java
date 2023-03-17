@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import egovframework.board.model.service.BoardService;
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 import egovframework.common.template.Pagination;
 
@@ -32,20 +33,26 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("list.bo")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, Model model) {
-		int listCount = boardService.selectListCount();
+	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+		
+		CommonVo cvPi = new CommonVo();
+		
+		cvPi.setCategory(category);
+		cvPi.setKeyword(keyword);
+		
+		int listCount = boardService.selectListCount(cvPi);
 
 		int pageLimit = 5;
 		int boardLimit = 5;
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		
-		ArrayList<Board> list = boardService.selectList(pi);
+//		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<Board> list = boardService.selectList(cv);
 		
 //		System.out.println("pi: " + pi);
 //		System.out.println("list: " + list);
 		
-		model.addAttribute("pi", pi);
+		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		
 		return "main";
@@ -60,15 +67,16 @@ public class BoardController {
 		int pageLimit = 5;
 		int boardLimit = 5;
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		CommonVo cv = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Board> list = boardService.selectMyList(pi, mno);
+		ArrayList<Board> list = boardService.selectMyList(cv, mno);
 		
 //		System.out.println("pi: " + pi);
 //		System.out.println("list: " + list);
 		
-		model.addAttribute("pi", pi);
-		model.addAttribute("list", list);		
+		model.addAttribute("cv", cv);
+		model.addAttribute("list", list);
+		model.addAttribute("mno", mno);
 		
 		return "member/myList";
 	}
@@ -126,9 +134,7 @@ public class BoardController {
 		if(!upfile.getOriginalFilename().equals("")) {
 		
 			String changeName = saveFile(upfile, session);			
-			
-			System.out.println("insert 파일 이름: " + changeName);
-			
+						
 			// 8. 원본명, 서버에 업로드 된 수정명을 Board b 에 담기
 			// => boardTitle, boardContent, boardWriter 필드에만 값이 담겨있음
 			// => originName, changeName 필드에도 전달된 파일에 대한 정보를 담을것
@@ -271,9 +277,7 @@ public class BoardController {
 	
 	@RequestMapping("delete.bo")
 	public String deleteBoard(int bno, String filePath, HttpSession session, Model model) {
-		
-		System.out.println(bno);
-		
+				
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 게시글 삭제 성공

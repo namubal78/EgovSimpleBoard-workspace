@@ -37,7 +37,7 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>게시판</h2>
+            <h2>작성글</h2>
             <br>
 			<br>
             <br>
@@ -77,24 +77,24 @@
                 <ul class="pagination">
                 	
                 	<c:choose>
-                		<c:when test="${ pi.currentPage eq 1 }">
+                		<c:when test="${ cv.currentPage eq 1 }">
                 			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage - 1 }&mno=${ mno }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
-                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-	                    <li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }">${ p }</a></li>
+                    <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
+	                    <li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }">${ p }</a></li>
                     </c:forEach>
                     
                     <c:choose>
-                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+                    	<c:when test="${ cv.currentPage eq cv.maxPage }">
                     		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ pi.currentPage + 1 }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage + 1 }&mno=${ mno }">Next</a></li>
                 		</c:otherwise>
                     </c:choose>
                     

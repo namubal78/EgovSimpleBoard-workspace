@@ -58,13 +58,26 @@
 		AND MEMBER_PWD = #{memberPwd}	
 	</update>
 	
-	<select id="selectMemberListCount" resultType="_int">
+	<select id="selectMemberListCount" parameterType="commonVo" resultType="_int">
 		SELECT COUNT(*)
 		FROM MEMBER
 		WHERE MEMBER_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('memberId')">
+				AND MEMBER_ID LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('memberName')">
+				AND MEMBER_NAME LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('phone')">
+				AND PHONE LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 	
-	<select id="selectMemberList" resultMap="memberResultSet">
+	<select id="selectMemberList" parameterType="commonVo" resultMap="memberResultSet">
 		SELECT MEMBER_NO
 			,  MEMBER_ID
 			,  MEMBER_NAME
@@ -72,6 +85,19 @@
 			,  PHONE
 		FROM MEMBER
 		WHERE MEMBER_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('memberId')">
+				AND MEMBER_ID LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('memberName')">
+				AND MEMBER_NAME LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('phone')">
+				AND PHONE LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 		ORDER BY MEMBER_NO DESC
 	</select>
 	
@@ -80,5 +106,17 @@
 		SET MEMBER_STATUS = 'N'
 		WHERE MEMBER_NO = #{memberNo}	
 	</update>
+	
+	<select id="selectMemberPage" parameterType="_int" resultMap="memberResultSet">
+		SELECT MEMBER_NO
+			 , MEMBER_ID
+			 , MEMBER_PWD
+			 , MEMBER_NAME
+			 , EMAIL
+			 , PHONE
+		FROM MEMBER
+		WHERE MEMBER_STATUS = 'Y'
+		AND MEMBER_NO = #{member_no}
+	</select>
 
 </mapper>

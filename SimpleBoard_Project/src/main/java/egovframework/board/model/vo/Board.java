@@ -2,7 +2,9 @@ package egovframework.board.model.vo;
 
 import java.sql.Date;
 
-public class Board {
+import egovframework.common.model.vo.CommonVo;
+
+public class Board extends CommonVo {
 
 	private int boardNo;
 	private String boardTitle;

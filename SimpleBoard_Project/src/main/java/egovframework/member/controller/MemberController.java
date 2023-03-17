@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import egovframework.board.model.vo.Board;
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 import egovframework.common.template.Pagination;
 import egovframework.member.model.service.MemberService;
@@ -146,7 +147,6 @@ public class MemberController {
 	
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
-		
 		session.invalidate();
 		return "redirect:/";
 		
@@ -156,7 +156,15 @@ public class MemberController {
 	public String myPage() {
 		return "member/myPage";
 	}
-	
+
+	@RequestMapping("memberPage.me")
+	public String selectMemberPage(int mno, Model model) {
+		
+		Member m = memberService.selectMemberPage(mno);
+		model.addAttribute("m", m);
+		return "member/memberPage";
+	}
+		
 	@RequestMapping("adminPage.me")
 	public String adminPage() {
 		return "member/adminPage";
@@ -164,15 +172,15 @@ public class MemberController {
 	
 	@RequestMapping("update.me")
 	public String updateMember(Member m, Model model, HttpSession session) {
-		System.out.println(m);
+		// System.out.println(m);
 		int result = memberService.updateMember(m);
-		System.out.println(result);
+		// System.out.println(result);
 
 		if(result > 0) {
 			Member updateMember = memberService.loginMember(m);
 			session.setAttribute("loginUser", updateMember);
 			session.setAttribute("alertMsg", "회원 정보 수정이 성공했습니다.");
-			System.out.println("updateMember: " + updateMember);
+			// System.out.println("updateMember: " + updateMember);
 			return "redirect:/myPage.me";
 			
 		} else {
@@ -199,21 +207,27 @@ public class MemberController {
 	}
 	
 	@RequestMapping("memberList.me")
-	public String selectMemberList(@RequestParam(value="cpage", defaultValue="1")int currentPage, Model model) {
-				
-		int listCount = memberService.selectMemberListCount();
+	public String selectMemberList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+
+		CommonVo cvPi = new CommonVo();
+		
+		cvPi.setCategory(category);
+		cvPi.setKeyword(keyword);		
+		
+		int listCount = memberService.selectMemberListCount(cvPi);
 		
 		int pageLimit = 5;
 		int boardLimit = 5;
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
+		// System.out.println("cv: " + cv);
 		
-		ArrayList<Member> list = memberService.selectMemberList(pi);
+		ArrayList<Member> list = memberService.selectMemberList(cv);
 		
 //		System.out.println("pi: " + pi);
 //		System.out.println("list: " + list);
 		
-		model.addAttribute("pi", pi);
+		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);		
 		
 		return "member/memberList";

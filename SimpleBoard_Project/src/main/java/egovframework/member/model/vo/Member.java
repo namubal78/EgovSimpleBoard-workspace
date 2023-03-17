@@ -1,6 +1,8 @@
 package egovframework.member.model.vo;
 
-public class Member {
+import egovframework.common.model.vo.CommonVo;
+
+public class Member extends CommonVo {
 
 	private int memberNo;
 	private String memberId;

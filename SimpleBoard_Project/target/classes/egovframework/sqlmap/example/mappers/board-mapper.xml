@@ -22,10 +22,23 @@
 		<result column="REPLY_STATUS" property="replyStatus" />
 	</resultMap>
 	
-	<select id="selectListCount" resultType="_int">
+	<select id="selectListCount" parameterType="commonVo" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('boardWriter')">
+				AND BOARD_WRITER LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('boardTitle')">
+				AND BOARD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('boardContent')">
+				AND BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="selectMyListCount" parameterType="_int" resultType="_int">
@@ -35,7 +48,7 @@
 		AND MEMBER_NO = #{memberNo}
 	</select>
 	
-	<select id="selectList" resultMap="boardResultSet">
+	<select id="selectList" parameterType="commonVo" resultMap="boardResultSet">
 		SELECT BOARD_NO
 			,  BOARD_TITLE
 			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
@@ -43,6 +56,19 @@
 			,  BOARD_WRITER
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('boardWriter')">
+				AND BOARD_WRITER LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('boardTitle')">
+				AND BOARD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('boardContent')">
+				AND BOARD_CONTENT LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
 		ORDER BY BOARD_NO DESC
 	</select>
 	

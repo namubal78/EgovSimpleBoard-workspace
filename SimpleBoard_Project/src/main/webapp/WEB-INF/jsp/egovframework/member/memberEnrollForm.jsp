@@ -72,7 +72,7 @@
         							
         							// 빨간 메세지 출력
         							$("#checkResult").show();
-        							$("#checkResult").css("color", "red").text("중복된 아이디가 존재합니다. 다시 입력해주세요.");
+        							$("#checkResult").css("color", "red").text("이미 사용중이거나 탈퇴한 아이디입니다.");
         							
         							// 버튼 비활성화
 	        						$("#enrollForm button[type=submit]").attr("disabled", true);

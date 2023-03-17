@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import egovframework.board.model.dao.BoardDao;
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
-import egovframework.common.model.vo.PageInfo;
+import egovframework.common.model.vo.CommonVo;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -21,13 +21,13 @@ public class BoardServiceImpl implements BoardService {
 	private SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int selectListCount() {
-		return boardDao.selectListCount(sqlSession);
+	public int selectListCount(CommonVo cvPi) {
+		return boardDao.selectListCount(cvPi, sqlSession);
 	}
 
 	@Override
-	public ArrayList<Board> selectList(PageInfo pi) {
-		return boardDao.selectList(pi, sqlSession);
+	public ArrayList<Board> selectList(CommonVo cv) {
+		return boardDao.selectList(cv, sqlSession);
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public ArrayList<Board> selectMyList(PageInfo pi, int mno) {
-		return boardDao.selectMyList(pi, sqlSession, mno);
+	public ArrayList<Board> selectMyList(CommonVo cv, int mno) {
+		return boardDao.selectMyList(cv, sqlSession, mno);
 	}
 
 }

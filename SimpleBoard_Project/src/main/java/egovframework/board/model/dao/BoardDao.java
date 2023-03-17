@@ -8,22 +8,23 @@ import org.springframework.stereotype.Repository;
 
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 
 @Repository
 public class BoardDao {
 
-	public int selectListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("boardMapper.selectListCount");
+	public int selectListCount(CommonVo cvPi, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectListCount", cvPi);
 	}
 
-	public ArrayList<Board> selectList(PageInfo pi, SqlSessionTemplate sqlSession) {
+	public ArrayList<Board> selectList(CommonVo cv, SqlSessionTemplate sqlSession) {
 
-		int limit = pi.getBoardLimit();
-		int offset = (pi.getCurrentPage() - 1) * limit;
+		int limit = cv.getBoardLimit();
+		int offset = (cv.getCurrentPage() - 1) * limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return (ArrayList)sqlSession.selectList("boardMapper.selectList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("boardMapper.selectList", cv, rowBounds);
 	}
 
 	public int increaseCount(int bno, SqlSessionTemplate sqlSession) {
@@ -62,9 +63,9 @@ public class BoardDao {
 		return sqlSession.selectOne("boardMapper.selectMyListCount", mno);
 	}
 
-	public ArrayList<Board> selectMyList(PageInfo pi, SqlSessionTemplate sqlSession, int mno) {
-		int limit = pi.getBoardLimit();
-		int offset = (pi.getCurrentPage() - 1) * limit;
+	public ArrayList<Board> selectMyList(CommonVo cv, SqlSessionTemplate sqlSession, int mno) {
+		int limit = cv.getBoardLimit();
+		int offset = (cv.getCurrentPage() - 1) * limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList)sqlSession.selectList("boardMapper.selectMyList", mno, rowBounds);

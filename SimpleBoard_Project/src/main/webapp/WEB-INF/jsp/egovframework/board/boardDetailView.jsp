@@ -57,36 +57,46 @@
                 </tr>
             </table>
             <br>
-
-
-         <c:if test="${ loginUser.memberId eq b.boardWriter }">
-            <div align="center">
-                <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-                <a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
-                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
-            </div>
-            <br><br>
-            
-            <form id="postForm" action="" method="post">
-            	<input type="hidden" name="bno" value="${ b.boardNo }">
-            	<input type="hidden" name="filePath" value="${ b.changeName }">
-            </form>
-            
-            <script>
-            	function postFormSubmit(num) {
-            		
-            		// action 속성값을 부여 후 연이어서 submit 시키기
-            		if(num == 1) { // 수정하기 버튼 클릭 시 num == 1 : updateForm.bo
-            			
-            			$("#postForm").attr("action", "updateForm.bo").submit();
-            		} else { // 삭제하기 버튼 클릭 시 num == 2 : delete.bo
-            		
-            			$("#postForm").attr("action", "delete.bo").submit();
-            		}
-            	}
-             </script>
-         </c:if>
-
+		<c:choose>
+			<c:when test="${ loginUser.memberId eq 'admin' }">
+				<div align="center">
+	                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+	            </div>
+	            <br><br>
+	            
+	            <form id="postForm" action="" method="post">
+	            	<input type="hidden" name="bno" value="${ b.boardNo }">
+	            	<input type="hidden" name="filePath" value="${ b.changeName }">
+	            </form>
+			</c:when>
+			<c:when test="${ loginUser.memberId eq b.boardWriter }">
+				<div align="center">
+	                <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
+	                <a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
+	                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+	            </div>
+	            <br><br>
+	            
+	            <form id="postForm" action="" method="post">
+	            	<input type="hidden" name="bno" value="${ b.boardNo }">
+	            	<input type="hidden" name="filePath" value="${ b.changeName }">
+	            </form>
+			</c:when>
+		</c:choose>
+		
+		<script>
+			function postFormSubmit(num) {
+				
+				// action 속성값을 부여 후 연이어서 submit 시키기
+				if(num == 1) { // 수정하기 버튼 클릭 시 num == 1 : updateForm.bo
+					
+					$("#postForm").attr("action", "updateForm.bo").submit();
+				} else { // 삭제하기 버튼 클릭 시 num == 2 : delete.bo
+				
+					$("#postForm").attr("action", "delete.bo").submit();
+				}
+			}
+		</script>
             <table id="replyArea" class="table" align="center">
                 <thead>
                     <tr>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 import egovframework.member.model.vo.Member;
 
@@ -32,22 +33,26 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.deleteMember", m);
 	}
 
-	public int selectMemberListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("memberMapper.selectMemberListCount");
+	public int selectMemberListCount(SqlSessionTemplate sqlSession, CommonVo cvPi) {
+		return sqlSession.selectOne("memberMapper.selectMemberListCount", cvPi);
 	}
 
-	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Member> selectMemberList(SqlSessionTemplate sqlSession, CommonVo cv) {
 		
-		int limit = pi.getBoardLimit();
-		int offset = (pi.getCurrentPage() - 1) * limit;
+		int limit = cv.getBoardLimit();
+		int offset = (cv.getCurrentPage() - 1) * limit;
 		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList", cv, rowBounds);
 	}
 
 	public int deleteAdminMember(SqlSessionTemplate sqlSession, int mno) {
 		return sqlSession.update("memberMapper.deleteAdminMember", mno);
+	}
+
+	public Member selectMemberPage(SqlSessionTemplate sqlSession, int mno) {
+		return sqlSession.selectOne("memberMapper.selectMemberPage", mno);
 	}
 
 }

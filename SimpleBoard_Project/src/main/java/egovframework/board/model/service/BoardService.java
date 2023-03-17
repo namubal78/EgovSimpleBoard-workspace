@@ -4,15 +4,16 @@ import java.util.ArrayList;
 
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 
 public interface BoardService {
 
 	// 게시판 전체 조회 리스트 카운트
-	int selectListCount();
+	int selectListCount(CommonVo cvPi);
 
 	// 게시판 전체 조회
-	ArrayList<Board> selectList(PageInfo pi);
+	ArrayList<Board> selectList(CommonVo cv);
 
 	// 게시글 조회수 증가
 	int increaseCount(int bno);
@@ -42,7 +43,7 @@ public interface BoardService {
 	int selectMyListCount(int mno);
 
 	// 작성글 조회
-	ArrayList<Board> selectMyList(PageInfo pi, int mno);
+	ArrayList<Board> selectMyList(CommonVo cv, int mno);
 
 
 }

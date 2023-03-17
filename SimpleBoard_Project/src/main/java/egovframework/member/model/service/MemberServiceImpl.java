@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import egovframework.common.model.vo.CommonVo;
 import egovframework.common.model.vo.PageInfo;
 import egovframework.member.model.dao.MemberDao;
 import egovframework.member.model.vo.Member;
@@ -45,18 +46,23 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public int selectMemberListCount() {
-		return memberDao.selectMemberListCount(sqlSession);
+	public int selectMemberListCount(CommonVo cvPi) {
+		return memberDao.selectMemberListCount(sqlSession, cvPi);
 	}
 
 	@Override
-	public ArrayList<Member> selectMemberList(PageInfo pi) {
-		return memberDao.selectMemberList(sqlSession, pi);
+	public ArrayList<Member> selectMemberList(CommonVo cv) {
+		return memberDao.selectMemberList(sqlSession, cv);
 	}
 
 	@Override
 	public int deleteAdminMember(int mno) {
 		return memberDao.deleteAdminMember(sqlSession, mno);
+	}
+
+	@Override
+	public Member selectMemberPage(int mno) {
+		return memberDao.selectMemberPage(sqlSession, mno);
 	}
 
 }

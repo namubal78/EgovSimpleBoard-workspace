@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -82,24 +82,24 @@
                 <ul class="pagination">
                 	
                 	<c:choose>
-                		<c:when test="${ pi.currentPage eq 1 }">
+                		<c:when test="${ cv.currentPage eq 1 }">
                 			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage - 1 }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
-                    <c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
-	                    <li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }">${ p }</a></li>
+                    <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
+	                    <li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
                     </c:forEach>
                     
                     <c:choose>
-                    	<c:when test="${ pi.currentPage eq pi.maxPage }">
+                    	<c:when test="${ cv.currentPage eq cv.maxPage }">
                     		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ pi.currentPage + 1 }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
@@ -108,12 +108,12 @@
 
             <br clear="both"><br>
 
-            <form id="searchForm" action="" method="get" align="center">
+            <form id="searchForm" action="list.bo" method="get" align="center">
                 <div class="select">
-                    <select class="custom-select" name="condition">
-                        <option value="writer">작성자</option>
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
+                    <select class="custom-select" name="category">
+                        <option value="boardWriter">작성자</option>
+                        <option value="boardTitle">제목</option>
+                        <option value="boardContent">내용</option>
                     </select>
                 </div>
                 <div class="text">
