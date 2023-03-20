@@ -25,14 +25,16 @@
 						  , MEMBER_NAME
 						  , EMAIL
 						  , PHONE
-						  , MEMBER_STATUS)
+						  , MEMBER_STATUS
+						  , MEMBER_TYPE)
 					VALUES (SEQ_MEMBER_NO.NEXTVAL
 						  , #{memberId}
 						  , #{memberPwd}
 						  , #{memberName}
 						  , #{email}
 						  , #{phone}
-						  , 'Y')
+						  , 'Y'
+						  , 3)
 	</insert>
 	
 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">

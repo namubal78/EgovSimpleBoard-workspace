@@ -20,6 +20,10 @@
 		margin: auto;
 	}
 	
+	.btn:hover {
+		pointer: cursor;
+	}
+	
 </style>
 </head>
 <body>
@@ -32,7 +36,11 @@
             <h2>관리자페이지</h2>
             <br>
             <div id="adminMenu">
-            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='memberList.me'">회원관리</button>
+            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='memberList.me'">회원 관리</button>
+            	<br><br>
+            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminTotalList.bo'">게시판 관리</button>
+            	<br><br>
+            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminBoardList.bo'">게시글 관리(첫 번째 게시판)</button>
             </div>
             <br>
         </div>

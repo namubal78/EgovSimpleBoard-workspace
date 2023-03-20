@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -37,9 +37,12 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>작성글</h2>
+            <h2>게시판</h2>
             <br>
-			<br>
+            <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
+            <c:if test="${ not empty loginUser }">
+            	<a class="btn btn-secondary" style="float:right;" href="enrollForm.sub">글쓰기</a>
+            </c:if>
             <br>
             <br>
             <table id="boardList" class="table table-hover" align="center">
@@ -47,52 +50,19 @@
                     <tr>
                         <th>글번호</th>
                         <th>제목</th>
+                        <th>작성자</th>
                         <th>조회수</th>
                         <th>작성일</th>
-                        <th>삭제</th>
                     </tr>
                 </thead>
                 <tbody>
-                	<% int count = 0; %>
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
-	                        <td>${ b.boardNo }</td>
-	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.boardCount }</td>
-	                        <td>${ b.boardDate }</td>
-	                        <td class="deleteBoard">
-	                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">삭제</button>
-	                            <!-- 게시글삭제 버튼 클릭 시 보여질 Modal -->
-							    <div class="modal fade" id="deleteForm<%= count++ %>">
-							        <div class="modal-dialog modal-sm">
-							            <div class="modal-content">
-							
-							                <!-- Modal Header -->
-							                <div class="modal-header">
-							                    <h4 class="modal-title">게시글삭제</h4>
-							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-							                </div>
-							
-							                <form id="deleteBoardForm" action="delete.bo?bno=${ b.boardNo }" method="post">
-							                    <!-- Modal body -->
-							                    <div class="modal-body">
-							                        <div align="center">
-							                            정말로 삭제 하시겠습니까? <br>
-							                        </div>
-							                        <br>
-													<br>
-							                    </div>
-							                    <!-- Modal footer -->
-							                    <div class="modal-footer" align="center">
-							                        <button type="submit" class="btn btn-danger">삭제하기</button>
-							                    </div>
-							                    <input type="hidden" name="filePath" value="${ b.changeName }">
-							                    <input type="hidden" name="mno" value="${ b.memberNo }">
-							                </form>
-							            </div>
-							        </div>
-							    </div>
-	                        </td>
+	                        <td>${ b.subBoardNo }</td>
+	                        <td>${ b.subBoardTitle }</td>
+	                        <td>${ b.subBoardWriter }</td>
+	                        <td>${ b.subBoardCount }</td>
+	                        <td>${ b.subBoardDate }</td>
 	                    </tr>
                 	</c:forEach>
                 </tbody>
@@ -101,9 +71,9 @@
             
             <script>
             	$(function(){
-            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
+            		$("#boardList>tbody>tr").click(function(){
             			
-            			location.href = "detail.bo?bno=" + $(this).children().eq(0).text();
+            			location.href = "detail.sub?subBno=" + $(this).children().eq(0).text();
             		});
             	});	
             </script>
@@ -116,12 +86,12 @@
                 			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage - 1 }&mno=${ mno }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
                     <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
-	                    <li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }">${ p }</a></li>
+	                    <li class="page-item"><a class="page-link" href="list.sub?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
                     </c:forEach>
                     
                     <c:choose>
@@ -129,17 +99,32 @@
                     		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage + 1 }&mno=${ mno }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
                 </ul>
             </div>
-		<br>
+
+            <br clear="both"><br>
+
+            <form id="searchForm" action="list.sub" method="get" align="center">
+                <div class="select">
+                    <select class="custom-select" name="category">
+                        <option value="subBoardWriter">작성자</option>
+                        <option value="subBoardTitle">제목</option>
+                        <option value="subBoardContent">내용</option>
+                    </select>
+                </div>
+                <div class="text">
+                    <input type="text" class="form-control" name="keyword">
+                </div>
+                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
+            </form>
+            <br><br>
         </div>
         <br><br>
 
     </div>
 
 </body>
-</html>

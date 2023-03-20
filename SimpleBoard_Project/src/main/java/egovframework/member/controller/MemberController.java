@@ -235,12 +235,14 @@ public class MemberController {
 	
 	@RequestMapping("adminDelete.me")
 	public String deleteAdminMember(int mno, Model model, HttpSession session) {
+		
 		int result = memberService.deleteAdminMember(mno);
 
 		if(result > 0) {
+			
 			session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다.");
-			return "member/memberList";
-		} else {
+			return "redirect:/memberList.me";
+			} else {
 			model.addAttribute("errorMsg", "회원 탈퇴에 실패했습니다.");
 			return "common/errorPage";
 		}

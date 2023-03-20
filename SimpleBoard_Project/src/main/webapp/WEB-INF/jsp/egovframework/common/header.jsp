@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -52,6 +52,12 @@
 	#header_1_right>a {margin:5px;}
 	#header_1_right>a:hover {cursor:pointer;}
 	
+	#header_2>ul {width:100%; height:100%; list-style-type:none; margin:auto; padding:0;}
+	#header_2>ul>li {float:left; width:25%; height:100%; line-height:55px; text-align:center;}
+	#header_2>ul>li a {text-decoration:none; color:black; font-size:18px; font-weight:900;}
+	
+	#header_2 {border-top:1px solid lightgray;}
+	
 	#header a {text-decoration:none; color:black;}
 	
 	/* 세부페이지마다 공통적으로 유지할 style */
@@ -84,7 +90,7 @@
 	<div id="header">
         <div id="header_1">
             <div id="header_1_left">
-            	<a href="list.bo">
+            	<a href="/">
                 	<img src="images/logo-dark.png" alt="logo">
                 </a>
             </div>
@@ -102,7 +108,7 @@
 	            		<!-- 로그인 후 -->
 	                    <label>${ loginUser.memberName }님 환영합니다</label> &nbsp;&nbsp;
 	                    	<c:choose>
-	                    		<c:when test="${ loginUser.memberId eq 'admin'}">
+	                    		<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin'}">
 	                    			<a href="adminPage.me">관리자페이지</a>
 	                    		</c:when>
 	                    		<c:otherwise>
@@ -114,6 +120,12 @@
             	</c:choose>
               
             </div>
+        </div>
+        <div id="header_2">
+            <ul>
+                <li><a href="list.bo">첫 번째 게시판</a></li>
+                <li><a href="list.sub">두 번째 게시판</a></li>
+            </ul>
         </div>
 
     </div>

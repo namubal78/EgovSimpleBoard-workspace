@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="subBoardMapper">
+
+	<resultMap id="subBoardResultSet" type="subBoard">
+		<result column="SUBBOARD_NO" property="subBoardNo" />	
+		<result column="SUBBOARD_TITLE" property="subBoardTitle" />	
+		<result column="SUBBOARD_CONTENT" property="subBoardContent" />
+		<result column="SUBBOARD_WRITER" property="subBoardWriter" />
+		<result column="SUBBOARD_DATE" property="subBoardDate" />
+		<result column="SUBBOARD_COUNT" property="subBoardCount" />
+		<result column="SUBORIGIN_NAME" property="subOriginName" />
+		<result column="SUBCHANGE_NAME" property="subChangeName" />
+		<result column="SUBBOARD_STATUS" property="subBoardStatus" />
+		<result column="MEMBER_NO" property="memberNo" />
+	</resultMap>
+	
+	<select id="selectListCount" parameterType="commonVo" resultType="_int">
+		SELECT COUNT(*)
+		FROM SUBBOARD
+		WHERE SUBBOARD_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('subBoardWriter')">
+				AND SUBBOARD_WRITER LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('subBoardTitle')">
+				AND SUBBOARD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('subBoardContent')">
+				AND SUBBOARD_CONTENT LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectMyListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*)
+		FROM SUBBOARD
+		WHERE SUBBOARD_STATUS = 'Y'
+		AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<select id="selectList" parameterType="commonVo" resultMap="subBoardResultSet">
+		SELECT SUBBOARD_NO
+			,  SUBBOARD_TITLE
+			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			,  SUBBOARD_COUNT
+			,  SUBBOARD_WRITER
+		FROM SUBBOARD
+		WHERE SUBBOARD_STATUS = 'Y'
+		<choose>
+			<when test="category.equals('subBoardWriter')">
+				AND SUBBOARD_WRITER LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('subBoardTitle')">
+				AND SUBBOARD_TITLE LIKE '%' || #{keyword} || '%'
+			</when>			
+			<when test="category.equals('subBoardContent')">
+				AND SUBBOARD_CONTENT LIKE '%' || #{keyword} || '%'
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+		ORDER BY SUBBOARD_NO DESC
+	</select>
+	
+	<select id="selectMyList" parameterType="_int" resultMap="subBoardResultSet">
+		SELECT SUBBOARD_NO
+			,  SUBBOARD_TITLE
+			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			,  SUBBOARD_COUNT
+			,  SUBBOARD_WRITER
+			,  SUBCHANGE_NAME
+			,  MEMBER_NO
+		FROM SUBBOARD
+		WHERE SUBBOARD_STATUS = 'Y'
+		AND MEMBER_NO = #{memberNo}
+		ORDER BY SUBBOARD_NO DESC
+	</select>
+
+	<update id="increaseCount" parameterType="_int">
+		UPDATE SUBBOARD
+		SET SUBBOARD_COUNT = SUBBOARD_COUNT + 1
+		WHERE SUBBOARD_NO = #{subBoardNo}
+	</update>
+	
+	<select id="selectBoard" parameterType="_int" resultMap="subBoardResultSet">
+		SELECT SUBBOARD_NO
+			,  SUBBOARD_TITLE
+			,  SUBBOARD_CONTENT
+			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			,  SUBORIGIN_NAME
+			,  SUBCHANGE_NAME
+			,  SUBBOARD_COUNT
+			,  SUBBOARD_WRITER
+		FROM SUBBOARD
+		WHERE SUBBOARD_NO = #{subBoardNo}
+	</select>
+	
+	<insert id="insertBoard" parameterType="subBoard">
+		INSERT INTO SUBBOARD (SUBBOARD_NO
+						 , SUBBOARD_TITLE
+						 , SUBBOARD_WRITER
+						 , SUBBOARD_CONTENT
+						 , SUBORIGIN_NAME
+						 , SUBCHANGE_NAME
+						 , MEMBER_NO)
+				   VALUES (SEQ_SUBBOARD_NO.NEXTVAL
+				   		 , #{subBoardTitle}
+				   		 , #{subBoardWriter}
+				   		 , #{subBoardContent}
+				   		 , #{subOriginName}
+				   		 , #{subChangeName}
+				   		 , #{memberNo})
+	</insert>
+
+   <update id="updateBoard" parameterType="subBoard">
+       UPDATE SUBBOARD
+          SET SUBBOARD_TITLE = #{subBoardTitle}
+            , SUBBOARD_CONTENT = #{subBoardContent}
+            , SUBORIGIN_NAME = #{subOriginName}
+            , SUBCHANGE_NAME = #{subChangeName}
+        WHERE SUBBOARD_NO = #{subBoardNo}
+    </update>
+
+   <update id="deleteBoard" parameterType="_int">
+   		UPDATE SUBBOARD
+   		   SET SUBBOARD_STATUS = 'N'
+   		 WHERE SUBBOARD_NO = #{subBoardNo}	 
+   </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -14,6 +14,7 @@
 		
 		<typeAlias alias="member" type="egovframework.member.model.vo.Member"/>
 		<typeAlias alias="board" type="egovframework.board.model.vo.Board"/>
+		<typeAlias alias="subBoard" type="egovframework.subBoard.model.vo.SubBoard"/>
 		<typeAlias alias="reply" type="egovframework.board.model.vo.Reply"/>
 		<typeAlias alias="pageInfo" type="egovframework.common.model.vo.PageInfo"/>
 		<typeAlias alias="category" type="egovframework.common.model.vo.Category"/>

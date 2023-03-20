@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -37,9 +37,8 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>작성글</h2>
+            <h2>게시글관리</h2>
             <br>
-			<br>
             <br>
             <br>
             <table id="boardList" class="table table-hover" align="center">
@@ -47,6 +46,7 @@
                     <tr>
                         <th>글번호</th>
                         <th>제목</th>
+                        <th>작성자</th>
                         <th>조회수</th>
                         <th>작성일</th>
                         <th>삭제</th>
@@ -58,6 +58,7 @@
                 		<tr>
 	                        <td>${ b.boardNo }</td>
 	                        <td>${ b.boardTitle }</td>
+	                        <td>${ b.boardWriter }</td>
 	                        <td>${ b.boardCount }</td>
 	                        <td>${ b.boardDate }</td>
 	                        <td class="deleteBoard">
@@ -73,7 +74,7 @@
 							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 							                </div>
 							
-							                <form id="deleteBoardForm" action="delete.bo?bno=${ b.boardNo }" method="post">
+							                <form id="deleteBoardForm" action="adminDelete.bo?bno=${ b.boardNo }" method="post">
 							                    <!-- Modal body -->
 							                    <div class="modal-body">
 							                        <div align="center">
@@ -116,12 +117,12 @@
                 			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage - 1 }&mno=${ mno }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
                     <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
-	                    <li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }">${ p }</a></li>
+	                    <li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
                     </c:forEach>
                     
                     <c:choose>
@@ -129,13 +130,29 @@
                     		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage + 1 }&mno=${ mno }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
                 </ul>
             </div>
-		<br>
+
+            <br clear="both"><br>
+
+            <form id="searchForm" action="list.bo" method="get" align="center">
+                <div class="select">
+                    <select class="custom-select" name="category">
+                        <option value="boardWriter">작성자</option>
+                        <option value="boardTitle">제목</option>
+                        <option value="boardContent">내용</option>
+                    </select>
+                </div>
+                <div class="text">
+                    <input type="text" class="form-control" name="keyword">
+                </div>
+                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
+            </form>
+            <br><br>
         </div>
         <br><br>
 

@@ -45,5 +45,8 @@ public interface BoardService {
 	// 작성글 조회
 	ArrayList<Board> selectMyList(CommonVo cv, int mno);
 
+	// 관리자 게시글 삭제
+	int deleteAdminBoard(int bno);
+
 
 }

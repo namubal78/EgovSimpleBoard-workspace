@@ -54,9 +54,10 @@
                     </tr>
                 </thead>
                 <tbody>
+                	<% int count = 0; %>
                 	<c:forEach var="m" items="${ list }">
                 		<c:choose>
-                			<c:when test="${ m.memberId eq 'admin' }">
+                			<c:when test="${ m.memberId eq 'admin' or m.memberId eq 'subadmin'}">
                 		
                 			</c:when>
                 			<c:otherwise>
@@ -66,7 +67,38 @@
 			                        <td>${ m.memberName }</td>
 			                        <td>${ m.email }</td>
 			                        <td>${ m.phone }</td>
-			                        <td class="deleteMember"><button class="btn btn-danger btn-sm" >탈퇴</button></td>
+			                        <td class="deleteMember">
+			                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">탈퇴</button>
+			                            <!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
+									    <div class="modal fade" id="deleteForm<%= count++ %>">
+									        <div class="modal-dialog modal-sm">
+									            <div class="modal-content">
+									
+									                <!-- Modal Header -->
+									                <div class="modal-header">
+									                    <h4 class="modal-title">회원탈퇴</h4>
+									                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+									                </div>
+									
+									                <form id="adminDeleteMemberForm" action="adminDelete.me?mno=${ m.memberNo }" method="post">
+									                    <!-- Modal body -->
+									                    <div class="modal-body">
+									                        <div align="center">
+									                            정말로 탈퇴 하시겠습니까? <br>
+									                        </div>
+									                        <br>
+															<br>
+									                    </div>
+									                    <!-- Modal footer -->
+									                    <div class="modal-footer" align="center">
+									                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
+									                    </div>
+									                </form>
+									            </div>
+									        </div>
+									    </div>
+			                        
+			                        </td>
 			                    </tr>
                 			</c:otherwise>
                 		</c:choose>
@@ -75,14 +107,6 @@
                 </tbody>
             </table>
             <br>
-            
-            <script>
-            	$(function(){
-            		$("#memberList>tbody>tr>td>button").click(function(){
-            			location.href = "adminDelete.me?mno=" + $(this).parent().parent().children().eq(0).text();
-            		});
-            	});	
-            </script>
             
             <script>
             	$(function(){

@@ -59,6 +59,33 @@ public class BoardController {
 		
 	}
 	
+	@RequestMapping("adminBoardList.bo")
+	public String selectAdminBoardList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+		
+		CommonVo cvPi = new CommonVo();
+		
+		cvPi.setCategory(category);
+		cvPi.setKeyword(keyword);
+		
+		int listCount = boardService.selectListCount(cvPi);
+
+		int pageLimit = 5;
+		int boardLimit = 5;
+//		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<Board> list = boardService.selectList(cv);
+		
+//		System.out.println("pi: " + pi);
+//		System.out.println("list: " + list);
+		
+		model.addAttribute("cv", cv);
+		model.addAttribute("list", list);
+		
+		return "member/adminBoardList";
+		
+	}
+	
 	@RequestMapping("myList.bo")
 	public String selectMyList(@RequestParam(value="cpage", defaultValue="1")int currentPage, int mno, Model model) {
 				
@@ -295,6 +322,33 @@ public class BoardController {
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
 			
 			return "redirect:/list.bo";
+		}
+		else { // 게시글 삭제 실패
+			
+			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			
+			return "common/errorPage";
+		}
+	}	
+	
+	@RequestMapping("adminDelete.bo")
+	public String deleteAdminBoard(int bno, int mno, String filePath, HttpSession session, Model model) {
+		int result = boardService.deleteAdminBoard(bno);
+		if(result > 0) { // 게시글 삭제 성공
+
+			// 첨부파일이 있을 경우 => 파일 삭제
+			// filePath 에는 해당 게시글의 수정파일명이 들어있음
+			// filePath 값이 빈 문자열이 아니라면 첨부파일이 있었던 경우임
+			if(!filePath.equals("")) {
+
+				String realPath = session.getServletContext().getRealPath(filePath);
+				new File(realPath).delete();
+			}
+			
+			// 게시글 관리 페이지 url 재요청
+			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
+//			String returnStr = "redirect:/myList.bo?mno=" + Integer.toString(mno);
+			return "redirect:/adminBoardList.bo";
 		}
 		else { // 게시글 삭제 실패
 			

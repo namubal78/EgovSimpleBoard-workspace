@@ -80,4 +80,10 @@ public class BoardServiceImpl implements BoardService {
 		return boardDao.selectMyList(cv, sqlSession, mno);
 	}
 
+	@Override
+	public int deleteAdminBoard(int bno) {
+		return boardDao.deleteAdminBoard(sqlSession, bno);
+
+	}
+
 }

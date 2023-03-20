@@ -8,7 +8,8 @@
 </head>
 <body>
 
-	<jsp:forward page="list.bo" />
+<%-- 	<jsp:forward page="list.bo" /> --%>
+	<jsp:forward page="WEB-INF/jsp/egovframework/main2.jsp" />	
 	
 </body>
 </html>

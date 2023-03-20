@@ -12,6 +12,7 @@
 		<result column="ORIGIN_NAME" property="originName" />
 		<result column="CHANGE_NAME" property="changeName" />
 		<result column="BOARD_STATUS" property="boardStatus" />
+		<result column="MEMBER_NO" property="memberNo" />
 	</resultMap>
 	
 	<resultMap id="replyResultSet" type="reply">
@@ -78,6 +79,8 @@
 			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
 			,  BOARD_COUNT
 			,  BOARD_WRITER
+			,  CHANGE_NAME
+			,  MEMBER_NO
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
 		AND MEMBER_NO = #{memberNo}

@@ -36,6 +36,7 @@
                 <br>
                 <div class="btns" align="center">
                     <button type="button" class="btn btn-success" id="myList">작성글확인</button>
+<!--                     <button type="button" class="btn btn-success" id="mySubList">두 번째 게시판 작성글확인</button> -->
                     <button type="submit" class="btn btn-primary">수정하기</button>
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">회원탈퇴</button>
                 </div>
@@ -48,7 +49,13 @@
         			location.href = "myList.bo?mno=" + $(this).parent().parent().children().eq(1).val();
         		});
         	});
-        	
+
+//         	$(function() {
+//         		$("#mySubList").click(function() {
+//         			location.href = "myList.sub?mno=" + $(this).parent().parent().children().eq(1).val();
+//         		});
+//         	});
+
         </script>
         <br><br>
         
