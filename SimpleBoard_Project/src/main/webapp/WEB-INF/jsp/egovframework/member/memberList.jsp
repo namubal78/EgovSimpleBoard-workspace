@@ -11,8 +11,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 
-    #boardList {text-align:center;}
-    #boardList>tbody>tr>td>button:hover {cursor:pointer;}
+    #memberList {text-align:center;}
+    #memberList>tbody>tr>td:hover {cursor:pointer;}
 
     #pagingArea {width:fit-content; margin:auto;}
     
@@ -37,7 +37,7 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>회원관리</h2>
+            <h2>회원 관리</h2>
             <br>
             <br>
             <br>
@@ -164,6 +164,9 @@
         <br><br>
 
     </div>
+
+	<jsp:include page="../common/footer.jsp" />
+
 
 </body>
 </html>

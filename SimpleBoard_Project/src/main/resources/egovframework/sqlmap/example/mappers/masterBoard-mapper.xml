@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="masterBoardMapper">
+
+	<resultMap id="masterBoardResultSet" type="masterBoard">
+		<result column="BOARD_NO" property="boardNo" />	
+		<result column="BOARD_NAME" property="boardName" />	
+		<result column="BOARD_OPEN" property="boardOpen" />	
+		<result column="BOARD_PATH" property="boardPath" />
+	</resultMap>
+	
+	<select id="boardList" resultMap="masterBoardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_NAME
+			,  BOARD_OPEN
+			,  BOARD_PATH
+		FROM MASTERBOARD
+		WHERE BOARD_OPEN = 'Y'
+		ORDER BY BOARD_NAME ASC
+	</select>
+
+	<select id="adminBoardList" resultMap="masterBoardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_NAME
+			,  BOARD_OPEN
+			,  BOARD_PATH
+		FROM MASTERBOARD
+		ORDER BY BOARD_NAME ASC
+	</select>
+	
+   <update id="ajaxOpenBoard" parameterType="_int">
+   		UPDATE MASTERBOARD
+   		   SET BOARD_OPEN = 'Y'
+   		 WHERE BOARD_NO = #{boardNo}	 
+   </update>
+
+   <update id="ajaxUnopenBoard" parameterType="_int">
+   		UPDATE MASTERBOARD
+   		   SET BOARD_OPEN = 'N'
+   		 WHERE BOARD_NO = #{boardNo}	 
+   </update>
+
+</mapper>

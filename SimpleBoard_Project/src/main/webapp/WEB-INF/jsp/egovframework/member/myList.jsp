@@ -37,7 +37,7 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>작성글</h2>
+            <h2>작성 글</h2>
             <br>
 			<br>
             <br>
@@ -140,6 +140,9 @@
         <br><br>
 
     </div>
+
+	<jsp:include page="../common/footer.jsp" />
+
 
 </body>
 </html>

@@ -48,5 +48,8 @@ public interface BoardService {
 	// 관리자 게시글 삭제
 	int deleteAdminBoard(int bno);
 
+	// 메인 페이지 게시글 조회
+	ArrayList<Board> selectMainList();
+
 
 }

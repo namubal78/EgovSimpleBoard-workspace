@@ -86,4 +86,9 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	@Override
+	public ArrayList<Board> selectMainList() {
+		return boardDao.selectMainList(sqlSession);
+	}
+
 }

@@ -123,10 +123,42 @@
         </div>
         <div id="header_2">
             <ul>
-                <li><a href="list.bo">첫 번째 게시판</a></li>
-                <li><a href="list.sub">두 번째 게시판</a></li>
+<!--                 <li><a href="list.sub">공지사항</a></li> -->
+<!--                 <li><a href="list.bo">자유게시판</a></li> -->
             </ul>
         </div>
+
+		<script>
+			$(function() {
+				
+				selectBoardList();
+			});
+			
+			function selectBoardList() {
+				
+				$.ajax({
+					url: "boardList.co",
+					success: function(result) {
+						
+						var resultStr = "";
+						
+						for(var i = 0; i < result.length; i++) {
+							
+							resultStr += "<li><a href='" + result[i].boardPath 
+										+ "'>" + result[i].boardName + "</a></li>";
+							
+						}
+						
+						$("#header_2>ul").html(resultStr);
+						
+					},
+					error: function() {
+						console.log("게시판리스트 조회용 ajax 통신 실패!");
+					}
+				});
+			}
+		
+		</script>
 
     </div>
 
@@ -152,11 +184,11 @@
                         <c:choose>
                         	<c:when test="${ not empty cookie.saveId }">
                         		<!-- 만약 saveId 쿠키가 있다면 : 체크박스가 체크되게끔 -->
-                        		<input type="checkbox" id="saveId" name="saveId" value="y" checked><label for="saveId">아이디 저장</label>
+                        		<input type="checkbox" id="saveId" name="saveId" value="y" checked><label for="saveId">&nbsp;save ID</label>
                         	</c:when>
                         	<c:otherwise>
                         		<!-- 만약 saveId 쿠키가 없다면 : 체크박스가 체크되지 않게끔 -->
-                        		<input type="checkbox" id="saveId" name="saveId" value="y" ><label for="saveId">아이디 저장</label>
+                        		<input type="checkbox" id="saveId" name="saveId" value="y" ><label for="saveId">&nbsp;save ID</label>
                         	</c:otherwise>
                         </c:choose>
                     </div>

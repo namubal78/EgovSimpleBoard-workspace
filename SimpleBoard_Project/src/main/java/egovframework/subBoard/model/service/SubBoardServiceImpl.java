@@ -53,4 +53,9 @@ public class SubBoardServiceImpl implements SubBoardService {
 		return subBoardDao.deleteBoard(sqlSession, subBno);
 	}
 
+	@Override
+	public ArrayList<SubBoard> selectMainList() {
+		return subBoardDao.selectMainList(sqlSession);
+	}
+
 }

@@ -23,14 +23,31 @@ import egovframework.board.model.service.BoardService;
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 import egovframework.common.template.Pagination;
+import egovframework.subBoard.model.service.SubBoardService;
+import egovframework.subBoard.model.vo.SubBoard;
 
 @Controller
 public class BoardController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private SubBoardService subBoardService;
+	
+	@RequestMapping("mainList.bo")
+	public String mainList(Model model) {
+		
+		ArrayList<Board> list = boardService.selectMainList();		
+		ArrayList<SubBoard> subList = subBoardService.selectMainList();
+
+		model.addAttribute("list", list);
+		model.addAttribute("subList", subList);
+		
+		return "main";
+		
+	}
 	
 	@RequestMapping("list.bo")
 	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
@@ -55,7 +72,7 @@ public class BoardController {
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		
-		return "main";
+		return "board/boardListView";
 		
 	}
 	

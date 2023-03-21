@@ -11,58 +11,73 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 
-    #boardList {text-align:center;}
-    #boardList>tbody>tr:hover {cursor:pointer;}
+/*     div { */
+/*         box-sizing: border-box; */
+/*         border: 1px solid black; */
+/*     } */
 
-    #pagingArea {width:fit-content; margin:auto;}
-    
-    #searchForm {
-        width:80%;
-        margin:auto;
+    #content {
+        height: 600px;
+        width: 800px;
+        margin: auto;
+        padding: 5px;
     }
-    #searchForm>* {
-        float:left;
-        margin:5px;
+
+    #content>div {
+        width: 100%;
+        height: 50%;
     }
-    .select {width:20%;}
-    .text {width:53%;}
-    .searchBtn {width:20%;}
     
+    #content>div>p {
+    	font-weight: bold;
+    }
+    
+	#subBoardList, #boardList>tbody>tr:hover {
+		cursor: pointer;
+	}
+
 </style>
 </head>
 <body>
 
 	<jsp:include page="common/header.jsp" />
 	
-	    <div class="content">
-        <br><br>
-        <div class="innerOuter" style="padding:5% 10%;">
-            <h2>게시판</h2>
-            <br>
-            <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
-            <c:if test="${ not empty loginUser }">
-            	<a class="btn btn-secondary" style="float:right;" href="enrollForm.bo">글쓰기</a>
-            </c:if>
-            <br>
-            <br>
-            <table id="boardList" class="table table-hover" align="center">
-                <thead>
-                    <tr>
-                        <th>글번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
-                    </tr>
-                </thead>
+	<div id="content">
+		<br><br><br><br>
+        <div id="recentSubBoard">
+            <p>최근 공지사항</p>
+            <table id="subBoardList" class="table table-hover" align="center">
                 <tbody>
-                	<c:forEach var="b" items="${ list }">
+                	<c:forEach var="sub" items="${ subList }" begin="0" end="2">
                 		<tr>
-	                        <td>${ b.boardNo }</td>
-	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.boardWriter }</td>
-	                        <td>${ b.boardCount }</td>
-	                        <td>${ b.boardDate }</td>
+                			<td style="width: 1px;"><input type="hidden" name="subBno" value="${ sub.subBoardNo }"></td>
+	                        <td style="width: 500px;">${ sub.subBoardTitle }</td>
+	                        <td style="width: 200px; text-align: right;">${ sub.subBoardDate }</td>
+	                    </tr>
+                	</c:forEach>
+                </tbody>
+            </table>
+            <br>
+            
+            <script>
+            	$(function(){
+            		$("#subBoardList>tbody>tr").click(function(){
+            			location.href = "detail.sub?subBno=" + $(this).children().eq(0).children().eq(0).val();
+            		});
+            	});	
+            </script>
+        </div>
+
+        <div id="recentBoard">
+            <p>최근 게시글</p>
+            <table id="boardList" class="table table-hover" align="center">
+
+                <tbody>
+                	<c:forEach var="b" items="${ list }" begin="0" end="2">
+                		<tr>
+                			<td style="width: 1px;"><input type="hidden" name="bno" value="${ b.boardNo }"></td>
+                		    <td style="width: 500px;">${ b.boardTitle }</td>
+	                        <td style="width: 200px; text-align: right;">${ b.boardDate }</td>
 	                    </tr>
                 	</c:forEach>
                 </tbody>
@@ -72,60 +87,15 @@
             <script>
             	$(function(){
             		$("#boardList>tbody>tr").click(function(){
-            			
-            			location.href = "detail.bo?bno=" + $(this).children().eq(0).text();
+            			location.href = "detail.bo?bno=" + $(this).children().eq(0).children().eq(0).val();
             		});
             	});	
             </script>
-
-            <div id="pagingArea">
-                <ul class="pagination">
-                	
-                	<c:choose>
-                		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                		</c:when>
-                		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
-                		</c:otherwise>
-                	</c:choose>
-                
-                    <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
-	                    <li class="page-item"><a class="page-link" href="list.bo?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
-                    </c:forEach>
-                    
-                    <c:choose>
-                    	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-                    	</c:when>
-                    	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
-                		</c:otherwise>
-                    </c:choose>
-                    
-                </ul>
-            </div>
-
-            <br clear="both"><br>
-
-            <form id="searchForm" action="list.bo" method="get" align="center">
-                <div class="select">
-                    <select class="custom-select" name="category">
-                        <option value="boardWriter">작성자</option>
-                        <option value="boardTitle">제목</option>
-                        <option value="boardContent">내용</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" class="form-control" name="keyword">
-                </div>
-                <button type="submit" class="searchBtn btn btn-secondary">검색</button>
-            </form>
-            <br><br>
         </div>
-        <br><br>
 
-    </div>
+	</div>
+	
+	<jsp:include page="common/footer.jsp" />
 
 </body>
 </html>

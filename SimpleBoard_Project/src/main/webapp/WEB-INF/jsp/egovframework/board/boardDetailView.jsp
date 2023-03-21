@@ -18,7 +18,7 @@
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <h2>게시글 상세보기</h2>
+            <h2>자유게시판</h2>
             <br>
 
             <a class="btn btn-secondary" style="float:right;" href="list.bo">목록으로</a>
@@ -53,7 +53,7 @@
                     <td colspan="3"></td>
                 </tr>
                 <tr>
-                    <td colspan="4"><p style="height:150px;">${ b.boardContent }</p></td>
+                    <td colspan="4"><pre style="height:150px; white-space: pre-line;">${ b.boardContent }</pre></td>
                 </tr>
             </table>
             <br>
@@ -106,19 +106,20 @@
 	                    		<th colspan="2">
 		                            <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:100%;" readonly>로그인한 사용자만 이용가능한 서비스 입니다. 로그인 후 이용바랍니다.</textarea>
 		                        </th>
-		                        <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+		                        <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록</button></th>
 	                    	</c:when>
 	                    	<c:otherwise>
 	                    		<!-- 로그인 후 -->
 	                    		<th colspan="2">
 		                            <textarea class="form-control" name="" id="content" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
 		                        </th>
-		                        <th style="vertical-align:middle"><button class="btn btn-primary" onclick="addReply();">등록하기</button></th>
+		                        <th id="rep2" width="10%" align="center"><span id="textCount" style="font-size: 10px; font-weight: lighter;">0</span><span id="textCount" style="font-weight: lighter; font-size: 10px;">/ 300</span></th>
+                                <th style="vertical-align:middle"><button class="btn btn-primary" onclick="addReply();">등록</button></th>
 	                    	</c:otherwise>
 	                    </c:choose>
                     </tr>
                     <tr>
-                        <td colspan="3">댓글(<span id="rcount">3</span>)</td>
+                        <td colspan="3">댓글 (<span id="rcount">3</span>)</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,10 +148,10 @@
         					
         					resultStr += "<tr>"
         							  		+ "<td>" + result[i].replyWriter + "</td>"
-        							  		+ "<td>" + result[i].replyContent + "</td>"
+        							  		+ "<td><pre style='white-space: pre-line;'>" + result[i].replyContent + "</pre></td>"
         							  		+ "<td>" + result[i].replyDate + "</td>";
        	                                
-        							  		if("${loginUser.memberId}" == result[i].replyWriter || "${loginUser.memberId}" == "admin") {
+        							  		if("${loginUser.memberId}" == result[i].replyWriter || "${loginUser.memberId}" == "admin" || "${loginUser.memberId}" == "subadmin") {
        	                                    
        	                                    resultStr += "<td width='10%' align='center'>" 
        	                                                + "<button class='btn btn-danger button btn-sm' type='submit' onclick='deleteReply(" + result[i].replyNo + ");'>"
@@ -197,6 +198,7 @@
         						
         						// 댓글 작성 창 초기화 효과
         						$("#content").val("");
+        						$('#textCount').val("");
         					}
         				},
         				error : function() {
@@ -208,6 +210,20 @@
         			alertify.alert("댓글 작성 실패", "댓글 작성 후 등록을 요청해주세요.");
         		}
         	}
+        	
+            // 댓글 작성 글자수 체크
+            $("#content").keyup(function (e) {
+                var content = $(this).val();
+                
+                // 글자수 세기
+                $("#textCount").text(content.length);
+                
+                // 글자수 제한
+                if (content.length > 300) {
+                    // 300자 부터는 타이핑 되지 않도록
+                    $(this).val($(this).val().substring(0, 300));
+                };
+            });        	
         	
         	function deleteReply(replyNo) { // 댓글 삭제 요청용 ajax
                         		
@@ -232,6 +248,9 @@
          </script>
 
     </div>
+
+	<jsp:include page="../common/footer.jsp" />
+
         
 </body>
 </html>

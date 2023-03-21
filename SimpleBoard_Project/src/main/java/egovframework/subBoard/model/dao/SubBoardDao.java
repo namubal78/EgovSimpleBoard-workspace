@@ -43,4 +43,8 @@ public class SubBoardDao {
 		return sqlSession.update("subBoardMapper.deleteBoard", subBno);
 	}
 
+	public ArrayList<SubBoard> selectMainList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("subBoardMapper.selectMainList");
+	}
+
 }

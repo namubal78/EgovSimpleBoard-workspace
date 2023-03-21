@@ -76,4 +76,8 @@ public class BoardDao {
 
 	}
 
+	public ArrayList<Board> selectMainList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectMainList");
+	}
+
 }

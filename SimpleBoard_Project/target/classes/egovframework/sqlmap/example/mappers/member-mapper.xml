@@ -10,6 +10,7 @@
 		<result column="EMAIL" property="email" />
 		<result column="PHONE" property="phone" />
 		<result column="MEMBER_STATUS" property="memberStatus" />
+		<result column="MEMBER_TYPE" property="memberType" />
 	</resultMap>
 
 	<select id="idCheck" parameterType="string" resultType="_int">

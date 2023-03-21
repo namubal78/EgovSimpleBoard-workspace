@@ -37,10 +37,10 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>게시판</h2>
+            <h2>공지사항</h2>
             <br>
             <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
-            <c:if test="${ not empty loginUser }">
+            <c:if test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
             	<a class="btn btn-secondary" style="float:right;" href="enrollForm.sub">글쓰기</a>
             </c:if>
             <br>
@@ -111,7 +111,7 @@
             <form id="searchForm" action="list.sub" method="get" align="center">
                 <div class="select">
                     <select class="custom-select" name="category">
-                        <option value="subBoardWriter">작성자</option>
+<!--                         <option value="subBoardWriter">작성자</option> -->
                         <option value="subBoardTitle">제목</option>
                         <option value="subBoardContent">내용</option>
                     </select>
@@ -126,5 +126,8 @@
         <br><br>
 
     </div>
+
+	<jsp:include page="../common/footer.jsp" />
+	
 
 </body>

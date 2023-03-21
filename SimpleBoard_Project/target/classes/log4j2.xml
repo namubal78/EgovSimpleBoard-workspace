@@ -2,14 +2,14 @@
 <Configuration>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <PatternLayout pattern="%5p [%c] %m%n" />
         </Console>
     </Appenders>
     <Loggers>
         <Logger name="java.sql" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        <Logger name="egovframework" level="DEBUG" additivity="false">
+        <Logger name="egovframework" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
           <!-- log SQL with timing information, post execution -->
@@ -19,6 +19,14 @@
         <Logger name="org.springframework" level="INFO" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
+        
+        <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+		</logger>
+        <logger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" level="ERROR" additivity="false">
+			<AppenderRef ref="console" />
+		</logger>
+		
         <Root level="INFO">
             <AppenderRef ref="console" />
         </Root>

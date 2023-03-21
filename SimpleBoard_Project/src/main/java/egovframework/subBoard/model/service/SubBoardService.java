@@ -19,4 +19,6 @@ public interface SubBoardService {
 
 	int deleteBoard(int subBno);
 
+	ArrayList<SubBoard> selectMainList();
+
 }

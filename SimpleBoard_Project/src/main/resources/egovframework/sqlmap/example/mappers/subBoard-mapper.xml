@@ -15,6 +15,15 @@
 		<result column="MEMBER_NO" property="memberNo" />
 	</resultMap>
 	
+	<select id="selectMainList" resultMap="subBoardResultSet">
+		SELECT SUBBOARD_NO
+			,  SUBBOARD_TITLE
+			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+		FROM SUBBOARD
+		WHERE SUBBOARD_STATUS = 'Y'
+		ORDER BY SUBBOARD_NO DESC
+	</select>
+	
 	<select id="selectListCount" parameterType="commonVo" resultType="_int">
 		SELECT COUNT(*)
 		FROM SUBBOARD

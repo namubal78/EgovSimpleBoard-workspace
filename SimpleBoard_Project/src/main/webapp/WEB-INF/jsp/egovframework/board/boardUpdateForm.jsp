@@ -18,7 +18,7 @@
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <h2>게시글 수정하기</h2>
+            <h2>게시글 수정</h2>
             <br>
 
             <form id="updateForm" method="post" action="update.bo" enctype="multipart/form-data">
@@ -64,6 +64,9 @@
         <br><br>
 
     </div>
+
+	<jsp:include page="../common/footer.jsp" />
+
         
 </body>
 </html>

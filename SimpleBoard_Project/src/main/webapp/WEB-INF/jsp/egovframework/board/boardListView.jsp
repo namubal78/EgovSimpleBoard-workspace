@@ -37,8 +37,12 @@
 	    <div class="content">
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
-            <h2>게시글 관리</h2>
+            <h2>자유게시판</h2>
             <br>
+            <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
+            <c:if test="${ not empty loginUser }">
+            	<a class="btn btn-secondary" style="float:right;" href="enrollForm.bo">글쓰기</a>
+            </c:if>
             <br>
             <br>
             <table id="boardList" class="table table-hover" align="center">
@@ -49,11 +53,9 @@
                         <th>작성자</th>
                         <th>조회수</th>
                         <th>작성일</th>
-                        <th>삭제</th>
                     </tr>
                 </thead>
                 <tbody>
-                	<% int count = 0; %>
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
 	                        <td>${ b.boardNo }</td>
@@ -61,39 +63,6 @@
 	                        <td>${ b.boardWriter }</td>
 	                        <td>${ b.boardCount }</td>
 	                        <td>${ b.boardDate }</td>
-	                        <td class="deleteBoard">
-	                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">삭제</button>
-	                            <!-- 게시글삭제 버튼 클릭 시 보여질 Modal -->
-							    <div class="modal fade" id="deleteForm<%= count++ %>">
-							        <div class="modal-dialog modal-sm">
-							            <div class="modal-content">
-							
-							                <!-- Modal Header -->
-							                <div class="modal-header">
-							                    <h4 class="modal-title">게시글삭제</h4>
-							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-							                </div>
-							
-							                <form id="deleteBoardForm" action="adminDelete.bo?bno=${ b.boardNo }" method="post">
-							                    <!-- Modal body -->
-							                    <div class="modal-body">
-							                        <div align="center">
-							                            정말로 삭제 하시겠습니까? <br>
-							                        </div>
-							                        <br>
-													<br>
-							                    </div>
-							                    <!-- Modal footer -->
-							                    <div class="modal-footer" align="center">
-							                        <button type="submit" class="btn btn-danger">삭제하기</button>
-							                    </div>
-							                    <input type="hidden" name="filePath" value="${ b.changeName }">
-							                    <input type="hidden" name="mno" value="${ b.memberNo }">
-							                </form>
-							            </div>
-							        </div>
-							    </div>
-	                        </td>
 	                    </tr>
                 	</c:forEach>
                 </tbody>
@@ -102,9 +71,9 @@
             
             <script>
             	$(function(){
-            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
+            		$("#boardList>tbody>tr").click(function(){
             			
-            			location.href = "detail.bo?bno=" + $(this).parent().children().eq(0).text();
+            			location.href = "detail.bo?bno=" + $(this).children().eq(0).text();
             		});
             	});	
             </script>

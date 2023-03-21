@@ -11,11 +11,12 @@ public class Member extends CommonVo {
 	private String email;
 	private String phone;
 	private String memberStatus;
+	private int memberType;
 	public Member() {
 		super();
 	}
 	public Member(int memberNo, String memberId, String memberPwd, String memberName, String email, String phone,
-			String memberStatus) {
+			String memberStatus, int memberType) {
 		super();
 		this.memberNo = memberNo;
 		this.memberId = memberId;
@@ -24,6 +25,7 @@ public class Member extends CommonVo {
 		this.email = email;
 		this.phone = phone;
 		this.memberStatus = memberStatus;
+		this.memberType = memberType;
 	}
 	public int getMemberNo() {
 		return memberNo;
@@ -67,12 +69,18 @@ public class Member extends CommonVo {
 	public void setMemberStatus(String memberStatus) {
 		this.memberStatus = memberStatus;
 	}
+	public int getMemberType() {
+		return memberType;
+	}
+	public void setMemberType(int memberType) {
+		this.memberType = memberType;
+	}
 	@Override
 	public String toString() {
 		return "Member [memberNo=" + memberNo + ", memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName="
-				+ memberName + ", email=" + email + ", phone=" + phone + ", memberStatus=" + memberStatus + "]";
+				+ memberName + ", email=" + email + ", phone=" + phone + ", memberStatus=" + memberStatus
+				+ ", memberType=" + memberType + "]";
 	}
 	
-	
-	
+		
 }

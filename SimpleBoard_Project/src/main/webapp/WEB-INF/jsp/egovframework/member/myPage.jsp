@@ -13,7 +13,7 @@
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <h2>마이페이지</h2>
+            <h2>마이 페이지</h2>
             <br>
 
             <form action="update.me" method="post" accept-charset="utf-8">
@@ -91,6 +91,8 @@
             </div>
         </div>
     </div>
+
+	<jsp:include page="common/footer.jsp" />
 
 </body>
 </html>

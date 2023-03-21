@@ -18,7 +18,7 @@
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <h2>두 번째 게시글 상세보기</h2>
+            <h2>공지사항</h2>
             <br>
 
             <a class="btn btn-secondary" style="float:right;" href="list.sub">목록으로</a>
@@ -53,12 +53,12 @@
                     <td colspan="3"></td>
                 </tr>
                 <tr>
-                    <td colspan="4"><p style="height:150px;">${ b.subBoardContent }</p></td>
+                    <td colspan="4"><pre style="height:150px; white-space: pre-line;">${ b.subBoardContent }</pre></td>
                 </tr>
             </table>
             <br>
 		<c:choose>
-			<c:when test="${ loginUser.memberId eq 'subadmin' }">
+			<c:when test="${ loginUser.memberId eq 'subadmin' or loginUser.memberId eq 'admin' }">
 				<div align="center">
 	                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
 	            </div>
@@ -100,6 +100,9 @@
         <br><br>
         
     </div>
+        
+	<jsp:include page="../common/footer.jsp" />
+	        
         
 </body>
 </html>

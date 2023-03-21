@@ -23,6 +23,15 @@
 		<result column="REPLY_STATUS" property="replyStatus" />
 	</resultMap>
 	
+	<select id="selectMainList" resultMap="boardResultSet">
+		SELECT BOARD_NO
+			,  BOARD_TITLE
+			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+		FROM BOARD
+		WHERE BOARD_STATUS = 'Y'
+		ORDER BY BOARD_NO DESC
+	</select>
+	
 	<select id="selectListCount" parameterType="commonVo" resultType="_int">
 		SELECT COUNT(*)
 		FROM BOARD
@@ -110,7 +119,7 @@
 		SELECT REPLY_NO
 			 , REPLY_WRITER
 			 , REPLY_CONTENT
-			 , TO_CHAR(REPLY_DATE, 'YYYY-MM-DD') AS "REPLY_DATE"
+			 , TO_CHAR(REPLY_DATE, 'HH24:MI') AS "REPLY_DATE"
 		FROM REPLY
 		WHERE REPLY_STATUS = 'Y'
 		AND BOARD_NO = #{boardNo}
