@@ -9,7 +9,6 @@
 <body>
 
 	<jsp:forward page="mainList.bo" />
-<%-- 	<jsp:forward page="WEB-INF/jsp/egovframework/main.jsp" />	 --%>
 	
 </body>
 </html>

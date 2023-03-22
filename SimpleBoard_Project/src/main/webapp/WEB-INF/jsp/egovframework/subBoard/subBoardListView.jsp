@@ -48,21 +48,21 @@
             <table id="boardList" class="table table-hover" align="center">
                 <thead>
                     <tr>
-                        <th>글번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
+                        <th style="width: 100px;">글번호</th>
+                        <th style="width: 250px;">제목</th>
+                        <th style="width: 250px;">작성자</th>
+                        <th style="width: 100px;">조회수</th>
+                        <th style="width: 100px;">작성일</th>
                     </tr>
                 </thead>
                 <tbody>
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
-	                        <td>${ b.subBoardNo }</td>
-	                        <td>${ b.subBoardTitle }</td>
-	                        <td>${ b.subBoardWriter }</td>
-	                        <td>${ b.subBoardCount }</td>
-	                        <td>${ b.subBoardDate }</td>
+	                        <td style="width: 100px;">${ b.subBoardNo }</td>
+	                        <td style="width: 250px;">${ b.subBoardTitle }</td>
+	                        <td style="width: 250px;">${ b.subBoardWriter }</td>
+	                        <td style="width: 100px;">${ b.subBoardCount }</td>
+	                        <td style="width: 100px;">${ b.subBoardDate }</td>
 	                    </tr>
                 	</c:forEach>
                 </tbody>
@@ -128,6 +128,5 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-	
 
 </body>

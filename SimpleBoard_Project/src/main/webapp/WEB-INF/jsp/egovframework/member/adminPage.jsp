@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <style>
 
 	#adminMenu {
@@ -22,7 +22,7 @@
 	}
 	
 	.btn:hover {
-		pointer: cursor;
+		cursor: pointer;
 	}
 	
 </style>
@@ -43,16 +43,12 @@
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='memberList.me'">회원 관리</button>
 		            	<br><br>
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminBoardListPage.co'">게시판 관리</button>
-		            	<br>
-		            	<table>
-		            		
-		            	</table>
-		            	<br>
+		            	<br><br>
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminBoardList.bo'">게시글 관리</button>
 		            </div>
 		    	</c:when>
 		    	<c:when test="${ loginUser.memberType eq 2 }">
-            		<div id="adminMenu">
+            		<div id="subAdminMenu">
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminBoardList.bo'">게시글 관리</button>
 		            </div>
 		    	</c:when>
@@ -67,6 +63,5 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 
-	
 </body>
 </html>

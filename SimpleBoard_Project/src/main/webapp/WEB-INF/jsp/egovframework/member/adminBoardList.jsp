@@ -70,7 +70,7 @@
 							
 							                <!-- Modal Header -->
 							                <div class="modal-header">
-							                    <h4 class="modal-title">게시글삭제</h4>
+							                    <h4 class="modal-title">게시글 삭제</h4>
 							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 							                </div>
 							
@@ -159,7 +159,6 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-
 
 </body>
 </html>

@@ -7,6 +7,10 @@ import egovframework.subBoard.model.vo.SubBoard;
 
 public interface SubBoardService {
 
+	/*
+	 	BoardService 와 내용 유사 
+	*/
+	
 	int selectListCount(CommonVo cvPi);
 
 	ArrayList<SubBoard> selectList(CommonVo cv);

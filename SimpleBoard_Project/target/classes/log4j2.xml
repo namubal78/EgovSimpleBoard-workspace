@@ -20,9 +20,12 @@
             <AppenderRef ref="console" />
         </Logger>
         
-        <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR" additivity="false">
+        <!-- RequestMappingHandlerMapping info 숨김 -->
+        <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="ERROR" additivity="false"> 
 			<AppenderRef ref="console" />
 		</logger>
+
+        <!-- XmlBeanDefinitionReader info 숨김 -->
         <logger name="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" level="ERROR" additivity="false">
 			<AppenderRef ref="console" />
 		</logger>

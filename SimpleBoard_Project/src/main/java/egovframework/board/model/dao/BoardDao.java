@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 
 @Repository
 public class BoardDao {
@@ -19,10 +18,8 @@ public class BoardDao {
 	}
 
 	public ArrayList<Board> selectList(CommonVo cv, SqlSessionTemplate sqlSession) {
-
 		int limit = cv.getBoardLimit();
 		int offset = (cv.getCurrentPage() - 1) * limit;
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList)sqlSession.selectList("boardMapper.selectList", cv, rowBounds);
 	}
@@ -66,14 +63,12 @@ public class BoardDao {
 	public ArrayList<Board> selectMyList(CommonVo cv, SqlSessionTemplate sqlSession, int mno) {
 		int limit = cv.getBoardLimit();
 		int offset = (cv.getCurrentPage() - 1) * limit;
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (ArrayList)sqlSession.selectList("boardMapper.selectMyList", mno, rowBounds);
 	}
 
 	public int deleteAdminBoard(SqlSessionTemplate sqlSession, int bno) {
 		return sqlSession.update("boardMapper.deleteBoard", bno);
-
 	}
 
 	public ArrayList<Board> selectMainList(SqlSessionTemplate sqlSession) {

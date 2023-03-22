@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 
 <!-- Alertify 라이브러리 -->
 <!-- JavaScript -->
@@ -78,7 +78,6 @@
 </head>
 <body>
 
-	<!-- 액션 태그의 특징 : script 태그 영역에서 사용 불가 (인식이 안됨) -->
 	<c:if test="${ not empty alertMsg }">
 		<script>
 			// alert("${ alertMsg }");
@@ -102,7 +101,6 @@
 	            		<!-- 로그인 전 -->
 		                <a href="enrollForm.me">회원가입</a>
 		                <a data-toggle="modal" data-target="#loginModal">로그인</a>
-	                	<!-- 모달의 원리 : 이 버튼 클릭시 data-target 에 제시되어있는 해당 아이디의 div 요소를 띄워줌 -->
             		</c:when>
 	            	<c:otherwise>
 	            		<!-- 로그인 후 -->
@@ -146,7 +144,6 @@
 							
 							resultStr += "<li><a href='" + result[i].boardPath 
 										+ "'>" + result[i].boardName + "</a></li>";
-							
 						}
 						
 						$("#header_2>ul").html(resultStr);
@@ -168,27 +165,27 @@
             <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Login</h4>
+                    <h4 class="modal-title">로그인</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
                 <form action="login.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
-                        <label for="memberId" class="mr-sm-2">ID : </label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="Enter ID" id="memberId" name="memberId" value="${ cookie.saveId.value }" required> <br>
-                        <label for="userPwd" class="mr-sm-2">Password : </label>
-                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="Enter Password" id="memberPwd" name="memberPwd" required>
+                        <label for="memberId" class="mr-sm-2">아이디 : </label>
+                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력하세요." id="memberId" name="memberId" value="${ cookie.saveId.value }" required> <br>
+                        <label for="userPwd" class="mr-sm-2">비밀번호 : </label>
+                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력하세요." id="memberPwd" name="memberPwd" required>
                         <br>
                         
                         <c:choose>
                         	<c:when test="${ not empty cookie.saveId }">
                         		<!-- 만약 saveId 쿠키가 있다면 : 체크박스가 체크되게끔 -->
-                        		<input type="checkbox" id="saveId" name="saveId" value="y" checked><label for="saveId">&nbsp;save ID</label>
+                        		<input type="checkbox" id="saveId" name="saveId" value="y" checked><label for="saveId">&nbsp;아이디 저장</label>
                         	</c:when>
                         	<c:otherwise>
                         		<!-- 만약 saveId 쿠키가 없다면 : 체크박스가 체크되지 않게끔 -->
-                        		<input type="checkbox" id="saveId" name="saveId" value="y" ><label for="saveId">&nbsp;save ID</label>
+                        		<input type="checkbox" id="saveId" name="saveId" value="y" ><label for="saveId">&nbsp;아이디 저장</label>
                         	</c:otherwise>
                         </c:choose>
                     </div>

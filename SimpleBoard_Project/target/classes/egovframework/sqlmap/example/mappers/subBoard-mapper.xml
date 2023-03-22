@@ -17,8 +17,8 @@
 	
 	<select id="selectMainList" resultMap="subBoardResultSet">
 		SELECT SUBBOARD_NO
-			,  SUBBOARD_TITLE
-			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			 , SUBBOARD_TITLE
+			 , TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
 		FROM SUBBOARD
 		WHERE SUBBOARD_STATUS = 'Y'
 		ORDER BY SUBBOARD_NO DESC
@@ -52,10 +52,10 @@
 	
 	<select id="selectList" parameterType="commonVo" resultMap="subBoardResultSet">
 		SELECT SUBBOARD_NO
-			,  SUBBOARD_TITLE
-			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
-			,  SUBBOARD_COUNT
-			,  SUBBOARD_WRITER
+			 , SUBBOARD_TITLE
+			 , TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			 , SUBBOARD_COUNT
+			 , SUBBOARD_WRITER
 		FROM SUBBOARD
 		WHERE SUBBOARD_STATUS = 'Y'
 		<choose>
@@ -76,12 +76,12 @@
 	
 	<select id="selectMyList" parameterType="_int" resultMap="subBoardResultSet">
 		SELECT SUBBOARD_NO
-			,  SUBBOARD_TITLE
-			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
-			,  SUBBOARD_COUNT
-			,  SUBBOARD_WRITER
-			,  SUBCHANGE_NAME
-			,  MEMBER_NO
+			 , SUBBOARD_TITLE
+			 , TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			 , SUBBOARD_COUNT
+			 , SUBBOARD_WRITER
+			 , SUBCHANGE_NAME
+			 , MEMBER_NO
 		FROM SUBBOARD
 		WHERE SUBBOARD_STATUS = 'Y'
 		AND MEMBER_NO = #{memberNo}
@@ -96,32 +96,32 @@
 	
 	<select id="selectBoard" parameterType="_int" resultMap="subBoardResultSet">
 		SELECT SUBBOARD_NO
-			,  SUBBOARD_TITLE
-			,  SUBBOARD_CONTENT
-			,  TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
-			,  SUBORIGIN_NAME
-			,  SUBCHANGE_NAME
-			,  SUBBOARD_COUNT
-			,  SUBBOARD_WRITER
+			 , SUBBOARD_TITLE
+			 , SUBBOARD_CONTENT
+			 , TO_CHAR(SUBBOARD_DATE, 'YYYY-MM-DD') AS "SUBBOARD_DATE"
+			 , SUBORIGIN_NAME
+			 , SUBCHANGE_NAME
+			 , SUBBOARD_COUNT
+			 , SUBBOARD_WRITER
 		FROM SUBBOARD
 		WHERE SUBBOARD_NO = #{subBoardNo}
 	</select>
 	
 	<insert id="insertBoard" parameterType="subBoard">
 		INSERT INTO SUBBOARD (SUBBOARD_NO
-						 , SUBBOARD_TITLE
-						 , SUBBOARD_WRITER
-						 , SUBBOARD_CONTENT
-						 , SUBORIGIN_NAME
-						 , SUBCHANGE_NAME
-						 , MEMBER_NO)
-				   VALUES (SEQ_SUBBOARD_NO.NEXTVAL
-				   		 , #{subBoardTitle}
-				   		 , #{subBoardWriter}
-				   		 , #{subBoardContent}
-				   		 , #{subOriginName}
-				   		 , #{subChangeName}
-				   		 , #{memberNo})
+						    , SUBBOARD_TITLE
+						    , SUBBOARD_WRITER
+						    , SUBBOARD_CONTENT
+						    , SUBORIGIN_NAME
+						    , SUBCHANGE_NAME
+						    , MEMBER_NO)
+				      VALUES (SEQ_SUBBOARD_NO.NEXTVAL
+				   	    	, #{subBoardTitle}
+				   		 	, #{subBoardWriter}
+				   		 	, #{subBoardContent}
+				   		 	, #{subOriginName}
+				   		 	, #{subChangeName}
+				   		 	, #{memberNo})
 	</insert>
 
    <update id="updateBoard" parameterType="subBoard">
@@ -138,19 +138,5 @@
    		   SET SUBBOARD_STATUS = 'N'
    		 WHERE SUBBOARD_NO = #{subBoardNo}	 
    </update>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 </mapper>

@@ -27,6 +27,10 @@ import egovframework.common.template.Pagination;
 import egovframework.subBoard.model.service.SubBoardService;
 import egovframework.subBoard.model.vo.SubBoard;
 
+/**
+ * @author GASystem
+ *
+ */
 @Controller
 public class BoardController {
 
@@ -36,6 +40,10 @@ public class BoardController {
 	@Autowired
 	private SubBoardService subBoardService;
 	
+	/**
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("mainList.bo")
 	public String mainList(Model model) {
 		
@@ -49,6 +57,13 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * @param currentPage
+	 * @param category
+	 * @param keyword
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("list.bo")
 	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
 		
@@ -61,14 +76,10 @@ public class BoardController {
 
 		int pageLimit = 5;
 		int boardLimit = 5;
-//		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
 
 		ArrayList<Board> list = boardService.selectList(cv);
-		
-//		System.out.println("pi: " + pi);
-//		System.out.println("list: " + list);
-		
+
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		
@@ -76,6 +87,13 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * @param currentPage
+	 * @param category
+	 * @param keyword
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("adminBoardList.bo")
 	public String selectAdminBoardList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
 		
@@ -88,13 +106,9 @@ public class BoardController {
 
 		int pageLimit = 5;
 		int boardLimit = 5;
-//		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
 
 		ArrayList<Board> list = boardService.selectList(cv);
-		
-//		System.out.println("pi: " + pi);
-//		System.out.println("list: " + list);
 		
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
@@ -103,6 +117,12 @@ public class BoardController {
 		
 	}
 	
+	/**
+	 * @param currentPage
+	 * @param mno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("myList.bo")
 	public String selectMyList(@RequestParam(value="cpage", defaultValue="1")int currentPage, int mno, Model model) {
 				
@@ -115,9 +135,6 @@ public class BoardController {
 		
 		ArrayList<Board> list = boardService.selectMyList(cv, mno);
 		
-//		System.out.println("pi: " + pi);
-//		System.out.println("list: " + list);
-		
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		model.addAttribute("mno", mno);
@@ -125,6 +142,11 @@ public class BoardController {
 		return "member/myList";
 	}
 	
+	/**
+	 * @param bno
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("detail.bo")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
@@ -141,6 +163,10 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * @param bno
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="rlist.bo", produces="application/json; charset=UTF-8")
 	public String ajaxSelectReplyList(int bno) {
@@ -149,6 +175,10 @@ public class BoardController {
 	  
 	}
   
+	/**
+	 * @param r
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="rinsert.bo", produces="text/html; charset=UTF-8")
 	public String ajaxInsertReply(Reply r) {
@@ -156,39 +186,43 @@ public class BoardController {
 		return (result > 0) ? "success" : "fail";
 	}
 	
+	/**
+	 * @param replyNo
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="rdelete.re", produces="text/html; charset=UTF-8")
 	public String ajaxDeleteReviewReply(int replyNo) {
-	 				
-			int result = boardService.ajaxDeleteReply(replyNo);
-	 			
-	 		return (result > 0 ) ? "success" : "fail";
+		int result = boardService.ajaxDeleteReply(replyNo);
+ 		return (result > 0 ) ? "success" : "fail";
 	}
 	
+	/**
+	 * @return
+	 */
 	@RequestMapping("enrollForm.bo")
 	public String boardEnrollForm() {
 		return "board/boardEnrollForm";
 	}
 	
+	/**
+	 * @param b
+	 * @param upfile
+	 * @param session
+	 * @param mv
+	 * @return
+	 */
 	@RequestMapping("insert.bo")
 	public ModelAndView insertBoard(Board b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
 
-		// 전달된 파일이 있을 경우 => 파일명 수정 작업 후 서버로 업로드
-		// => 원본명, 서버에 업로드된 경로를 이어붙이기
 		if(!upfile.getOriginalFilename().equals("")) {
 		
 			String changeName = saveFile(upfile, session);			
 						
-			// 8. 원본명, 서버에 업로드 된 수정명을 Board b 에 담기
-			// => boardTitle, boardContent, boardWriter 필드에만 값이 담겨있음
-			// => originName, changeName 필드에도 전달된 파일에 대한 정보를 담을것
 			b.setOriginName(upfile.getOriginalFilename());
 			b.setChangeName("uploadFiles/" + changeName); 
-			// 실제 경로도 같이 이어붙일것(FILE_PATH 컬럼을 따로 빼두지 않음)
 		}
 		
-		// 넘어온 첨부파일이 있을 경우 b : 제목, 작성자, 내용, 원본파일명, 경로 + 수정파일명
-		// 넘어온 첨부파일이 없을 경우 b : 제목, 작성자, 내용
 		int result = boardService.insertBoard(b);
 
 		if(result > 0) { // 성공 => 게시글 리스트 페이지로 url 재요청(list.bo)
@@ -198,12 +232,7 @@ public class BoardController {
 			mv.setViewName("redirect:/list.bo");
 		}
 		else { // 실패 => 에러페이지로 포워딩
-			
-			// mv.addObject("errorMsg", "게시글 작성 실패");
-			// mv.setViewName("common/errorPage");
-			
-			// addObject 메소드의 반환형은 ModelAndView 타입임
-			// => 다음과 같이 메소드 체이닝도 가능
+
 			mv.addObject("errorMsg", "게시글 작성 실패").setViewName("common/errorPage");
 		}
 		
@@ -211,12 +240,14 @@ public class BoardController {
 		
 	}
 	
-	// 현재 넘어온 첨부파일 그 자체를 수정명으로 서버의 폴더에 저장시키는 메소드 (일반메소드)
-	// => Spring 의 Controller 메소드는 반드시 요청을 처리하는 역할이 아니어도 됨
+	/**
+	 * @param upfile
+	 * @param session
+	 * @return
+	 */
 	public String saveFile(MultipartFile upfile, HttpSession session) {
 		
-		// 파일명 수정 작업 후 서버에 업로드 시키기
-		// 예) "flower.png" => "2022112210405012345.png"
+
 		// 1. 원본파일명 뽑아오기
 		String originName = upfile.getOriginalFilename(); // "flower.png"
 		
@@ -245,6 +276,11 @@ public class BoardController {
 		return changeName;
 	}
 	
+	/**
+	 * @param bno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("updateForm.bo")
 	public String updateForm(int bno, Model model) {
 		
@@ -254,18 +290,18 @@ public class BoardController {
 		return "board/boardUpdateForm";
 	}
 	
+	/**
+	 * @param b
+	 * @param reupfile
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("update.bo")
 	public String updateBoard(Board b, MultipartFile reupfile, HttpSession session, Model model) {
 		
 		// 새로 넘어온 첨부파일이 있는 경우
 		if(!reupfile.getOriginalFilename().equals("")) {
-			
-			// System.out.println(b);
-			// b 의 boardNo : 내가 수정하고자 하는 게시글의 번호
-			// b 의 boardTitle : 수정할 제목 (SET 절)
-			// b 의 boardContent : 수정할 내용 (SET 절)
-			// b 의 originName : 기존 첨부파일의 원본명
-			// b 의 changeName : 기존 첨부파일의 수정명
 			
 			// 1. 기존 첨부파일이 있었을 경우 => 기존 첨부파일을 찾아서 삭제
 			if(b.getOriginName() != null) {
@@ -281,33 +317,12 @@ public class BoardController {
 			b.setChangeName("uploadFiles/" + changeName);
 		}
 		
-		/*
-		 * b 에 무조건 담겨있는 내용
-		 * boardNo, boardTitle, boardContent
-		 * 
-		 * 추가적으로 고려해야할 경우의 수
-		 * 1. 새로 첨부된 파일 X, 기존 첨부파일 X
-		 * => originName : null, changeName : null
-		 * 
-		 * 2. 새로 첨부된 파일X, 기존 첨부파일 O
-		 * => originName : 새로 첨부된 파일의 원본명
-		 *    changeName : 새로 첨부된 파일의 수정명 + 파일경로
-		 *    
-		 * 4. 새로 첨부된 파일O, 기존 첨부파일 O
-		 * => 기존 파일 삭제
-		 * => 새로 전달된 파일을 서버에 업로드
-		 * => originName : 새로 첨부된 파일의 원본명
-		 *    changeName : 새로 첨부된 파일의 수정명 + 파일경로
-		 */
-		
-		// Service 단으로 b 보내기
 		int result = boardService.updateBoard(b);
 		
 		if(result > 0) { // 게시글 수정 성공
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 수정되었습니다.");
 			
-			// 게시글 상세보기 페이지로 url 재요청
 			return "redirect:/detail.bo?bno=" + b.getBoardNo();
 		}
 		else { // 게시글 수정 실패
@@ -319,23 +334,26 @@ public class BoardController {
 	}
 	
 	
+	/**
+	 * @param bno
+	 * @param filePath
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("delete.bo")
 	public String deleteBoard(int bno, String filePath, HttpSession session, Model model) {
 				
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 게시글 삭제 성공
-			
-			// 첨부파일이 있을 경우 => 파일 삭제
-			// filePath 에는 해당 게시글의 수정파일명이 들어있음
-			// filePath 값이 빈 문자열이 아니라면 첨부파일이 있었던 경우임
+
 			if(!filePath.equals("")) {
 				
 				String realPath = session.getServletContext().getRealPath(filePath);
 				new File(realPath).delete();
 			}
 			
-			// 게시판 리스트 페이지 url 재요청
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
 			
 			return "redirect:/list.bo";
@@ -348,23 +366,26 @@ public class BoardController {
 		}
 	}	
 	
+	/**
+	 * @param bno
+	 * @param mno
+	 * @param filePath
+	 * @param session
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("adminDelete.bo")
 	public String deleteAdminBoard(int bno, int mno, String filePath, HttpSession session, Model model) {
 		int result = boardService.deleteAdminBoard(bno);
 		if(result > 0) { // 게시글 삭제 성공
 
-			// 첨부파일이 있을 경우 => 파일 삭제
-			// filePath 에는 해당 게시글의 수정파일명이 들어있음
-			// filePath 값이 빈 문자열이 아니라면 첨부파일이 있었던 경우임
 			if(!filePath.equals("")) {
 
 				String realPath = session.getServletContext().getRealPath(filePath);
 				new File(realPath).delete();
 			}
 			
-			// 게시글 관리 페이지 url 재요청
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
-//			String returnStr = "redirect:/myList.bo?mno=" + Integer.toString(mno);
 			return "redirect:/adminBoardList.bo";
 		}
 		else { // 게시글 삭제 실패
@@ -374,6 +395,5 @@ public class BoardController {
 			return "common/errorPage";
 		}
 	}	
-
 	
 }

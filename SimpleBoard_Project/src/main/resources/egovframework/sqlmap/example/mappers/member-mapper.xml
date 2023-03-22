@@ -15,8 +15,8 @@
 
 	<select id="idCheck" parameterType="string" resultType="_int">
 		SELECT COUNT(*)
-		  FROM MEMBER
-		 WHERE MEMBER_ID = #{userId}
+		FROM MEMBER
+		WHERE MEMBER_ID = #{userId}
 	</select>
 	
 	<insert id="insertMember" parameterType="member">
@@ -82,10 +82,10 @@
 	
 	<select id="selectMemberList" parameterType="commonVo" resultMap="memberResultSet">
 		SELECT MEMBER_NO
-			,  MEMBER_ID
-			,  MEMBER_NAME
-			,  EMAIL
-			,  PHONE
+			 , MEMBER_ID
+			 , MEMBER_NAME
+			 , EMAIL
+			 , PHONE
 		FROM MEMBER
 		WHERE MEMBER_STATUS = 'Y'
 		<choose>

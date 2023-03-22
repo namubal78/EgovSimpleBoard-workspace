@@ -16,8 +16,8 @@
 	#enrollForm>table * {margin:5px;}
 </style>
 </head>
+
 <body>
-        
     <jsp:include page="../common/header.jsp" />
 
     <div class="content">
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th><label for="writer">작성자</label></th>
-                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.memberId }" name="boardWriter" readonly></td>
+                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.memberName }" name="boardWriter" readonly></td>
                     </tr>
                     <tr>
                         <th><label for="upfile">첨부파일</label></th>

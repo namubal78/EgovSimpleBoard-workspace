@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <style>
 	/* div{border:1px solid red;} */
 	#footer {

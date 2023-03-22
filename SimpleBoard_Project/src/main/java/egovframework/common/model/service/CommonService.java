@@ -9,13 +9,16 @@ public interface CommonService {
 	// 게시판리스트 조회용
 	ArrayList<MasterBoard> boardList();
 
-	// 게시판 관리 조회용
+	// 게시판 관리 페이지 진입용
 	ArrayList<MasterBoard> adminBoardList();
 
 	// 게시판 공개
-	int ajaxOpenBoard(int boardNo);
+	int ajaxOpenBoard(int bno);
 
 	// 게시판 비공개
-	int ajaxUnopenBoard(int boardNo);
+	int ajaxUnopenBoard(int bno);
+
+	// 게시판 관리 조회용
+	ArrayList<MasterBoard> selectAdminBoardList();
 
 }

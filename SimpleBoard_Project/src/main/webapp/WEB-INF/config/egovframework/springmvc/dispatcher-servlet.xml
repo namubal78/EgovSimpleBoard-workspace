@@ -64,7 +64,8 @@
     
 </beans>
 
-<!-- 인터셉터 시도
+<!-- 로그인 인터셉터용 샘플 코드
+ 
 <beans:beans>
 
 	<interceptors>

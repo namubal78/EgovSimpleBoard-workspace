@@ -48,21 +48,21 @@
             <table id="boardList" class="table table-hover" align="center">
                 <thead>
                     <tr>
-                        <th>글번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                        <th>조회수</th>
-                        <th>작성일</th>
+                        <th style="width: 100px;">글번호</th>
+                        <th style="width: 250px;">제목</th>
+                        <th style="width: 250px;">작성자</th>
+                        <th style="width: 100px;">조회수</th>
+                        <th style="width: 100px;">작성일</th>
                     </tr>
                 </thead>
                 <tbody>
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
-	                        <td>${ b.boardNo }</td>
-	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.boardWriter }</td>
-	                        <td>${ b.boardCount }</td>
-	                        <td>${ b.boardDate }</td>
+	                        <td style="width: 100px;">${ b.boardNo }</td>
+	                        <td style="width: 250px;">${ b.boardTitle }</td>
+	                        <td style="width: 250px;">${ b.boardWriter }</td>
+	                        <td style="width: 100px;">${ b.boardCount }</td>
+	                        <td style="width: 100px;">${ b.boardDate }</td>
 	                    </tr>
                 	</c:forEach>
                 </tbody>

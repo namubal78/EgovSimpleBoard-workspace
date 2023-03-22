@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Document</title>
+<title>간단 게시판 과제</title>
 <style>
     table * {margin:5px;}
     table {width:100%;}
@@ -38,14 +38,14 @@
                 <tr>
                     <th>첨부파일</th>
                     <td colspan="3">
-                       <c:choose>
-                          <c:when test="${ empty b.subOriginName }">
+                        <c:choose>
+                            <c:when test="${ empty b.subOriginName }">
 								첨부파일이 없습니다.
-                          </c:when>
-                          <c:otherwise>
-                             <a href="${ b.subChangeName }" download="${ b.subOriginName }">${ b.subOriginName }</a>      
-                          </c:otherwise>
-                       </c:choose>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="${ b.subChangeName }" download="${ b.subOriginName }">${ b.subOriginName }</a>      
+                            </c:otherwise>
+                        </c:choose>
                     </td>
                 </tr>
                 <tr>
@@ -57,52 +57,51 @@
                 </tr>
             </table>
             <br>
-		<c:choose>
-			<c:when test="${ loginUser.memberId eq 'subadmin' or loginUser.memberId eq 'admin' }">
-				<div align="center">
-	                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
-	            </div>
-	            <br><br>
-	            
-	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="subBno" value="${ b.subBoardNo }">
-	            	<input type="hidden" name="filePath" value="${ b.subChangeName }">
-	            </form>
-			</c:when>
-			<c:when test="${ loginUser.memberId eq b.subBoardWriter }">
-				<div align="center">
-	                <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-	                <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
-	            </div>
-	            <br><br>
-	            
-	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="subBno" value="${ b.subBoardNo }">
-	            	<input type="hidden" name="filePath" value="${ b.subChangeName }">
-	            </form>
-			</c:when>
-		</c:choose>
-		
-		<script>
-			function postFormSubmit(num) {
-				
-				// action 속성값을 부여 후 연이어서 submit 시키기
-				if(num == 1) { 
-					
-				} else { 
-				
-					$("#postForm").attr("action", "delete.sub").submit();
-				}
-			}
-		</script>
+            <c:choose>
+                <c:when test="${ loginUser.memberId eq 'subadmin' or loginUser.memberId eq 'admin' }">
+                    <div align="center">
+                        <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+                    </div>
+                    <br>
+                    
+                    <form id="postForm" action="" method="post">
+                        <input type="hidden" name="subBno" value="${ b.subBoardNo }">
+                        <input type="hidden" name="filePath" value="${ b.subChangeName }">
+                    </form>
+                </c:when>
+                <c:when test="${ loginUser.memberId eq b.subBoardWriter }">
+                    <div align="center">
+                        <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
+                        <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+                    </div>
+                    <br>
+                    
+                    <form id="postForm" action="" method="post">
+                        <input type="hidden" name="subBno" value="${ b.subBoardNo }">
+                        <input type="hidden" name="filePath" value="${ b.subChangeName }">
+                    </form>
+                </c:when>
+            </c:choose>
+            
+            <script>
+                function postFormSubmit(num) {
+                    
+                    // action 속성값을 부여 후 연이어서 submit 시키기
+                    if(num == 1) { 
+                        
+                    } else { 
+                    
+                        $("#postForm").attr("action", "delete.sub").submit();
+                    }
+                }
+            </script>
   
         </div>
-        <br><br>
+        <br><br><br>
         
     </div>
         
 	<jsp:include page="../common/footer.jsp" />
-	        
         
 </body>
 </html>

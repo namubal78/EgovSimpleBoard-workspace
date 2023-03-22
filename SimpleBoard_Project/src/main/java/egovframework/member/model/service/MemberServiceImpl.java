@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 import egovframework.member.model.dao.MemberDao;
 import egovframework.member.model.vo.Member;
 

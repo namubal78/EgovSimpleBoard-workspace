@@ -11,9 +11,9 @@
 	
 	<select id="boardList" resultMap="masterBoardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_NAME
-			,  BOARD_OPEN
-			,  BOARD_PATH
+			 , BOARD_NAME
+			 , BOARD_OPEN
+			 , BOARD_PATH
 		FROM MASTERBOARD
 		WHERE BOARD_OPEN = 'Y'
 		ORDER BY BOARD_NAME ASC
@@ -21,9 +21,9 @@
 
 	<select id="adminBoardList" resultMap="masterBoardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_NAME
-			,  BOARD_OPEN
-			,  BOARD_PATH
+			 , BOARD_NAME
+			 , BOARD_OPEN
+			 , BOARD_PATH
 		FROM MASTERBOARD
 		ORDER BY BOARD_NAME ASC
 	</select>
@@ -39,5 +39,14 @@
    		   SET BOARD_OPEN = 'N'
    		 WHERE BOARD_NO = #{boardNo}	 
    </update>
+   
+   	<select id="selectAdminBoardList" resultMap="masterBoardResultSet">
+		SELECT BOARD_NO
+			 , BOARD_NAME
+			 , BOARD_OPEN
+			 , BOARD_PATH
+		FROM MASTERBOARD
+		ORDER BY BOARD_NAME ASC
+	</select>
 
 </mapper>

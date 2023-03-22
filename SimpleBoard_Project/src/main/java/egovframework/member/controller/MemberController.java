@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import egovframework.board.model.vo.Board;
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 import egovframework.common.template.Pagination;
 import egovframework.member.model.service.MemberService;
 import egovframework.member.model.vo.Member;
@@ -27,30 +25,37 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-//	
-//	// 비밀번호 암호화를 위한 변수
+//  비밀번호 암호화를 위한 변수
 //	@Autowired
 //	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+	/**
+	 * @return
+	 */
 	@RequestMapping("enrollForm.me")
 	public String memberEnrollForm() {
 		return "member/memberEnrollForm";
 	}
 	
-	
+	/**
+	 * @param checkId
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
 	public String idCheck(String checkId) {
-		
 		int count = memberService.idCheck(checkId);
-
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
 	
+	/**
+	 * @param m
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session) {
-		System.out.println("m: " + m);
-
 		int result = memberService.insertMember(m);
 		
 		if(result > 0) {
@@ -60,10 +65,17 @@ public class MemberController {
 		} else {
 			model.addAttribute("errorMsg", "회원가입을 실패했습니다.");
 			return "common/errorPage";
-
 		}
 	}
 	
+	/**
+	 * @param m
+	 * @param mv
+	 * @param session
+	 * @param saveId
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping("login.me")
 	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, String saveId, HttpServletResponse response) {
 		
@@ -80,7 +92,6 @@ public class MemberController {
 			Cookie cookie = new Cookie("saveId", m.getMemberId());
 			cookie.setMaxAge(0); // 쿠키가 삭제되는 효과
 			response.addCookie(cookie);
-			
 			
 		}
 //		
@@ -117,34 +128,30 @@ public class MemberController {
 //		
 //		return mv;
 		
-		
 		// 암호화 작업 전 로직
 		
 		Member loginUser = memberService.loginMember(m);
 		
 		if(loginUser == null) { // 로그인 실패
 			
-			// model.addAttribute("errorMsg", "로그인 실패");
 			mv.addObject("errorMsg", "로그인 실패");
 			
-			// return "common/errorPage";
 			mv.setViewName("common/errorPage"); // 포워딩
-			// ModelAndView 객체를 이용해서 응답페이지를 지정할 경우에도
-			// 또한 ViewResolver 에 의해 접두어와 접미어를 생략한 형태로 지정해야만 한다!!
 		}
 		else { // 로그인 성공
 			
 			session.setAttribute("loginUser", loginUser);
 			
-			// return "redirect:/";
 			mv.setViewName("redirect:/"); // url 재요청방식
 		}
-		
-		// 잘 셋팅한 mv 리턴
 		return mv;
 		
 	}
 	
+	/**
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("logout.me")
 	public String logoutMember(HttpSession session) {
 		session.invalidate();
@@ -152,11 +159,19 @@ public class MemberController {
 		
 	}
 	
+	/**
+	 * @return
+	 */
 	@RequestMapping("myPage.me")
 	public String myPage() {
 		return "member/myPage";
 	}
 
+	/**
+	 * @param mno
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("memberPage.me")
 	public String selectMemberPage(int mno, Model model) {
 		
@@ -165,31 +180,45 @@ public class MemberController {
 		return "member/memberPage";
 	}
 		
+	/**
+	 * @return
+	 */
 	@RequestMapping("adminPage.me")
 	public String adminPage() {
 		return "member/adminPage";
 	}
 	
+	/**
+	 * @param m
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("update.me")
 	public String updateMember(Member m, Model model, HttpSession session) {
-		// System.out.println(m);
 		int result = memberService.updateMember(m);
-		// System.out.println(result);
 
 		if(result > 0) {
+			
 			Member updateMember = memberService.loginMember(m);
 			session.setAttribute("loginUser", updateMember);
 			session.setAttribute("alertMsg", "회원 정보 수정이 성공했습니다.");
-			// System.out.println("updateMember: " + updateMember);
 			return "redirect:/myPage.me";
 			
 		} else {
+			
 			model.addAttribute("errorMsg", "회원 정보 수정이 실패했습니다.");
 			return "common/errorPage";
 
 		}
 	}
 	
+	/**
+	 * @param m
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("delete.me")
 	public String deleteMember(Member m, Model model, HttpSession session) {
 		int result = memberService.deleteMember(m);
@@ -202,10 +231,15 @@ public class MemberController {
 			model.addAttribute("errorMsg", "회원 탈퇴에 실패했습니다.");
 			return "common/errorPage";
 		}
-		
-		
 	}
 	
+	/**
+	 * @param currentPage
+	 * @param category
+	 * @param keyword
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("memberList.me")
 	public String selectMemberList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
 
@@ -220,12 +254,8 @@ public class MemberController {
 		int boardLimit = 5;
 		
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
-		// System.out.println("cv: " + cv);
 		
 		ArrayList<Member> list = memberService.selectMemberList(cv);
-		
-//		System.out.println("pi: " + pi);
-//		System.out.println("list: " + list);
 		
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);		
@@ -233,6 +263,12 @@ public class MemberController {
 		return "member/memberList";
 	}
 	
+	/**
+	 * @param mno
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("adminDelete.me")
 	public String deleteAdminMember(int mno, Model model, HttpSession session) {
 		
@@ -242,11 +278,11 @@ public class MemberController {
 			
 			session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다.");
 			return "redirect:/memberList.me";
-			} else {
+		} else {
+			
 			model.addAttribute("errorMsg", "회원 탈퇴에 실패했습니다.");
 			return "common/errorPage";
 		}
-		
 		
 	}	
 	

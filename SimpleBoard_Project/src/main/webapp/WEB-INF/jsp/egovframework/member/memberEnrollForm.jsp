@@ -4,17 +4,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 </head>
 <body>
     
-    <!-- 메뉴바 -->
     <jsp:include page="../common/header.jsp" />
 
     <div class="content">
         <br><br>
         <div class="innerOuter">
-            <h2>회원가입</h2>
+            <h2>회원 가입</h2>
             <br>
 
             <form action="insert.me" method="post" id="enrollForm">
@@ -65,9 +64,7 @@
         					url : "idCheck.me",
         					data : {checkId : $idInput.val()},
         					success : function(result) {
-        						
-        						// console.log(result);
-        						
+        						        						
         						if(result == "NNNNN") { // 사용 불가
         							
         							// 빨간 메세지 출력
@@ -103,7 +100,6 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-
 
 </body>
 </html>

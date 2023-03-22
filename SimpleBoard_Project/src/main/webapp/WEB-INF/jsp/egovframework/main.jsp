@@ -11,11 +11,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <style>
 
-/*     div { */
-/*         box-sizing: border-box; */
-/*         border: 1px solid black; */
-/*     } */
-
     #content {
         height: 600px;
         width: 800px;
@@ -43,7 +38,7 @@
 	<jsp:include page="common/header.jsp" />
 	
 	<div id="content">
-		<br><br><br><br>
+		<br><br><br>
         <div id="recentSubBoard">
             <p>최근 공지사항</p>
             <table id="subBoardList" class="table table-hover" align="center">
@@ -92,7 +87,8 @@
             	});	
             </script>
         </div>
-
+	
+	<br><br>
 	</div>
 	
 	<jsp:include page="common/footer.jsp" />

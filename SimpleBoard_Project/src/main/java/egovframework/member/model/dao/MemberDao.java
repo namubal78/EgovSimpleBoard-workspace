@@ -7,7 +7,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 import egovframework.member.model.vo.Member;
 
 @Repository
@@ -41,7 +40,6 @@ public class MemberDao {
 		
 		int limit = cv.getBoardLimit();
 		int offset = (cv.getCurrentPage() - 1) * limit;
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.selectMemberList", cv, rowBounds);

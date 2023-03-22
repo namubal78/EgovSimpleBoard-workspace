@@ -29,6 +29,4 @@ public class Category {
 		return "Category [category=" + category + ", keyword=" + keyword + "]";
 	}
 	
-	
-	
 }

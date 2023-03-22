@@ -29,12 +29,17 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public int ajaxOpenBoard(int boardNo) {
-		return commonDao.ajaxOpenBoard(sqlSession, boardNo);
+	public int ajaxOpenBoard(int bno) {
+		return commonDao.ajaxOpenBoard(sqlSession, bno);
 	}
 	
 	@Override
-	public int ajaxUnopenBoard(int boardNo) {
-		return commonDao.ajaxUnopenBoard(sqlSession, boardNo);
+	public int ajaxUnopenBoard(int bno) {
+		return commonDao.ajaxUnopenBoard(sqlSession, bno);
+	}
+
+	@Override
+	public ArrayList<MasterBoard> selectAdminBoardList() {
+		return commonDao.selectAdminBoardList(sqlSession);
 	}
 }

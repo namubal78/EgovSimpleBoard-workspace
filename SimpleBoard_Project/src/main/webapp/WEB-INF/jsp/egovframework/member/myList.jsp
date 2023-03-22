@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -69,7 +69,7 @@
 							
 							                <!-- Modal Header -->
 							                <div class="modal-header">
-							                    <h4 class="modal-title">게시글삭제</h4>
+							                    <h4 class="modal-title">게시글 삭제</h4>
 							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 							                </div>
 							

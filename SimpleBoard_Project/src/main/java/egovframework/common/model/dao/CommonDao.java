@@ -18,11 +18,15 @@ public class CommonDao {
 		return (ArrayList)sqlSession.selectList("masterBoardMapper.adminBoardList");
 	}
 
-	public int ajaxOpenBoard(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.update("masterBoardMapper.ajaxOpenBoard", boardNo);
+	public int ajaxOpenBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("masterBoardMapper.ajaxOpenBoard", bno);
 	}
 
-	public int ajaxUnopenBoard(SqlSessionTemplate sqlSession, int boardNo) {
-		return sqlSession.update("masterBoardMapper.ajaxUnopenBoard", boardNo);
+	public int ajaxUnopenBoard(SqlSessionTemplate sqlSession, int bno) {
+		return sqlSession.update("masterBoardMapper.ajaxUnopenBoard", bno);
+	}
+
+	public ArrayList<MasterBoard> selectAdminBoardList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("masterBoardMapper.selectAdminBoardList");
 	}
 }

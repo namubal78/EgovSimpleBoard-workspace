@@ -127,5 +127,4 @@ public class SubBoard extends CommonVo {
 	}
 	
 	
-	
 }

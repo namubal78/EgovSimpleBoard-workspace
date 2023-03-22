@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <meta charset="UTF-8">
 <title>Document</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -35,7 +35,7 @@
                     </tr>
                     <tr>
                         <th><label for="writer">작성자</label></th>
-                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.memberId }" name="subBoardWriter" readonly></td>
+                        <td><input type="text" id="writer" class="form-control" value="${ loginUser.memberName }" name="subBoardWriter" readonly></td>
                     </tr>
                     <tr>
                         <th><label for="upfile">첨부파일</label></th>
@@ -90,7 +90,6 @@
 	</script>        
         
 	<jsp:include page="../common/footer.jsp" />
-	
 
 </body>
 </html>

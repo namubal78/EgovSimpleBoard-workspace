@@ -19,8 +19,8 @@ public class SubBoardDao {
 	public ArrayList<SubBoard> selectList(CommonVo cv, SqlSessionTemplate sqlSession) {
 		int limit = cv.getBoardLimit();
 		int offset = (cv.getCurrentPage() - 1) * limit;
-		
 		RowBounds rowBounds = new RowBounds(offset, limit);
+		
 		return (ArrayList)sqlSession.selectList("subBoardMapper.selectList", cv, rowBounds);
 	}
 

@@ -5,12 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>간단 게시판 과제</title>
 <style>
     #updateForm>table {width:100%;}
     #updateForm>table * {margin:5px;}
 </style>
 </head>
+<!-- 뒤로 가기 방지 -->
+<script type="text/javascript">
+    history.pushState(null, null, location.href);
+    window.onpopstate = function (event) {
+        history.go(1);
+    };
+</script>
 <body>
         
     <jsp:include page="../common/header.jsp" />

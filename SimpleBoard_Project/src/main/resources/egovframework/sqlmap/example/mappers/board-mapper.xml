@@ -25,8 +25,8 @@
 	
 	<select id="selectMainList" resultMap="boardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_TITLE
-			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			 , BOARD_TITLE
+			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
 		ORDER BY BOARD_NO DESC
@@ -60,10 +60,10 @@
 	
 	<select id="selectList" parameterType="commonVo" resultMap="boardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_TITLE
-			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
-			,  BOARD_COUNT
-			,  BOARD_WRITER
+			 , BOARD_TITLE
+			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			 , BOARD_COUNT
+			 , BOARD_WRITER
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
 		<choose>
@@ -84,12 +84,12 @@
 	
 	<select id="selectMyList" parameterType="_int" resultMap="boardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_TITLE
-			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
-			,  BOARD_COUNT
-			,  BOARD_WRITER
-			,  CHANGE_NAME
-			,  MEMBER_NO
+			 , BOARD_TITLE
+			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			 , BOARD_COUNT
+			 , BOARD_WRITER
+			 , CHANGE_NAME
+			 , MEMBER_NO
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
 		AND MEMBER_NO = #{memberNo}
@@ -104,13 +104,13 @@
 	
 	<select id="selectBoard" parameterType="_int" resultMap="boardResultSet">
 		SELECT BOARD_NO
-			,  BOARD_TITLE
-			,  BOARD_CONTENT
-			,  TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
-			,  ORIGIN_NAME
-			,  CHANGE_NAME
-			,  BOARD_COUNT
-			,  BOARD_WRITER
+			 , BOARD_TITLE
+			 , BOARD_CONTENT
+			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
+			 , ORIGIN_NAME
+			 , CHANGE_NAME
+			 , BOARD_COUNT
+			 , BOARD_WRITER
 		FROM BOARD
 		WHERE BOARD_NO = #{boardNo}
 	</select>
@@ -128,8 +128,8 @@
 	
 	<update id="ajaxDeleteReply" parameterType="_int">
 		UPDATE REPLY
-		   SET REPLY_STATUS = 'N'
-		 WHERE REPLY_NO = #{replyNo}
+		SET REPLY_STATUS = 'N'
+		WHERE REPLY_NO = #{replyNo}
 	</update>
 	
 	<insert id="ajaxInsertReply" parameterType="reply">
@@ -161,18 +161,18 @@
 	</insert>
 
    <update id="updateBoard" parameterType="board">
-       UPDATE BOARD
-          SET BOARD_TITLE = #{boardTitle}
-            , BOARD_CONTENT = #{boardContent}
-            , ORIGIN_NAME = #{originName}
-            , CHANGE_NAME = #{changeName}
-        WHERE BOARD_NO = #{boardNo}
+        UPDATE BOARD
+        SET BOARD_TITLE = #{boardTitle}
+          , BOARD_CONTENT = #{boardContent}
+          , ORIGIN_NAME = #{originName}
+          , CHANGE_NAME = #{changeName}
+    	WHERE BOARD_NO = #{boardNo}
     </update>
 
    <update id="deleteBoard" parameterType="_int">
    		UPDATE BOARD
-   		   SET BOARD_STATUS = 'N'
-   		 WHERE BOARD_NO = #{boardNo}	 
+   		SET BOARD_STATUS = 'N'
+   		WHERE BOARD_NO = #{boardNo}	 
    </update>
 
 

@@ -143,6 +143,7 @@
             <version>1.4</version>
         </dependency>
         
+        <!-- dbcp 오류 해결하느라 작성 -->
         <dependency>
 		    <groupId>org.apache.commons</groupId>
 		    <artifactId>commons-dbcp2</artifactId>
@@ -155,6 +156,7 @@
             <version>5.1.31</version>
         </dependency>
 
+        <!-- ojdbc 오류 해결하느라 작성 -->
         <dependency>
             <groupId>ojdbc</groupId>
             <artifactId>ojdbc</artifactId>
@@ -163,6 +165,7 @@
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath>
         </dependency>
         
+        <!-- json 사용하느라 작성 -->
         <dependency>
 		    <groupId>com.googlecode.json-simple</groupId>
 		    <artifactId>json-simple</artifactId>
@@ -175,6 +178,7 @@
 		    <version>2.10</version>
 		</dependency>
 		
+        <!-- 파일 첨부하느라 작성 -->
 		<dependency>
 		    <groupId>commons-fileupload</groupId>
 		    <artifactId>commons-fileupload</artifactId>

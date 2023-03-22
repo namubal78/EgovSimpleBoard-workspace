@@ -1,7 +1,5 @@
 package egovframework.board.model.vo;
 
-import java.sql.Date;
-
 public class Reply {
 
 	private int replyNo;
@@ -66,8 +64,5 @@ public class Reply {
 		return "Reply [replyNo=" + replyNo + ", replyContent=" + replyContent + ", replyWriter=" + replyWriter
 				+ ", replyDate=" + replyDate + ", replyStatus=" + replyStatus + ", boardNo=" + boardNo + "]";
 	}
-	
-	
-	
 	
 }

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import egovframework.board.model.vo.Board;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
-import egovframework.common.model.vo.PageInfo;
 
 public interface BoardService {
 
@@ -50,6 +49,5 @@ public interface BoardService {
 
 	// 메인 페이지 게시글 조회
 	ArrayList<Board> selectMainList();
-
 
 }
