@@ -62,6 +62,15 @@
 
     <mvc:view-controller path="/cmmn/validator.do" view-name="cmmn/validator"/>
     
+    <!-- 이메일 인증 -->
+    <bean id='testMailer' class="egovframework.common.template.EmailCheck">
+		<property name="host" value="smtp.naver.com" />
+		<property name="password" value="#*J20100328" />
+		<property name="tail" value='@naver.com'/>
+		<property name="user" value='namubal78'/>
+	</bean> 	
+    
+    
 </beans>
 
 <!-- 로그인 인터셉터용 샘플 코드

@@ -191,6 +191,20 @@
 		    <version>2.11.0</version>
 		</dependency>
 		
+		<!-- 암호화 -->
+		 <dependency>
+		    <groupId>egovframework.rte</groupId>
+		    <artifactId>egovframework.rte.fdl.crypto</artifactId>
+		    <version>${egovframework.rte.version}</version>
+		</dependency>
+		
+		<!-- 이메일 인증 -->
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

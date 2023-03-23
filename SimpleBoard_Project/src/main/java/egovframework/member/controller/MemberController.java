@@ -1,6 +1,7 @@
 package egovframework.member.controller;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import egovframework.common.model.service.CryptoAriaService;
 import egovframework.common.model.vo.CommonVo;
+import egovframework.common.template.EmailCheck;
 import egovframework.common.template.Pagination;
 import egovframework.member.model.service.MemberService;
 import egovframework.member.model.vo.Member;
@@ -25,10 +28,12 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-//  비밀번호 암호화를 위한 변수
-//	@Autowired
-//	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	@Autowired
+	private CryptoAriaService cryptoAriaService;
 	
+	@Autowired
+	private EmailCheck emailCheck;
+	 	
 	/**
 	 * @return
 	 */
@@ -48,6 +53,32 @@ public class MemberController {
 		return (count > 0) ? "NNNNN" : "NNNNY";
 	}
 	
+
+	/**
+	 * @param param
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "sendmail.do", produces="text/html; charset=UTF-8")
+	public String sendmail(String email) {
+		
+		Random r = new Random();
+		int checkNum = r.nextInt(888888) + 111111;
+		String code = Integer.toString(checkNum);
+		
+		try {
+
+			String emailContent = "인증번호는\r\n" + checkNum + "\r\n입니다.";
+			
+			emailCheck.sendMail(email, "간편 게시판 인증번호", emailContent);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";			
+		}
+		
+		return code;
+	}		
+	
 	/**
 	 * @param m
 	 * @param model
@@ -56,6 +87,11 @@ public class MemberController {
 	 */
 	@RequestMapping("insert.me")
 	public String insertMember(Member m, Model model, HttpSession session) {
+		
+		String encPwd = cryptoAriaService.encryptData(m.getMemberPwd());
+		
+		m.setMemberPwd(encPwd);
+				
 		int result = memberService.insertMember(m);
 		
 		if(result > 0) {
@@ -94,56 +130,17 @@ public class MemberController {
 			response.addCookie(cookie);
 			
 		}
-//		
-//		// 암호화 작업 후 로직
-//		// => BCrypt 방식에 의해 복호화가 불가능한 암호문 형태의 비밀번호와 일치하는지 대조작업
-//		// Member m 의 userId 필드 : 사용자가 입력한 아이디 (평문)
-//		// 			  userPwd 필드 : 사용자가 입력한 비밀번호 (평문)
-//		Member loginUser = memberService.loginMember(m);
-//		
-//		// loginUser : 오로지 아이디만으로 조회된 회원의 정보
-//		// Member 타입의 loginUser 의 userPwd 필드 : DB 에 기록된 암호화된 비밀번호
-//		
-//		// BCryptPasswordEncoder 객체의 matches 메소드
-//		// matches (평문, 암호문) 을 작성하면 내부적으로 평문과 암호문을 맞추는 작업이 이루어짐
-//		// 두 구문이 일치하는지 비교 후 일치하면 true 반환
-//		if(loginUser != null &&
-//				bcryptPasswordEncoder.matches(m.getUserPwd(), loginUser.getUserPwd())) {
-//			
-//			// 비밀번호도 일치한다면 => 로그인 성공
-//			session.setAttribute("loginUser", loginUser);
-//			
-//			session.setAttribute("alertMsg", "로그인 성공!");
-//			
-//			mv.setViewName("redirect:/");
-//		}
-//		else {
-//			
-//			// 로그인 실패
-//			mv.addObject("errorMsg", "로그인실패");
-//			
-//			// /WEB-INF/views/common/errorPage.jsp
-//			mv.setViewName("common/errorPage");
-//		}
-//		
-//		return mv;
-		
-		// 암호화 작업 전 로직
 		
 		Member loginUser = memberService.loginMember(m);
 		
-		if(loginUser == null) { // 로그인 실패
-			
-			mv.addObject("errorMsg", "로그인 실패");
-			
-			mv.setViewName("common/errorPage"); // 포워딩
-		}
-		else { // 로그인 성공
-			
+		if(loginUser != null && cryptoAriaService.encryptData(m.getMemberPwd()).equals(loginUser.getMemberPwd())) {
+  
 			session.setAttribute("loginUser", loginUser);
-			
-			mv.setViewName("redirect:/"); // url 재요청방식
-		}
+			// 비밀번호도 일치한다면 => 로그인 성공 session.setAttribute("loginUser", loginUser);
+			session.setAttribute("alertMsg", "로그인 성공!"); mv.setViewName("redirect:/"); }
+		else { // 로그인 실패 mv.addObject("errorMsg", "로그인실패");
+		mv.setViewName("common/errorPage"); }
+ 
 		return mv;
 		
 	}
@@ -221,6 +218,11 @@ public class MemberController {
 	 */
 	@RequestMapping("delete.me")
 	public String deleteMember(Member m, Model model, HttpSession session) {
+
+		String encPwd = cryptoAriaService.encryptData((m.getMemberPwd()));
+		
+		m.setMemberPwd(encPwd);
+		
 		int result = memberService.deleteMember(m);
 
 		if(result > 0) {
@@ -276,11 +278,11 @@ public class MemberController {
 
 		if(result > 0) {
 			
-			session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다.");
+			session.setAttribute("alertMsg", "탈퇴 처리에 성공했습니다.");
 			return "redirect:/memberList.me";
 		} else {
 			
-			model.addAttribute("errorMsg", "회원 탈퇴에 실패했습니다.");
+			model.addAttribute("errorMsg", "탈퇴 처리에 실패했습니다.");
 			return "common/errorPage";
 		}
 		

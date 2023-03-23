@@ -84,7 +84,7 @@
 									                    <!-- Modal body -->
 									                    <div class="modal-body">
 									                        <div align="center">
-									                            정말로 탈퇴 하시겠습니까? <br>
+									                            정말로 탈퇴 처리하시겠습니까? <br>
 									                        </div>
 									                        <br>
 															<br>

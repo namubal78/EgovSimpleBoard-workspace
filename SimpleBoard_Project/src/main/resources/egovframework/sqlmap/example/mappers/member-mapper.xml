@@ -42,7 +42,6 @@
 		SELECT *
 		FROM MEMBER
 		WHERE MEMBER_ID = #{memberId}
-		AND MEMBER_PWD = #{memberPwd}
 		AND MEMBER_STATUS = 'Y'
 	</select>
 	
@@ -58,7 +57,7 @@
 		UPDATE MEMBER
 		SET MEMBER_STATUS = 'N'
 		WHERE MEMBER_ID = #{memberId}
-		AND MEMBER_PWD = #{memberPwd}	
+		AND MEMBER_PWD = #{memberPwd}
 	</update>
 	
 	<select id="selectMemberListCount" parameterType="commonVo" resultType="_int">

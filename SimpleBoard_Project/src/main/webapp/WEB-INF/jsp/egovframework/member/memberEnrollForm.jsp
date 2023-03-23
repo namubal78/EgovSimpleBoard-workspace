@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
 <title>간단 게시판 과제</title>
 </head>
+<style>
+	.input-group-addon>input,button  {
+		float: left;
+	}
+</style>
 <body>
     
     <jsp:include page="../common/header.jsp" />
@@ -31,9 +36,21 @@
                     <label for="memberName">* 이름 : </label>
                     <input type="text" class="form-control" id="memberName" placeholder="이름을 입력해주세요." name="memberName" required> <br>
 
-                    <label for="email"> &nbsp; 이메일(@포함) : </label>
-                    <input type="text" class="form-control" id="email" placeholder="예) gasystem@gasystem.co.kr" name="email"> <br>
+					<label for="email"> * 이메일 : </label>
+					<div class="input-group-addon">					
+	                    <input type="text" class="form-control" id="email" placeholder="예) gasystem@gasystem.co.kr" name="email" style="width: 780px;"> 
+	                    <button type="button" class="btn btn-primary" id="mail-Check-Btn" style="width: 130px;">인증번호받기</button>
+	                    <input type="hidden" id="checkNum" val="">
+					</div>
+					<div class="mail-check-box">
+						<input class="form-control mail-check-input" placeholder="인증번호 6자리를 입력해주세요!" disabled="disabled" maxlength="6">
+					</div>
+					<div>	
+						<span id="mail-check-warn"></span>
+					</div>
 
+					<br>
+					
                     <label for="phone"> * 연락처(-포함) : </label>
                     <input type="tel" class="form-control" id="phone" placeholder="예) 010-1111-2222" name="phone"> <br>
 
@@ -48,6 +65,7 @@
         <br><br>
         
         <script>
+        
         	$(function() {
         		
         		// 아이디를 입력받는 input 요소 객체를 변수에 담아두기 => keyup 이벤트 걸기
@@ -95,6 +113,60 @@
         			}
         		});
         	});
+        	
+        </script>
+        
+        <script>
+        	
+    		$('#mail-Check-Btn').click(function() {
+    			
+    			sendmail();
+    		});
+    		
+    		function sendmail() {
+
+    			var email = document.getElementById('email').value;
+    			    			
+    			$.ajax({
+    				url: "sendmail.do",
+    				data: {email:email},
+    				success: function(result) {
+    					
+    					console.log(result)
+    					
+   						$('#checkNum').val(result);    
+        				$('.mail-check-input').attr('disabled',false);
+   						console.log("인증번호 전송 성공");
+    				},
+    				error: function() {
+    				}
+    			
+    			});
+    			
+    		} 
+
+    		// 인증번호 비교 
+    		// blur -> focus가 벗어나는 경우 발생
+    		$('.mail-check-input').blur(function () {
+    			const inputCode = $(this).val();
+    			const $resultMsg = $('#mail-check-warn');
+    			const checkNum = $('#checkNum').val();
+    			
+    			if(inputCode === checkNum){
+    				$resultMsg.html('인증번호가 일치합니다.');
+    				$resultMsg.css('color','green');
+    				$('#mail-Check-Btn').attr('disabled',true);
+					$("#enrollForm button[type=submit]").attr("disabled", false);
+
+
+    			}else{
+    				$resultMsg.html('인증번호가 불일치 합니다. 다시 확인해주세요!.');
+    				$resultMsg.css('color','red');
+					$("#enrollForm button[type=submit]").attr("disabled", true);
+
+    			}
+    		});
+    		    		
         </script>
 
     </div>
