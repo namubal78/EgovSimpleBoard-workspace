@@ -19,7 +19,7 @@
 <XPD:REF name="DiagramOwner">7XTGT6l0i0OVc1v8eHd8jAAA</XPD:REF>
 <XPD:OBJ name="DiagramView" type="UMLUseCaseDiagramView" guid="qj9hGKW1XE6EePCFw+1ruwAA">
 <XPD:REF name="Diagram">ji2MU/8IYU+TkOKSxto3PwAA</XPD:REF>
-<XPD:ATTR name="#OwnedViews" type="integer">42</XPD:ATTR>
+<XPD:ATTR name="#OwnedViews" type="integer">41</XPD:ATTR>
 <XPD:OBJ name="OwnedViews[0]" type="UMLSystemBoundaryView" guid="TiXADseUlUOtpKZazDAsUwAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
@@ -1601,40 +1601,7 @@
 <XPD:REF name="Model">90RVJEibV0m7mNHoO9GU1wAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[37]" type="UMLUseCaseView" guid="Vu/c9slipUCH5A4aZMSUmwAA">
-<XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
-<XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
-<XPD:ATTR name="Left" type="integer">1080</XPD:ATTR>
-<XPD:ATTR name="Top" type="integer">376</XPD:ATTR>
-<XPD:ATTR name="Width" type="integer">182</XPD:ATTR>
-<XPD:ATTR name="Height" type="integer">45</XPD:ATTR>
-<XPD:REF name="Model">gPhILRf8OkeAQDdDuExl4AAA</XPD:REF>
-<XPD:OBJ name="NameCompartment" type="UMLNameCompartmentView" guid="hf+DzdGtBUWl8sLHDz78bwAA">
-<XPD:OBJ name="NameLabel" type="LabelView" guid="eziRb5vnZUS99sSyCesqCQAA">
-<XPD:ATTR name="FontStyle" type="integer">1</XPD:ATTR>
-<XPD:ATTR name="Text" type="string">뒤로가기방지 왜 안 되지</XPD:ATTR>
-</XPD:OBJ>
-<XPD:OBJ name="StereotypeLabel" type="LabelView" guid="I9L2SZLEm0O0zijYA/NddwAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-</XPD:OBJ>
-<XPD:OBJ name="PropertyLabel" type="LabelView" guid="HvpXuAYVQk+brz7HY2Q8VAAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-</XPD:OBJ>
-</XPD:OBJ>
-<XPD:OBJ name="AttributeCompartment" type="UMLAttributeCompartmentView" guid="u4pRHXnWpkGYTUYxVv6vXQAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-<XPD:REF name="Model">gPhILRf8OkeAQDdDuExl4AAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="OperationCompartment" type="UMLOperationCompartmentView" guid="oxW0GAPWhUSmcVF2ysCmJAAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-<XPD:REF name="Model">gPhILRf8OkeAQDdDuExl4AAA</XPD:REF>
-</XPD:OBJ>
-<XPD:OBJ name="ExtensionPointCompartment" type="UMLExtensionPointCompartmentView" guid="pDaIbb9b50OovybgiadUzgAA">
-<XPD:ATTR name="Visible" type="boolean">False</XPD:ATTR>
-<XPD:REF name="Model">gPhILRf8OkeAQDdDuExl4AAA</XPD:REF>
-</XPD:OBJ>
-</XPD:OBJ>
-<XPD:OBJ name="OwnedViews[38]" type="UMLUseCaseView" guid="xPsA9yqLj0CN+RF5WRRloQAA">
+<XPD:OBJ name="OwnedViews[37]" type="UMLUseCaseView" guid="xPsA9yqLj0CN+RF5WRRloQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">388</XPD:ATTR>
@@ -1667,7 +1634,7 @@
 <XPD:REF name="Model">O40l2nfNbk2uTHp4aJztqAAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[39]" type="UMLUseCaseView" guid="zB/7BgpcwEegFWkS6a/EJQAA">
+<XPD:OBJ name="OwnedViews[38]" type="UMLUseCaseView" guid="zB/7BgpcwEegFWkS6a/EJQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Left" type="integer">296</XPD:ATTR>
@@ -1700,7 +1667,7 @@
 <XPD:REF name="Model">qY05h8S6eUW0EEWik+zYtQAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[40]" type="UMLIncludeView" guid="fowN3nFvskeoMNJsO6MeYQAA">
+<XPD:OBJ name="OwnedViews[39]" type="UMLIncludeView" guid="fowN3nFvskeoMNJsO6MeYQAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Points" type="Points">351,376;333,404</XPD:ATTR>
@@ -1726,7 +1693,7 @@
 <XPD:REF name="Model">oHlHPLIUukSoz8QuT1rQ+AAA</XPD:REF>
 </XPD:OBJ>
 </XPD:OBJ>
-<XPD:OBJ name="OwnedViews[41]" type="UMLIncludeView" guid="ulTvW/P33kCXMPLT2Qv+RAAA">
+<XPD:OBJ name="OwnedViews[40]" type="UMLIncludeView" guid="ulTvW/P33kCXMPLT2Qv+RAAA">
 <XPD:ATTR name="LineColor" type="string">clMaroon</XPD:ATTR>
 <XPD:ATTR name="FillColor" type="string">$00B9FFFF</XPD:ATTR>
 <XPD:ATTR name="Points" type="Points">388,413;368,417</XPD:ATTR>
@@ -2619,11 +2586,6 @@
 <XPD:OBJ name="OwnedElements[59]" type="UMLUseCase" guid="gPhILRf8OkeAQDdDuExl4AAA">
 <XPD:ATTR name="Name" type="string">뒤로가기방지 왜 안 되지</XPD:ATTR>
 <XPD:REF name="Namespace">7XTGT6l0i0OVc1v8eHd8jAAA</XPD:REF>
-<XPD:ATTR name="#Views" type="integer">4</XPD:ATTR>
-<XPD:REF name="Views[0]">Vu/c9slipUCH5A4aZMSUmwAA</XPD:REF>
-<XPD:REF name="Views[1]">u4pRHXnWpkGYTUYxVv6vXQAA</XPD:REF>
-<XPD:REF name="Views[2]">oxW0GAPWhUSmcVF2ysCmJAAA</XPD:REF>
-<XPD:REF name="Views[3]">pDaIbb9b50OovybgiadUzgAA</XPD:REF>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[60]" type="UMLUseCase" guid="O40l2nfNbk2uTHp4aJztqAAA">
 <XPD:ATTR name="Name" type="string">이메일 인증</XPD:ATTR>

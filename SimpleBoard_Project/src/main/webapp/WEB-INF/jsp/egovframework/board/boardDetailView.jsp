@@ -65,9 +65,9 @@
 			</table>
 			<br>
 			<c:choose>
-				<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
+				<c:when test="${ loginUser.memberName eq 'admin' or loginUser.memberId eq 'subadmin' }">
 					<div align="center">
-						<a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
 					</div>
 					<br><br>
 
@@ -76,11 +76,11 @@
 						<input type="hidden" name="filePath" value="${ b.changeName }">
 					</form>
 				</c:when>
-				<c:when test="${ loginUser.memberId eq b.boardWriter }">
+				<c:when test="${ loginUser.memberName eq b.boardWriter }">
 					<div align="center">
 						<!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
 						<a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
-						<a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
 					</div>
 					<br><br>
 
@@ -90,7 +90,35 @@
 					</form>
 				</c:when>
 			</c:choose>
-
+			
+			<div class="modal fade" id="deleteForm">
+		        <div class="modal-dialog modal-sm">
+		            <div class="modal-content">
+		
+		                <!-- Modal Header -->
+		                <div class="modal-header">
+		                    <h4 class="modal-title">게시글 삭제</h4>
+		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+		                </div>
+		
+		                <form id="deleteBoardForm" action="delete.bo?bno=${ b.boardNo }" method="post">
+		                    <!-- Modal body -->
+		                    <div class="modal-body">
+		                        <div align="center">
+		                            정말로 삭제 하시겠습니까? <br>
+		                        </div>
+		                        <br>
+								<br>
+		                    </div>
+		                    <!-- Modal footer -->
+		                    <div class="modal-footer" align="center">
+		                        <button type="submit" class="btn btn-danger">삭제하기</button>
+		                    </div>
+		                    <input type="hidden" name="filePath" value="${ b.changeName }">
+		                </form>
+		            </div>
+				</div>
+			</div>
 			<script>
 				function postFormSubmit(num) {
 
@@ -162,11 +190,11 @@
 						for (var i = 0; i < result.length; i++) {
 
 							resultStr += "<tr>"
-								+ "<td>" + result[i].replyWriter + "</td>"
-								+ "<td><pre style='white-space: pre-line;'>" + result[i].replyContent + "</pre></td>"
-								+ "<td>" + result[i].replyDate + "</td>";
+								+ "<td style='width: 100px;'>" + result[i].replyWriter + "</td>"
+								+ "<td style='width: 500px;'><pre style='white-space: pre-line;'>" + result[i].replyContent + "</pre></td>"
+								+ "<td style='width: 100px;'>" + result[i].replyDate + "</td>";
 
-							if ("${loginUser.memberId}" == result[i].replyWriter || "${loginUser.memberId}" == "admin" || "${loginUser.memberId}" == "subadmin") {
+							if ("${loginUser.memberName}" == result[i].replyWriter || "${loginUser.memberName}" == "admin" || "${loginUser.memberName}" == "subadmin") {
 
 								resultStr += "<td width='10%' align='center'>"
 									+ "<button class='btn btn-danger button btn-sm' type='submit' onclick='deleteReply(" + result[i].replyNo + ");'>"
@@ -196,7 +224,7 @@
 						url: "rinsert.bo",
 						data: {
 							boardNo: ${ b.boardNo },
-							replyWriter: "${ loginUser.memberId }",
+							replyWriter: "${ loginUser.memberName }",
 							replyContent: $("#content").val()
 						},
 						success: function(result) {

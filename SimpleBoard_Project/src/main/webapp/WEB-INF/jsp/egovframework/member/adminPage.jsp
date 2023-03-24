@@ -18,7 +18,6 @@
 	#memberManageBtn {
 		width: 200px;
 		height: 75px;
-		margin: auto;
 	}
 	
 	.btn:hover {
@@ -31,15 +30,15 @@
     
     <jsp:include page="../common/header.jsp" />
 
-    <div class="content">
+    <div class="content" style="height:600px;">
         <br><br>
-        <div class="innerOuter">
+        <div class="innerOuter" style="height:500px;">
             <h2>관리자 페이지</h2>
             <br>
             
             <c:choose>
             	<c:when test="${ loginUser.memberType eq 1 }">
-            		<div id="adminMenu">
+            		<div id="adminMenu" style="height:400px;">
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='memberList.me'">회원 관리</button>
 		            	<br><br>
 		            	<button id="memberManageBtn" class="btn btn-primary btn-lg" onclick="location.href='adminBoardListPage.co'">게시판 관리</button>

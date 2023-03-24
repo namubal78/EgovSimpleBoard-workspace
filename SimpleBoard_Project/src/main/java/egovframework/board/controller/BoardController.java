@@ -65,7 +65,7 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("list.bo")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="")String category, @RequestParam(value="keyword", defaultValue="")String keyword, Model model) {
 		
 		CommonVo cvPi = new CommonVo();
 		
@@ -80,6 +80,7 @@ public class BoardController {
 
 		ArrayList<Board> list = boardService.selectList(cv);
 
+		System.out.println(list.size());
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		

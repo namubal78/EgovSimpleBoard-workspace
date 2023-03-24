@@ -231,13 +231,13 @@ public class SubBoardController {
 				new File(realPath).delete();
 			}
 			
-			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
+			session.setAttribute("alertMsg", "성공적으로 공지가 삭제되었습니다.");
 			
 			return "redirect:/list.sub";
 		}
 		else { // 게시글 삭제 실패
 			
-			model.addAttribute("errorMsg", "게시글 삭제 실패");
+			model.addAttribute("errorMsg", "공지 삭제 실패");
 			
 			return "common/errorPage";
 		}

@@ -44,6 +44,7 @@
             <table id="boardList" class="table table-hover" align="center">
                 <thead>
                     <tr>
+<!--                     	<td><input id="allCheck" type="checkbox" name="allCheck"></td> -->
                         <th>글번호</th>
                         <th>제목</th>
                         <th>작성자</th>
@@ -56,11 +57,12 @@
                 	<% int count = 0; %>
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
-	                        <td>${ b.boardNo }</td>
-	                        <td>${ b.boardTitle }</td>
-	                        <td>${ b.boardWriter }</td>
-	                        <td>${ b.boardCount }</td>
-	                        <td>${ b.boardDate }</td>
+<%--                 			<td class="rowCheck"><input name="rowCheck" type="checkbox" value="${ b.boardNo }"></td> --%>
+	                        <td class="detailRow">${ b.boardNo }</td>
+	                        <td class="detailRow">${ b.boardTitle }</td>
+	                        <td class="detailRow">${ b.boardWriter }</td>
+	                        <td class="detailRow">${ b.boardCount }</td>
+	                        <td class="detailRow">${ b.boardDate }</td>
 	                        <td class="deleteBoard">
 	                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">삭제</button>
 	                            <!-- 게시글삭제 버튼 클릭 시 보여질 Modal -->
@@ -98,11 +100,80 @@
                 	</c:forEach>
                 </tbody>
             </table>
+<!--             <div style="display:flex; justify-content:flex-end;"> -->
+<!--             	<input type="button" value="선택삭제" class="btn btn-outline-info btn-sm" onclick="multipleDelete();"> -->
+<!--             </div> -->
             <br>
             
             <script>
+//             	$(function() {
+            		
+//             		var checkObject = document.getElementsByName("rowCheck");
+//             		var checkObjectLength = checkObject.length;
+            		
+//             		$("input[name='allCheck']").click(function() {
+            			
+//             			var checkObjectList = $("input[name = 'rowCheck']");
+//             			for(let i = 0; i < checkObjectList.length; i++ ) {
+//             				checkObjectList[i].checked = this.checked;
+//             			}
+//             		});
+            		
+//             		$("input[name='rowCheck']").click(function() {
+            			
+//             			if($("input[name='rowCheck']:checked").length == checkObjectLength) {
+//             				$("input[name='allCheck']").checked = true;
+//             			} else {
+//             				$("input[name='allCheck']").checked = false;            				
+//             			}
+            		
+//             		});
+            		
+//             	});
+            
+            </script>
+            
+            <script>
+            
+//             function multipleDelete() {
+            	
+//             	var valueArr = new Array();
+//             	var list = $("input[name='rowCheck']");
+//             	for(var i = 0; i < list.length; i++) {
+//             		if(list[i].checked) {
+//             			valueArr.push(list[i].value);
+//             		}
+//             	}
+            	
+//             	if(valueArr.length == 0) {
+//             		alert("체크된 글이 없습니다.");
+//             	} else {
+            		
+//             		var chk = confirm("정말 삭제하시겠습니까?");
+            		
+//             		$.ajax({
+            		
+//             			url: "multipleDelete.bo",
+//             			type: "POST",
+//             			traditional: true,
+//             			data: {valueArr: valueArr},
+//             			success: function(jdata) {
+//             				if(jdata = 1) {
+//             					alert("삭제에 성공했습니다.");
+//             					location.href("adminBoardList.bo");
+//             				} else {
+//             					alert("삭제에 실패했습니다.");
+//             				}
+//             			}
+//             		});
+//             	}
+//             }
+            
+            </script>
+            
+            <script>
             	$(function(){
-            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
+            		$("#boardList>tbody>tr>td[class='detailRow']").click(function(){
             			
             			location.href = "detail.bo?bno=" + $(this).parent().children().eq(0).text();
             		});

@@ -103,7 +103,7 @@
             	$(function(){
             		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
             			
-            			location.href = "detail.bo?bno=" + $(this).children().eq(0).text();
+            			location.href = "detail.bo?bno=" + $(this).parent().children().eq(0).text();
             		});
             	});	
             </script>

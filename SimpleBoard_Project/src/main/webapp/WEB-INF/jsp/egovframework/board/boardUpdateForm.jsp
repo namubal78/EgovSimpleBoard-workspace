@@ -64,7 +64,6 @@
 
                 <div align="center">
                     <button type="submit" class="btn btn-primary">수정하기</button>
-                    <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);">이전으로</button>
                 </div>
             </form>
         </div>

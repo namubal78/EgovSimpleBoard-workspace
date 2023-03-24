@@ -110,14 +110,14 @@
 
             <form id="searchForm" action="list.bo" method="get" align="center">
                 <div class="select">
-                    <select class="custom-select" name="category">
-                        <option value="boardWriter">작성자</option>
-                        <option value="boardTitle">제목</option>
+                    <select class="custom-select" name="category" value="${ cv.category }">
+                        <option value="boardTitle" >제목</option>
                         <option value="boardContent">내용</option>
+                        <option value="boardWriter">작성자</option>
                     </select>
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="keyword">
+                    <input type="text" class="form-control" name="keyword" value="${ cv.keyword }">
                 </div>
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>

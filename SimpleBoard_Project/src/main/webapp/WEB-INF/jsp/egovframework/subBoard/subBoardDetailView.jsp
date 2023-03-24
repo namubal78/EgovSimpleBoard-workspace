@@ -60,7 +60,7 @@
             <c:choose>
                 <c:when test="${ loginUser.memberId eq 'subadmin' or loginUser.memberId eq 'admin' }">
                     <div align="center">
-                        <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
                     </div>
                     <br>
                     
@@ -72,7 +72,7 @@
                 <c:when test="${ loginUser.memberId eq b.subBoardWriter }">
                     <div align="center">
                         <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-                        <a class="btn btn-danger" onclick="postFormSubmit(2);">삭제하기</a>
+						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
                     </div>
                     <br>
                     
@@ -82,6 +82,35 @@
                     </form>
                 </c:when>
             </c:choose>
+            
+            <div class="modal fade" id="deleteForm">
+		        <div class="modal-dialog modal-sm">
+		            <div class="modal-content">
+		
+		                <!-- Modal Header -->
+		                <div class="modal-header">
+		                    <h4 class="modal-title">공지 삭제</h4>
+		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+		                </div>
+		
+		                <form id="deleteBoardForm" action="delete.sub?subBno=${ b.subBoardNo }" method="post">
+		                    <!-- Modal body -->
+		                    <div class="modal-body">
+		                        <div align="center">
+		                            정말로 삭제 하시겠습니까? <br>
+		                        </div>
+		                        <br>
+								<br>
+		                    </div>
+		                    <!-- Modal footer -->
+		                    <div class="modal-footer" align="center">
+		                        <button type="submit" class="btn btn-danger">삭제하기</button>
+		                    </div>
+		                    <input type="hidden" name="filePath" value="${ b.subChangeName }">
+		                </form>
+		            </div>
+				</div>
+			</div>
             
             <script>
                 function postFormSubmit(num) {

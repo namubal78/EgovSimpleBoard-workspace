@@ -70,8 +70,7 @@
                         <div align="center">
                             정말로 탈퇴처리 하시겠습니까? <br>
                         </div>
-                            <input type="hidden" name="memberId" value="${ m.memberId }">
-                            <input type="hidden" name="memberPwd" value="${ m.memberPwd }">
+                            <input type="hidden" name="mno" value="${ m.memberNo }">
                     </div>
                     <!-- Modal footer -->
                     <div class="modal-footer" align="center">
