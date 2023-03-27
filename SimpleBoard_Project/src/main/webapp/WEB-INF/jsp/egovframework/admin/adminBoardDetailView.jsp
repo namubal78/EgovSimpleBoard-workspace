@@ -6,7 +6,15 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<style>
+		table * {
+			margin: 5px;
+		}
 
+		table {
+			width: 100%;
+		}
+	</style>
 </head>
 <body>
 
@@ -15,10 +23,10 @@
 	<div class="content">
 		<br><br>
 		<div class="innerOuter">
-			<h2>자유게시판</h2>
+			<h2>게시글 관리</h2>
 			<br>
 
-			<a class="btn btn-secondary" style="float:right;" href="list.bo">목록으로</a>
+			<a class="btn btn-secondary" style="float:right;" href="adminBoardList.bo">목록으로</a>
 			<br><br>
 
 			<table id="contentArea" align="center" class="table">
@@ -56,36 +64,22 @@
 				</tr>
 			</table>
 			<br>
-			
-			<!-- 삭제 및 수정 버튼 -->
 			<c:choose>
 				<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
 					<div align="center">
 						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
 					</div>
 					<br><br>
-
-					<form id="postForm" action="" method="post">
+					
+					<form id="postForm" action="adminDelete.bo" method="post">
 						<input type="hidden" name="bno" value="${ b.boardNo }">
 						<input type="hidden" name="filePath" value="${ b.changeName }">
 					</form>
 				</c:when>
-				<c:when test="${ loginUser.memberName eq b.boardWriter }">
-					<div align="center">
-						<!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-						<a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
-						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
-					</div>
-					<br><br>
-
-					<form id="postForm" action="" method="post">
-						<input type="hidden" name="bno" value="${ b.boardNo }">
-						<input type="hidden" name="filePath" value="${ b.changeName }">
-					</form>
-				</c:when>
+				<c:otherwise></c:otherwise>
 			</c:choose>
 			
-			<!-- 게시글 삭제 모달 -->
+			<!-- 게시글 삭제 모달 -->			
 			<div class="modal fade" id="deleteForm">
 		        <div class="modal-dialog modal-sm">
 		            <div class="modal-content">
@@ -96,11 +90,11 @@
 		                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 		                </div>
 		
-		                <form id="deleteBoardForm" action="delete.bo?bno=${ b.boardNo }" method="post">
+		                <form id="deleteBoardForm" action="adminDelete.bo?bno=${ b.boardNo }" method="post">
 		                    <!-- Modal body -->
 		                    <div class="modal-body">
 		                        <div align="center">
-		                            정말로 삭제 하시겠습니까? <br>
+		                            	정말로 삭제 하시겠습니까? <br>
 		                        </div>
 		                        <br>
 								<br>
@@ -114,49 +108,22 @@
 		            </div>
 				</div>
 			</div>
-			<script>
-				function postFormSubmit(num) {
 
-					// action 속성값을 부여 후 연이어서 submit 시키기
-					if (num == 1) { // 수정하기 버튼 클릭 시 num == 1 : updateForm.bo
-
-						$("#postForm").attr("action", "updateForm.bo").submit();
-					} else { // 삭제하기 버튼 클릭 시 num == 2 : delete.bo
-
-						$("#postForm").attr("action", "delete.bo").submit();
-					}
-				}
-			</script>
-			
 			<!-- 댓글창 -->
 			<table id="replyArea" class="table" align="center">
 				<thead>
 					<tr>
-						<c:choose>
-							<c:when test="${ empty loginUser }">
-								<!-- 로그인 전 -->
-								<th colspan="2">
-									<textarea class="form-control" name="" id="content" cols="55" rows="2"
-										style="resize:none; width:100%;"
-										readonly>로그인한 사용자만 이용가능한 서비스 입니다. 로그인 후 이용바랍니다.</textarea>
-								</th>
-								<th style="vertical-align:middle"><button class="btn btn-secondary"
-										disabled>등록</button></th>
-							</c:when>
-							<c:otherwise>
-								<!-- 로그인 후 -->
-								<th colspan="2">
-									<textarea class="form-control" name="" id="content" cols="55" rows="2"
-										style="resize:none; width:100%;"></textarea>
-								</th>
-								<th id="rep2" width="10%" align="center"><span id="textCount"
-										style="font-size: 15px; color: #78C2AD; font-weighter: lighter;">0</span><span
-										id="textCount" style="font-weight: lighter; font-size: 15px;">/
-										300</span></th>
-								<th style="vertical-align:middle"><button class="btn btn-primary"
-										onclick="addReply();">등록</button></th>
-							</c:otherwise>
-						</c:choose>
+						<th colspan="2">
+							<textarea class="form-control" name="" id="content" cols="55" rows="2"
+								style="resize:none; width:100%;"></textarea>
+						</th>
+						<th id="rep2" width="10%" align="center">
+							<span id="textCount" style="font-size: 15px; color: #78C2AD; font-weight: lighter;">0</span>
+							<span id="textCount" style="font-weight: lighter; font-size: 15px;">/300</span>
+						</th>
+						<th style="vertical-align:middle">
+							<button class="btn btn-primary" onclick="addReply();">등록</button>
+						</th>
 					</tr>
 					<tr>
 						<td colspan="3">댓글 (<span id="rcount" style="color: #78C2AD;">3</span>)</td>
@@ -166,9 +133,11 @@
 				</tbody>
 			</table>
 		</div>
+		
 		<br><br>
 
 		<script>
+			
 			$(function () { // 창이 뜨는 순간 댓글 전체 조회 
 
 				selectReplyList();
@@ -181,7 +150,6 @@
 					data: { bno: ${ b.boardNo }},
 					success: function(result) {
 
-						// colsole.log(result);
 						var resultStr = "";
 
 						for (var i = 0; i < result.length; i++) {

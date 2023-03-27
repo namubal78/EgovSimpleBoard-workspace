@@ -113,10 +113,10 @@
                 	
                 	<c:choose>
                 		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage - 1 }&mno=${ mno }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage - 1 }&mno=${ mno }">&lt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
@@ -126,10 +126,10 @@
                     
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage + 1 }&mno=${ mno }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ cv.currentPage + 1 }&mno=${ mno }">&gt;</a></li>
                 		</c:otherwise>
                     </c:choose>
                     

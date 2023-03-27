@@ -69,6 +69,7 @@
             </table>
             <br>
             
+            <!-- 클릭시 게시글 상세 조회 -->
             <script>
             	$(function(){
             		$("#boardList>tbody>tr").click(function(){
@@ -78,15 +79,16 @@
             	});	
             </script>
 
+			<!-- 페이징 -->
             <div id="pagingArea">
                 <ul class="pagination">
                 	
                 	<c:choose>
                 		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&lt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
@@ -96,10 +98,10 @@
                     
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&gt;</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
@@ -108,10 +110,11 @@
 
             <br clear="both"><br>
 
+			<!-- 검색창 -->
             <form id="searchForm" action="list.bo" method="get" align="center">
                 <div class="select">
-                    <select class="custom-select" name="category" value="${ cv.category }">
-                        <option value="boardTitle" >제목</option>
+                    <select class="custom-select" name="category">
+                        <option value="boardTitle" selected>제목</option>
                         <option value="boardContent">내용</option>
                         <option value="boardWriter">작성자</option>
                     </select>
@@ -128,7 +131,6 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-
 
 </body>
 </html>

@@ -39,6 +39,7 @@
 	
 	<div id="content">
 		<br><br><br>
+		<!-- 공지사항 최근 3건 게시 -->
         <div id="recentSubBoard">
             <p>최근 공지사항</p>
             <table id="subBoardList" class="table table-hover" align="center">
@@ -54,6 +55,7 @@
             </table>
             <br>
             
+<!--             클릭 시 해당 게시글 상세 조회 -->
             <script>
             	$(function(){
             		$("#subBoardList>tbody>tr").click(function(){
@@ -63,6 +65,7 @@
             </script>
         </div>
 
+		<!-- 자유게시판 최근 3건 게시 -->
         <div id="recentBoard">
             <p>최근 게시글</p>
             <table id="boardList" class="table table-hover" align="center">
@@ -78,7 +81,8 @@
                 </tbody>
             </table>
             <br>
-            
+
+<!--             클릭 시 해당 게시글 상세 조회 -->            
             <script>
             	$(function(){
             		$("#boardList>tbody>tr").click(function(){

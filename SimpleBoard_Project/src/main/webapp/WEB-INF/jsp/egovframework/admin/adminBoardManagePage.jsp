@@ -92,6 +92,7 @@
 			<h2>게시판 관리</h2>
 			<br>
 			<br>
+			<!-- 게시판 목록 조회 -->
 			<table id="boardList" class="table table-hover" align="center">
 				<thead>
 					<tr>
@@ -128,83 +129,20 @@
 			</table>
 			<br>
 
-			<!--                  
-				ajax로 조회를 하면, .click 함수가 호출 안 되는 문제가 있음
-				요소 인라인 속성에 onclick 함수를 거는 방법이 될 것이라고 생각함
-				나중에 해보기
-				되면 header 가 실시간으로 수정됨.
-
-			<script>
-				
-				$(function() { 
-					selectAdminBoardList(); 
-				}); 
-				
-				
-				function selectAdminBoardList() { 
-					
-					console.log("selectAdminBoardList 실행됨");
-					
-					$.ajax({ 
-						url: "selectAdminBoardList.co", 
-						success: function(result) { 
-														
-							var resultStr = ""; 
-							
-							for(let i = 0; i < result.length; i++) { 
-								
-								resultStr +=                 		 
-									
-									"<tr>" 
-									+ "<td style='width: 1px;'><input type='hidden' name='boardNo' value='" + result[i].boardNo + "'></td>"         	                        
-									+ "<td style='width: 400px;'>" + result[i].boardName + "</td>"
-									+ "<td style='width: 200px;'>"; 
-									
-									if(result[i].boardOpen == "Y") {
-										
-									resultStr += "<label class='switch'>" 
-													+ "<input type='checkbox' checked>" 
-													+ "<span class='slider round'></span>" 
-												+ "</label>"; 
-									} else { 
-										
-									resultStr += "<label class='switch'>" 
-										+ "<input type='checkbox'>" 
-										+ "<span class='slider round'></span>" 
-									+ "</label>"; 	 
-										
-									} 
-									
-								resultStr += "</td>" 
-								+ "</tr>"; 
-								
-							} 
-							$('#boardList>tbody').html(resultStr); 
-							console.log('aaaaaaaaaaaa');
-						}, 
-						error: function() { 
-							console.log("게시판 리스트 조회용 ajax 통신 실패!"); 
-						} 
-					}); 
-				}
-				
-			</script>
-			-->
-
 			<script>
 
-				var check = $("input[type='checkbox']");
+				var check = $("input[type='checkbox']"); // 토글 변수 설정
 
-				check.click(function () {
+				check.click(function () { // 클릭 시 checked 속성 바꾸고, 공개 / 비공개 함수 호출
 
 					let bno = $(this).parent().parent().parent().children().eq(0).children().val();
 					let check = $(this);
 
-					if (!check.prop('checked')) {
+					if (!check.prop('checked')) { // 공개 -> 비공개 일 경우
 
 						ajaxUnopenBoard(bno, check);
 
-					} else if (check.prop('checked')) {
+					} else if (check.prop('checked')) { // 비공개 -> 공개 일 경우
 
 						ajaxOpenBoard(bno, check);
 
@@ -213,7 +151,7 @@
 					}
 				});
 
-				function ajaxOpenBoard(bno, check) {
+				function ajaxOpenBoard(bno, check) { // 게시판 공개
 
 					$.ajax({
 
@@ -224,8 +162,8 @@
 							if (result == "success") {
 
 								console.log("게시판관리용 ajax 통신 성공!");
-								check.prop('checked', 'true');
-								alertify.alert("공개 성공", "새로 고침(F5) 후 적용됩니다.");
+								check.prop('checked', 'true'); // checked 속성 갱신
+								alertify.alert("공개 성공", "새로 고침 (F5) 후 적용됩니다.");
 
 							}
 						},
@@ -238,7 +176,7 @@
 					});
 				}
 
-				function ajaxUnopenBoard(bno, check) {
+				function ajaxUnopenBoard(bno, check) { // 게시판 비공개
 
 					$.ajax({
 
@@ -249,8 +187,8 @@
 							if (result == "success") {
 
 								console.log("게시판관리용 ajax 통신 성공!");
-								check.checked = false;
-								alertify.alert("숨김 성공", "새로 고침(F5) 후 적용됩니다.");
+								check.checked = false; // checked 속성 갱신
+								alertify.alert("숨김 성공", "새로 고침 (F5) 후 적용됩니다.");
 
 							}
 						},

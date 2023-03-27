@@ -63,26 +63,26 @@
 	    // 작성 내용 글자수 체크
 	    $("#content").keyup(function (e) {
 	        
-	        const maxByte = 3000; //최대 100바이트
+	        const maxByte = 3000; //최대 3000 byte
 	        const content = $(this).val(); //입력한 문자
 	        const contentLength = content.length; //입력한 문자수
 	        
-	        let totalByte=0;
+	        let totalByte = 0;
 	        
 	        for(let i = 0; i < contentLength; i++){
 	        	
 	        	const eachChar = content.charAt(i);
 	            const uniChar = escape(eachChar); //유니코드 형식으로 변환
 	            
-	            if(uniChar.length > 4){ // 한글 : 2Byte
+	            if(uniChar.length > 4){ // 한글 : 2 byte
 	                totalByte += 2;
-	            } else { // 영문,숫자,특수문자 : 1Byte
+	            } else { // 영문,숫자,특수문자 : 1 byte
 	                totalByte += 1;
 	            }
 	        }
 	        
 	        if(totalByte > maxByte) {
-		       	alert('최대 3000Byte까지만 입력가능합니다.');
+		       	alert('최대 3000 byte까지만 입력가능합니다.');
                 $(this).val($(this).val().substring(0, contentLength-1)); // 초과 byte 삭제
 	        }
 		});

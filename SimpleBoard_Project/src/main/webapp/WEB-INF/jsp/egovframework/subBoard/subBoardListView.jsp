@@ -39,7 +39,7 @@
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>공지사항</h2>
             <br>
-            <!-- 로그인 후 상태일 경우만 보여지는 글쓰기 버튼 -->
+            <!-- 관리자 로그인일 경우만 보여지는 글쓰기 버튼 -->
             <c:if test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
             	<a class="btn btn-secondary" style="float:right;" href="enrollForm.sub">글쓰기</a>
             </c:if>
@@ -69,6 +69,7 @@
             </table>
             <br>
             
+			<!-- 클릭 시 해당 게시글 상세 조회 -->            
             <script>
             	$(function(){
             		$("#boardList>tbody>tr").click(function(){
@@ -78,15 +79,16 @@
             	});	
             </script>
 
+			<!-- 페이징 -->
             <div id="pagingArea">
                 <ul class="pagination">
                 	
                 	<c:choose>
                 		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&lt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
@@ -96,10 +98,10 @@
                     
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.sub?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&gt;</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
@@ -108,16 +110,17 @@
 
             <br clear="both"><br>
 
+			<!-- 검색창 -->
             <form id="searchForm" action="list.sub" method="get" align="center">
                 <div class="select">
                     <select class="custom-select" name="category">
-<!--                         <option value="subBoardWriter">작성자</option> -->
                         <option value="subBoardTitle">제목</option>
                         <option value="subBoardContent">내용</option>
                     </select>
+                    
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="keyword">
+                    <input type="text" class="form-control" name="keyword" value="${ cv.keyword }">
                 </div>
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>

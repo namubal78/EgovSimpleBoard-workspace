@@ -47,7 +47,7 @@ public class CommonController {
 	public String adminBoardListPage(Model model) {
 		ArrayList<MasterBoard> list = commonService.adminBoardList();
 		model.addAttribute("list", list);
-		return "board/adminBoardListPage";
+		return "admin/adminBoardManagePage";
 	}
 
 	/**

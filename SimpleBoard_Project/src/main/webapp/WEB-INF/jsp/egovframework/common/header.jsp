@@ -77,10 +77,9 @@
 </style>
 </head>
 <body>
-
+	<!-- alertMsg -->
 	<c:if test="${ not empty alertMsg }">
 		<script>
-			// alert("${ alertMsg }");
 			alertify.alert("서비스 성공", "${ alertMsg }");
 		</script>
 		<c:remove var="alertMsg" scope="session" />
@@ -104,7 +103,7 @@
             		</c:when>
 	            	<c:otherwise>
 	            		<!-- 로그인 후 -->
-	                    <label>${ loginUser.memberName }님 환영합니다</label> &nbsp;&nbsp;
+	                    <label><span style="color: #78C2AD; font-weight: bold;">${ loginUser.memberName }</span>님 환영합니다</label> &nbsp;&nbsp;
 	                    	<c:choose>
 	                    		<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin'}">
 	                    			<a href="adminPage.me">관리자페이지</a>
@@ -121,18 +120,17 @@
         </div>
         <div id="header_2">
             <ul>
-<!--                 <li><a href="list.sub">공지사항</a></li> -->
-<!--                 <li><a href="list.bo">자유게시판</a></li> -->
+            	<!-- 게시판 조회되는 곳 -->
             </ul>
         </div>
 
 		<script>
-			$(function() {
+			$(function() { // 창이 뜨는 순간 게시판 목록 조회
 				
 				selectBoardList();
 			});
 			
-			function selectBoardList() {
+			function selectBoardList() { // 게시판 목록 조회
 				
 				$.ajax({
 					url: "boardList.co",

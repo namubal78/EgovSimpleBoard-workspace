@@ -41,14 +41,15 @@ public class BoardController {
 	private SubBoardService subBoardService;
 	
 	/**
+	 * 메인 페이지 연결
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("mainList.bo")
 	public String mainList(Model model) {
 		
-		ArrayList<Board> list = boardService.selectMainList();		
-		ArrayList<SubBoard> subList = subBoardService.selectMainList();
+		ArrayList<Board> list = boardService.selectMainList(); // 메인 페이지 최근 자유게시판 게시글 조회		
+		ArrayList<SubBoard> subList = subBoardService.selectMainList(); // 메인 페이지 최근 공지사항 게시글 조회
 
 		model.addAttribute("list", list);
 		model.addAttribute("subList", subList);
@@ -58,6 +59,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 전체 조회
 	 * @param currentPage
 	 * @param category
 	 * @param keyword
@@ -67,6 +69,7 @@ public class BoardController {
 	@RequestMapping("list.bo")
 	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="")String category, @RequestParam(value="keyword", defaultValue="")String keyword, Model model) {
 		
+		// 검색 및 페이징 처리
 		CommonVo cvPi = new CommonVo();
 		
 		cvPi.setCategory(category);
@@ -78,9 +81,9 @@ public class BoardController {
 		int boardLimit = 5;
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
 
+		// ArrayList 에 담기
 		ArrayList<Board> list = boardService.selectList(cv);
 
-		System.out.println(list.size());
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		
@@ -89,6 +92,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 관리자 게시글관리용 전체 게시글 조회
 	 * @param currentPage
 	 * @param category
 	 * @param keyword
@@ -96,8 +100,9 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("adminBoardList.bo")
-	public String selectAdminBoardList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+	public String selectAdminBoardList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="")String category, @RequestParam(value="keyword", defaultValue="")String keyword, Model model) {
 		
+		// 검색 및 페이징 처리
 		CommonVo cvPi = new CommonVo();
 		
 		cvPi.setCategory(category);
@@ -109,16 +114,18 @@ public class BoardController {
 		int boardLimit = 5;
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
 
+		// ArrayList 에 담기
 		ArrayList<Board> list = boardService.selectList(cv);
 		
 		model.addAttribute("cv", cv);
 		model.addAttribute("list", list);
 		
-		return "member/adminBoardList";
+		return "admin/adminBoardListView";
 		
 	}
 	
 	/**
+	 * 내 작성글 조회
 	 * @param currentPage
 	 * @param mno
 	 * @param model
@@ -127,6 +134,7 @@ public class BoardController {
 	@RequestMapping("myList.bo")
 	public String selectMyList(@RequestParam(value="cpage", defaultValue="1")int currentPage, int mno, Model model) {
 				
+		// 페이징 처리
 		int listCount = boardService.selectMyListCount(mno);
 		
 		int pageLimit = 5;
@@ -134,6 +142,7 @@ public class BoardController {
 		
 		CommonVo cv = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
+		// ArrayList 에 담기
 		ArrayList<Board> list = boardService.selectMyList(cv, mno);
 		
 		model.addAttribute("cv", cv);
@@ -144,6 +153,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 상세 조회
 	 * @param bno
 	 * @param mv
 	 * @return
@@ -151,6 +161,7 @@ public class BoardController {
 	@RequestMapping("detail.bo")
 	public ModelAndView selectBoard(int bno, ModelAndView mv) {
 
+		// 조회수 증가
 		int result = boardService.increaseCount(bno);
 
 		if(result > 0) {
@@ -163,8 +174,31 @@ public class BoardController {
 		return mv;
 	}
 	
+	/**
+	 * 관리자용 게시글 상세 조회
+	 * @param bno
+	 * @param mv
+	 * @return
+	 */
+	@RequestMapping("adminDetail.bo")
+	public ModelAndView selectMemberBoard(int bno, ModelAndView mv) {
+
+		// 조회수 증가
+		int result = boardService.increaseCount(bno);
+
+		if(result > 0) {
+			Board b = boardService.selectBoard(bno);
+			mv.addObject("b", b).setViewName("admin/adminBoardDetailView");
+		} else {
+			mv.addObject("errorMsg", "게시글 조회에 실패했습니다.").setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
+	
 	
 	/**
+	 * 게시글 내 댓글 조회
 	 * @param bno
 	 * @return
 	 */
@@ -177,6 +211,7 @@ public class BoardController {
 	}
   
 	/**
+	 * 게시글 내 댓글 작성
 	 * @param r
 	 * @return
 	 */
@@ -188,6 +223,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 내 댓글 삭제
 	 * @param replyNo
 	 * @return
 	 */
@@ -199,6 +235,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 작성폼 연결
 	 * @return
 	 */
 	@RequestMapping("enrollForm.bo")
@@ -207,6 +244,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 작성
 	 * @param b
 	 * @param upfile
 	 * @param session
@@ -216,14 +254,17 @@ public class BoardController {
 	@RequestMapping("insert.bo")
 	public ModelAndView insertBoard(Board b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
 
+		// 첨부파일이 있는 경우
 		if(!upfile.getOriginalFilename().equals("")) {
 		
+			// 첨부파일명 가공
 			String changeName = saveFile(upfile, session);			
 						
 			b.setOriginName(upfile.getOriginalFilename());
 			b.setChangeName("uploadFiles/" + changeName); 
 		}
 		
+		// BOARD 테이블에 INSERT
 		int result = boardService.insertBoard(b);
 
 		if(result > 0) { // 성공 => 게시글 리스트 페이지로 url 재요청(list.bo)
@@ -242,12 +283,12 @@ public class BoardController {
 	}
 	
 	/**
+	 * 첨부파일명 가공
 	 * @param upfile
 	 * @param session
 	 * @return
 	 */
 	public String saveFile(MultipartFile upfile, HttpSession session) {
-		
 
 		// 1. 원본파일명 뽑아오기
 		String originName = upfile.getOriginalFilename(); // "flower.png"
@@ -278,6 +319,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 수정폼 연결
 	 * @param bno
 	 * @param model
 	 * @return
@@ -292,6 +334,7 @@ public class BoardController {
 	}
 	
 	/**
+	 * 게시글 수정
 	 * @param b
 	 * @param reupfile
 	 * @param session
@@ -323,19 +366,18 @@ public class BoardController {
 		if(result > 0) { // 게시글 수정 성공
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 수정되었습니다.");
-			
 			return "redirect:/detail.bo?bno=" + b.getBoardNo();
 		}
 		else { // 게시글 수정 실패
 			
 			model.addAttribute("errorMsg", "게시글 수정 실패");
-			
 			return "common/errorPage";
 		}
 	}
 	
 	
 	/**
+	 * 게시글 삭제
 	 * @param bno
 	 * @param filePath
 	 * @param session
@@ -352,32 +394,32 @@ public class BoardController {
 			if(!filePath.equals("")) {
 				
 				String realPath = session.getServletContext().getRealPath(filePath);
-				new File(realPath).delete();
+				new File(realPath).delete(); // 첨부파일 삭제
 			}
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
-			
 			return "redirect:/list.bo";
 		}
 		else { // 게시글 삭제 실패
 			
 			model.addAttribute("errorMsg", "게시글 삭제 실패");
-			
 			return "common/errorPage";
 		}
 	}	
 	
 	/**
+	 * 관리자 게시글 삭제
 	 * @param bno
-	 * @param mno
 	 * @param filePath
 	 * @param session
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("adminDelete.bo")
-	public String deleteAdminBoard(int bno, int mno, String filePath, HttpSession session, Model model) {
-		int result = boardService.deleteAdminBoard(bno);
+	public String deleteAdminBoard(int bno, String filePath, HttpSession session, Model model) {
+
+		int result = boardService.deleteBoard(bno);
+		
 		if(result > 0) { // 게시글 삭제 성공
 
 			if(!filePath.equals("")) {
@@ -392,7 +434,6 @@ public class BoardController {
 		else { // 게시글 삭제 실패
 			
 			model.addAttribute("errorMsg", "게시글 삭제 실패");
-			
 			return "common/errorPage";
 		}
 	}	

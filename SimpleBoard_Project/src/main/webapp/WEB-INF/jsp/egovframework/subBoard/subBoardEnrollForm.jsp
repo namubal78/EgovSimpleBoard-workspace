@@ -31,7 +31,7 @@
                 <table align="center">
                     <tr>
                         <th><label for="title">제목</label></th>
-                        <td><input type="text" id="title" class="form-control" name="subBoardTitle" placeholder="150byte 이내로 작성해주세요" maxlength="150" required></td>
+                        <td><input type="text" id="title" class="form-control" name="subBoardTitle" placeholder="150 byte 이내로 작성해주세요" maxlength="150" required></td>
                     </tr>
                     <tr>
                         <th><label for="writer">작성자</label></th>
@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                         <th><label for="content">내용</label></th>
-                        <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="subBoardContent" placeholder="3000byte 이내로 작성해주세요" required></textarea></td>
+                        <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="subBoardContent" placeholder="3000 byte 이내로 작성해주세요" required></textarea></td>
                     </tr>
                 </table>
                 <br>
@@ -63,16 +63,16 @@
 	    // 작성 내용 글자수 체크
 	    $("#content").keyup(function (e) {
 	        
-	        const maxByte = 3000; //최대 100바이트
-	        const content = $(this).val(); //입력한 문자
-	        const contentLength = content.length; //입력한 문자수
+	        const maxByte = 3000; // 최대 3000 byte
+	        const content = $(this).val(); // 입력한 문자
+	        const contentLength = content.length; // 입력한 문자수
 	        
-	        let totalByte=0;
+	        let totalByte = 0;
 	        
 	        for(let i = 0; i < contentLength; i++){
 	        	
 	        	const eachChar = content.charAt(i);
-	            const uniChar = escape(eachChar); //유니코드 형식으로 변환
+	            const uniChar = escape(eachChar); // 유니코드 형식으로 변환
 	            
 	            if(uniChar.length > 4){ // 한글 : 2Byte
 	                totalByte += 2;
@@ -82,7 +82,7 @@
 	        }
 	        	        
 	        if(totalByte > maxByte) {
-		       	alert('최대 3000Byte까지만 입력가능합니다.');
+		       	alert('최대 3000 byte까지만 입력가능합니다.');
                 $(this).val($(this).val().substring(0, contentLength-1)); // 초과 byte 삭제
 	        }
 		});

@@ -41,6 +41,7 @@
             </form>
         </div>
         
+        <!-- 클릭 시 작성글 조회 -->
         <script>
         	$(function() {
         		$("#myList").click(function() {
@@ -68,7 +69,7 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div align="center">
-                            정말로 탈퇴처리 하시겠습니까? <br>
+                            	정말로 탈퇴처리 하시겠습니까? <br>
                         </div>
                             <input type="hidden" name="mno" value="${ m.memberNo }">
                     </div>
@@ -82,7 +83,6 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-
 
 </body>
 </html>

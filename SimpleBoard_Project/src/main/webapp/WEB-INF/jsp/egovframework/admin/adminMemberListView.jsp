@@ -56,58 +56,51 @@
                 <tbody>
                 	<% int count = 0; %>
                 	<c:forEach var="m" items="${ list }">
-                		<c:choose>
-                			<c:when test="${ m.memberId eq 'admin' or m.memberId eq 'subadmin'}">
-                		
-                			</c:when>
-                			<c:otherwise>
-                				<tr>
-			                        <td>${ m.memberNo }</td>
-			                        <td>${ m.memberId }</td>
-			                        <td>${ m.memberName }</td>
-			                        <td>${ m.email }</td>
-			                        <td>${ m.phone }</td>
-			                        <td class="deleteMember">
-			                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">탈퇴</button>
-			                            <!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
-									    <div class="modal fade" id="deleteForm<%= count++ %>">
-									        <div class="modal-dialog modal-sm">
-									            <div class="modal-content">
-									
-									                <!-- Modal Header -->
-									                <div class="modal-header">
-									                    <h4 class="modal-title">회원 탈퇴</h4>
-									                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-									                </div>
-									
-									                <form id="adminDeleteMemberForm" action="adminDelete.me?mno=${ m.memberNo }" method="post">
-									                    <!-- Modal body -->
-									                    <div class="modal-body">
-									                        <div align="center">
-									                            정말로 탈퇴 처리하시겠습니까? <br>
-									                        </div>
-									                        <br>
-															<br>
-									                    </div>
-									                    <!-- Modal footer -->
-									                    <div class="modal-footer" align="center">
-									                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
-									                    </div>
-									                </form>
-									            </div>
-									        </div>
-									    </div>
-			                        
-			                        </td>
-			                    </tr>
-                			</c:otherwise>
-                		</c:choose>
-                		
+	             		<tr>
+	                        <td>${ m.memberNo }</td>
+	                        <td>${ m.memberId }</td>
+	                        <td>${ m.memberName }</td>
+	                        <td>${ m.email }</td>
+	                        <td>${ m.phone }</td>
+	                        <td class="deleteMember">
+	                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">탈퇴</button>
+	                            <!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
+							    <div class="modal fade" id="deleteForm<%= count++ %>">
+							        <div class="modal-dialog modal-sm">
+							            <div class="modal-content">
+							
+							                <!-- Modal Header -->
+							                <div class="modal-header">
+							                    <h4 class="modal-title">회원 탈퇴</h4>
+							                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+							                </div>
+							
+							                <form id="adminDeleteMemberForm" action="adminDelete.me?mno=${ m.memberNo }" method="post">
+							                    <!-- Modal body -->
+							                    <div class="modal-body">
+							                        <div align="center">
+							                            	정말로 탈퇴 처리하시겠습니까? <br>
+							                        </div>
+							                        <br>
+													<br>
+							                    </div>
+							                    <!-- Modal footer -->
+							                    <div class="modal-footer" align="center">
+							                        <button type="submit" class="btn btn-danger">탈퇴하기</button>
+							                    </div>
+							                </form>
+							            </div>
+							        </div>
+							    </div>
+	                        
+	                        </td>
+	                    </tr>
                 	</c:forEach>
                 </tbody>
             </table>
             <br>
             
+            <!-- 클릭 시 해당 회원 상세 조회 -->
             <script>
             	$(function(){
             		$("#memberList>tbody>tr>td[class!='deleteMember']").click(function(){           			
@@ -116,15 +109,16 @@
             	});	
             </script>
 
+			<!-- 페이징 -->
             <div id="pagingArea">
                 <ul class="pagination">
                 	
                 	<c:choose>
                 		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&lt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
@@ -134,10 +128,10 @@
                     
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&gt;</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
@@ -146,6 +140,7 @@
 
             <br clear="both"><br>
 
+			<!-- 검색창 -->
             <form id="searchForm" action="memberList.me" method="get" align="center">
                 <div class="select">
                     <select class="custom-select" name="category">
@@ -166,7 +161,6 @@
     </div>
 
 	<jsp:include page="../common/footer.jsp" />
-
 
 </body>
 </html>

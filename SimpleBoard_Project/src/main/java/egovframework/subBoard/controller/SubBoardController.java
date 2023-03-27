@@ -28,6 +28,7 @@ public class SubBoardController {
 	private SubBoardService subBoardService;
 	
 	/**
+	 * 공지사항 전체조회 및 검색조회
 	 * @param currentPage
 	 * @param category
 	 * @param keyword
@@ -35,8 +36,9 @@ public class SubBoardController {
 	 * @return
 	 */
 	@RequestMapping("list.sub")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
+	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="")String category, @RequestParam(value="keyword", defaultValue="")String keyword, Model model) {
 		
+		// 검색 및 페이징 처리
 		CommonVo cvPi = new CommonVo();
 		
 		cvPi.setCategory(category);
@@ -48,6 +50,7 @@ public class SubBoardController {
 		int boardLimit = 5;
 		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
 
+		// ArrayList 에 담기
 		ArrayList<SubBoard> list = subBoardService.selectList(cv);
 		
 		model.addAttribute("cv", cv);
@@ -56,57 +59,9 @@ public class SubBoardController {
 		return "subBoard/subBoardListView";
 		
 	}
-//	
-//	@RequestMapping("adminBoardList.bo")
-//	public String selectAdminBoardList(@RequestParam(value="cpage", defaultValue="1")int currentPage, @RequestParam(value="category", defaultValue="basic")String category, @RequestParam(value="keyword", defaultValue="nothing")String keyword, Model model) {
-//		
-//		CommonVo cvPi = new CommonVo();
-//		
-//		cvPi.setCategory(category);
-//		cvPi.setKeyword(keyword);
-//		
-//		int listCount = boardService.selectListCount(cvPi);
-//
-//		int pageLimit = 5;
-//		int boardLimit = 5;
-////		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-//		CommonVo cv = Pagination.getPageInfo(category, keyword, listCount, currentPage, pageLimit, boardLimit);
-//
-//		ArrayList<Board> list = boardService.selectList(cv);
-//		
-////		System.out.println("pi: " + pi);
-////		System.out.println("list: " + list);
-//		
-//		model.addAttribute("cv", cv);
-//		model.addAttribute("list", list);
-//		
-//		return "member/adminBoardList";
-//		
-//	}
-	
-//	@RequestMapping("myList.sub")
-//	public String selectMyList(@RequestParam(value="cpage", defaultValue="1")int currentPage, int mno, Model model) {
-//				
-//		int listCount = subBoardService.selectMyListCount(mno);
-//		
-//		int pageLimit = 5;
-//		int boardLimit = 5;
-//		
-//		CommonVo cv = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-//		
-//		ArrayList<SubBoard> list = subBoardService.selectMyList(cv, mno);
-//		
-////		System.out.println("pi: " + pi);
-////		System.out.println("list: " + list);
-//		
-//		model.addAttribute("cv", cv);
-//		model.addAttribute("list", list);
-//		model.addAttribute("mno", mno);
-//		
-//		return "member/myList";
-//	}
 	
 	/**
+	 * 공지사항 상세조회
 	 * @param subBno
 	 * @param mv
 	 * @return
@@ -114,11 +69,12 @@ public class SubBoardController {
 	@RequestMapping("detail.sub")
 	public ModelAndView selectBoard(int subBno, ModelAndView mv) {
 
+		// 조회수 증가
 		int result = subBoardService.increaseCount(subBno);
 
 		if(result > 0) {
-			SubBoard b = subBoardService.selectBoard(subBno);
 			
+			SubBoard b = subBoardService.selectBoard(subBno);
 			mv.addObject("b", b).setViewName("subBoard/subBoardDetailView");
 		} else {
 			mv.addObject("errorMsg", "게시글 조회에 실패했습니다.").setViewName("common/errorPage");
@@ -128,6 +84,7 @@ public class SubBoardController {
 	}
 	
 	/**
+	 * 공지사항 작성폼 연결
 	 * @return
 	 */
 	@RequestMapping("enrollForm.sub")
@@ -136,6 +93,7 @@ public class SubBoardController {
 	}
 	
 	/**
+	 * 공지사항 작성
 	 * @param b
 	 * @param upfile
 	 * @param session
@@ -145,6 +103,7 @@ public class SubBoardController {
 	@RequestMapping("insert.sub")
 	public ModelAndView insertBoard(SubBoard b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
 
+		// 첨부파일 없을 경우
 		if(!upfile.getOriginalFilename().equals("")) {
 		
 			String changeName = saveFile(upfile, session);			
@@ -160,10 +119,9 @@ public class SubBoardController {
 		// 넘어온 첨부파일이 없을 경우 b : 제목, 작성자, 내용
 		int result = subBoardService.insertBoard(b);
 
-		if(result > 0) { // 성공 => 게시글 리스트 페이지로 url 재요청(list.bo)
+		if(result > 0) { // 성공 => 게시글 리스트 페이지로 url 재요청
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
-			
 			mv.setViewName("redirect:/list.sub");
 		}
 		else { // 실패 => 에러페이지로 포워딩
@@ -176,6 +134,7 @@ public class SubBoardController {
 	}
 	
 	/**
+	 * 파일명 가공 및 업로드
 	 * @param upfile
 	 * @param session
 	 * @return
@@ -211,6 +170,7 @@ public class SubBoardController {
 	}
 	
 	/**
+	 * 공지사항 삭제
 	 * @param subBno
 	 * @param filePath
 	 * @param session
@@ -220,9 +180,10 @@ public class SubBoardController {
 	@RequestMapping("delete.sub")
 	public String deleteBoard(int subBno, String filePath, HttpSession session, Model model) {
 				
+		// 공지사항 삭제
 		int result = subBoardService.deleteBoard(subBno);
 		
-		if(result > 0) { // 게시글 삭제 성공
+		if(result > 0) { // 삭제 성공
 			
 			// 첨부파일이 있을 경우 => 파일 삭제
 			if(!filePath.equals("")) {

@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<jsp:forward page="mainList.bo" />
+	<jsp:forward page="mainList.bo" /> <!-- 메인 페이지로 포워딩 -->
 	
 </body>
 </html>

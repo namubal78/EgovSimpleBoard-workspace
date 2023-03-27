@@ -67,10 +67,6 @@ public class BoardDao {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectMyList", mno, rowBounds);
 	}
 
-	public int deleteAdminBoard(SqlSessionTemplate sqlSession, int bno) {
-		return sqlSession.update("boardMapper.deleteBoard", bno);
-	}
-
 	public ArrayList<Board> selectMainList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectMainList");
 	}

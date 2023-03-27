@@ -75,6 +75,7 @@
 				AND PHONE LIKE '%' || #{keyword} || '%'
 			</when>
 			<otherwise>
+				AND MEMBER_TYPE = 3
 			</otherwise>
 		</choose>
 	</select>
@@ -98,6 +99,7 @@
 				AND PHONE LIKE '%' || #{keyword} || '%'
 			</when>
 			<otherwise>
+				AND MEMBER_TYPE = 3
 			</otherwise>
 		</choose>
 		ORDER BY MEMBER_NO DESC

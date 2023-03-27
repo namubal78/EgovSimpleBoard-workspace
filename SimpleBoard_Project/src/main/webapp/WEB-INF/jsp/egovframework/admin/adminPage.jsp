@@ -35,7 +35,7 @@
         <div class="innerOuter" style="height:500px;">
             <h2>관리자 페이지</h2>
             <br>
-            
+            <!-- 회원타입 1: 메인관리자, 2: 서브관리자 -->>
             <c:choose>
             	<c:when test="${ loginUser.memberType eq 1 }">
             		<div id="adminMenu" style="height:400px;">

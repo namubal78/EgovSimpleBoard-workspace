@@ -57,6 +57,8 @@
                 </tr>
             </table>
             <br>
+            
+            <!-- 관리자 로그인일 경우만 보여지는 삭제하기 버튼 -->        		
             <c:choose>
                 <c:when test="${ loginUser.memberId eq 'subadmin' or loginUser.memberId eq 'admin' }">
                     <div align="center">
@@ -64,25 +66,15 @@
                     </div>
                     <br>
                     
-                    <form id="postForm" action="" method="post">
+                    <form id="postForm" action="delete.sub" method="post">
                         <input type="hidden" name="subBno" value="${ b.subBoardNo }">
                         <input type="hidden" name="filePath" value="${ b.subChangeName }">
                     </form>
                 </c:when>
-                <c:when test="${ loginUser.memberId eq b.subBoardWriter }">
-                    <div align="center">
-                        <!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
-						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
-                    </div>
-                    <br>
-                    
-                    <form id="postForm" action="" method="post">
-                        <input type="hidden" name="subBno" value="${ b.subBoardNo }">
-                        <input type="hidden" name="filePath" value="${ b.subChangeName }">
-                    </form>
-                </c:when>
-            </c:choose>
+				<c:otherwise></c:otherwise>
+			</c:choose>
             
+            <!-- 공지 삭제 모달창 -->
             <div class="modal fade" id="deleteForm">
 		        <div class="modal-dialog modal-sm">
 		            <div class="modal-content">
@@ -97,7 +89,7 @@
 		                    <!-- Modal body -->
 		                    <div class="modal-body">
 		                        <div align="center">
-		                            정말로 삭제 하시겠습니까? <br>
+		                            	정말로 삭제 하시겠습니까? <br>
 		                        </div>
 		                        <br>
 								<br>
@@ -111,19 +103,6 @@
 		            </div>
 				</div>
 			</div>
-            
-            <script>
-                function postFormSubmit(num) {
-                    
-                    // action 속성값을 부여 후 연이어서 submit 시키기
-                    if(num == 1) { 
-                        
-                    } else { 
-                    
-                        $("#postForm").attr("action", "delete.sub").submit();
-                    }
-                }
-            </script>
   
         </div>
         <br><br><br>

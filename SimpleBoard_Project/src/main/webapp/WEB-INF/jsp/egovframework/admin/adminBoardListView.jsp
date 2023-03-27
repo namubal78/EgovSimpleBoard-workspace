@@ -80,7 +80,7 @@
 							                    <!-- Modal body -->
 							                    <div class="modal-body">
 							                        <div align="center">
-							                            정말로 삭제 하시겠습니까? <br>
+							                            	정말로 삭제 하시겠습니까? <br>
 							                        </div>
 							                        <br>
 													<br>
@@ -170,25 +170,27 @@
 //             }
             
             </script>
-            
+
+			<!-- 클릭 시 해당 게시글 상세 조회 -->                        
             <script>
             	$(function(){
             		$("#boardList>tbody>tr>td[class='detailRow']").click(function(){
             			
-            			location.href = "detail.bo?bno=" + $(this).parent().children().eq(0).text();
+            			location.href = "adminDetail.bo?bno=" + $(this).parent().children().eq(0).text();
             		});
             	});	
             </script>
 
+			<!-- 페이징 -->
             <div id="pagingArea">
                 <ul class="pagination">
                 	
                 	<c:choose>
                 		<c:when test="${ cv.currentPage eq 1 }">
-                			<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                			<li class="page-item disabled"><a class="page-link" href="#">&lt;</a></li>
                 		</c:when>
                 		<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Previous</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage - 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&lt;</a></li>
                 		</c:otherwise>
                 	</c:choose>
                 
@@ -198,10 +200,10 @@
                     
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
-                    		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+                    		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
                     	</c:when>
                     	<c:otherwise>
-                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">Next</a></li>
+                			<li class="page-item"><a class="page-link" href="list.bo?cpage=${ cv.currentPage + 1 }&category=${ cv.category }&keyword=${ cv.keyword }">&gt;;</a></li>
                 		</c:otherwise>
                     </c:choose>
                     
@@ -210,16 +212,17 @@
 
             <br clear="both"><br>
 
+			<!-- 검색창 -->
             <form id="searchForm" action="list.bo" method="get" align="center">
                 <div class="select">
                     <select class="custom-select" name="category">
-                        <option value="boardWriter">작성자</option>
-                        <option value="boardTitle">제목</option>
+                        <option value="boardTitle" selected>제목</option>
                         <option value="boardContent">내용</option>
+                        <option value="boardWriter">작성자</option>
                     </select>
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="keyword">
+                    <input type="text" class="form-control" name="keyword" value="${ cv.keyword }">
                 </div>
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>

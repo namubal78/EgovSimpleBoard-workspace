@@ -23,7 +23,7 @@ public interface BoardService {
 	// 게시글 댓글 조회
 	ArrayList<Reply> ajaxSelectReplyList(int bno);
 
-	// 게시판 댓글 작성
+	// 게시글 댓글 작성
 	int ajaxInsertReply(Reply r);
 
 	// 게시글 댓글 삭제
@@ -38,14 +38,11 @@ public interface BoardService {
 	// 게시글 삭제
 	int deleteBoard(int bno);
 
-	// 작성글 조회 리스트 카운트
+	// 특정회원 작성글 조회 리스트 카운트
 	int selectMyListCount(int mno);
 
-	// 작성글 조회
+	// 특정회원 작성글 조회
 	ArrayList<Board> selectMyList(CommonVo cv, int mno);
-
-	// 관리자 게시글 삭제
-	int deleteAdminBoard(int bno);
 
 	// 메인 페이지 게시글 조회
 	ArrayList<Board> selectMainList();

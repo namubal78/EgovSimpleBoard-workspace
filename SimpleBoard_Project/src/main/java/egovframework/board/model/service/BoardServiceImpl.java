@@ -81,12 +81,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int deleteAdminBoard(int bno) {
-		return boardDao.deleteAdminBoard(sqlSession, bno);
-
-	}
-
-	@Override
 	public ArrayList<Board> selectMainList() {
 		return boardDao.selectMainList(sqlSession);
 	}

@@ -11,13 +11,6 @@
     #updateForm>table * {margin:5px;}
 </style>
 </head>
-<!-- 뒤로 가기 방지 -->
-<script type="text/javascript">
-    history.pushState(null, null, location.href);
-    window.onpopstate = function (event) {
-        history.go(1);
-    };
-</script>
 <body>
         
     <jsp:include page="../common/header.jsp" />
