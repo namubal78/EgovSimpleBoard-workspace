@@ -39,9 +39,28 @@
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>회원 관리</h2>
             <br>
-            <br>
-            <br>
-            <br>
+           
+            <!-- 검색 키워드 및 결과 -->
+            <c:choose> 
+           		<c:when test="${ empty cv.keyword }">
+           			<br>
+           		</c:when>
+           		<c:otherwise>
+           			<c:choose>
+           				<c:when test="${ cv.category eq 'memberId' }">
+           					<p><span style="color: #78C2AD; font-weight: bold;">아이디</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           				</c:when>
+           				<c:when test="${ cv.category eq 'memberName' }">
+           					<p><span style="color: #78C2AD; font-weight: bold;">이름</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           				</c:when>
+           				<c:when test="${ cv.category eq 'phone' }">
+           					<p><span style="color: #78C2AD; font-weight: bold;">연락처</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           				</c:when>           				           				
+           			</c:choose>
+           		</c:otherwise>
+            </c:choose>
+           
+           
             <table id="memberList" class="table table-hover" align="center">
                 <thead>
                     <tr>
@@ -58,10 +77,10 @@
                 	<c:forEach var="m" items="${ list }">
 	             		<tr>
 	                        <td>${ m.memberNo }</td>
-	                        <td>${ m.memberId }</td>
-	                        <td>${ m.memberName }</td>
+	                        <td><span id="idSpan">${ m.memberId }</span></td>
+	                        <td><span id="nameSpan">${ m.memberName }</span></td>
 	                        <td>${ m.email }</td>
-	                        <td>${ m.phone }</td>
+	                        <td><span id="phoneSpan">${ m.phone }</span></td>
 	                        <td class="deleteMember">
 	                        	<button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteForm<%= count %>">탈퇴</button>
 	                            <!-- 회원탈퇴 버튼 클릭 시 보여질 Modal -->
@@ -123,7 +142,12 @@
                 	</c:choose>
                 
                     <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
-	                    <li class="page-item"><a class="page-link" href="memberList.me?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
+                    	<c:if test="${ p eq cv.currentPage }">
+                    		<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }"><span style="font-weight: bold;">${ p }</span></a></li>
+                    	</c:if>
+                    	<c:if test="${ p ne cv.currentPage }">
+                    		<li class="page-item"><a class="page-link" href="memberList.me?cpage=${ p }&category=${ cv.category }&keyword=${ cv.keyword }">${ p }</a></li>
+                    	</c:if>                    	
                     </c:forEach>
                     
                     <c:choose>
@@ -150,10 +174,58 @@
                     </select>
                 </div>
                 <div class="text">
-                    <input type="text" class="form-control" name="keyword">
+                    <input type="text" class="form-control" name="keyword" value="${ cv.keyword }">
                 </div>
                 <button type="submit" class="searchBtn btn btn-secondary">검색</button>
             </form>
+            
+            <script>
+            
+            	
+	            $(document).ready(function() {
+	            	
+	                let keyword = "${cv.keyword}"; // 검색 키워드 변수에 담기
+	            	let category = "${cv.category}";  // 검색 카테고리 변수에 담기
+	            	
+	            	// 검색 카테고리 유지 함수
+	            	if(category == "memberId") {  // 카테고리가 아이디
+						$("option[value='memberId']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+	            	} else if(category == 'memberName') { // 카테고리가 이름
+						$("option[value='memberName']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+	            	} else if(category == 'phone') { // 카테고리가 연락처
+						$("option[value='phone']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+	            	}
+	            	
+	            	// 검색 키워드 색깔 처리
+	            	if(keyword != "" && category == 'memberId') { // 아이디 카테고리에 검색어가 있을 경우
+	            		
+	                	$("span[id='idSpan']:contains('" + keyword + "')" ).each(function() {
+	                		
+	                		var regex = new RegExp(keyword, 'gi'); // 정규식
+	                		$(this).html($(this).text().replace(regex, "<span style='color:#78C2AD;'>" + keyword + "</span>")); // 색깔 변경
+	
+	                	});
+	                } else if(keyword != "" && category == 'memberName') { // 이름 카테고리에 검색어가 있을 경우
+	                	
+	                	$("span[id='nameSpan']:contains('" + keyword + "')" ).each(function() {
+	                		
+	                		var regex = new RegExp(keyword, 'gi'); // 정규식
+	                		$(this).html($(this).text().replace(regex, "<span style='color:#78C2AD;'>" + keyword + "</span>")); // 색깔 변경
+	
+	                	});
+	                } else if(keyword != "" && category == 'phone') { // 연락처 카테고리에 검색어가 있을 경우
+	                	
+	                	$("span[id='phoneSpan']:contains('" + keyword + "')" ).each(function() {
+	                		
+	                		var regex = new RegExp(keyword, 'gi'); // 정규식
+	                		$(this).html($(this).text().replace(regex, "<span style='color:#78C2AD;'>" + keyword + "</span>")); // 색깔 변경
+	
+	                	});
+	                }
+	            });
+            
+            </script>
+            
             <br><br>
         </div>
         <br><br>

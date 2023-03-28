@@ -75,9 +75,10 @@
 				AND PHONE LIKE '%' || #{keyword} || '%'
 			</when>
 			<otherwise>
-				AND MEMBER_TYPE = 3
 			</otherwise>
 		</choose>
+		AND MEMBER_TYPE = 3
+
 	</select>
 	
 	<select id="selectMemberList" parameterType="commonVo" resultMap="memberResultSet">
@@ -99,9 +100,9 @@
 				AND PHONE LIKE '%' || #{keyword} || '%'
 			</when>
 			<otherwise>
-				AND MEMBER_TYPE = 3
 			</otherwise>
 		</choose>
+		AND MEMBER_TYPE = 3
 		ORDER BY MEMBER_NO DESC
 	</select>
 	

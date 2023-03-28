@@ -121,9 +121,14 @@
                 	</c:choose>
                 
                     <c:forEach var="p" begin="${ cv.startPage }" end="${ cv.endPage }">
-	                    <li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }">${ p }</a></li>
+                    	<c:if test="${ p eq cv.currentPage }">
+                    		<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }"><span style="font-weight: bold;">${ p }</span></a></li>
+                    	</c:if>
+                    	<c:if test="${ p ne cv.currentPage }">
+                    		<li class="page-item"><a class="page-link" href="myList.bo?cpage=${ p }&mno=${ mno }">${ p }</a></li>
+                    	</c:if>
                     </c:forEach>
-                    
+                  
                     <c:choose>
                     	<c:when test="${ cv.currentPage eq cv.maxPage }">
                     		<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>

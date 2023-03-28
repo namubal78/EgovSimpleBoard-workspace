@@ -6,11 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>간단 게시판 과제</title>
-<meta charset="UTF-8">
-<title>Document</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <style>
 	#enrollForm>table {width:100%;}
 	#enrollForm>table * {margin:5px;}
@@ -44,8 +43,12 @@
                     <tr>
                         <th><label for="content">내용</label></th>
                         <td><textarea id="content" class="form-control" rows="10" style="resize:none;" name="subBoardContent" placeholder="3000 byte 이내로 작성해주세요" required></textarea></td>
+                        
+                        <td>				<textarea name="notice_content" id="smartEditor"
+					style="width: 100%; height: 412px;"></textarea></td>
                     </tr>
                 </table>
+                
                 <br>
 
                 <div align="center">
@@ -55,6 +58,28 @@
             </form>
         </div>
         <br><br>
+
+		<script>
+		
+			var oEditors = [];
+			nhn.husky.EZCreator.createInIFrame({
+				oAppRef : oEditors,
+				elPlaceHolder : "smartEditor", //저는 textarea의 id와 똑같이 적어줬습니다.
+				sSkinURI : "se2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
+				fCreator : "createSEditor2",
+				htParams : {
+					// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseToolbar : true,
+			
+					// 입력창 크기 조절바 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseVerticalResizer : false,
+			
+					// 모드 탭(Editor | HTML | TEXT) 사용 여부 (true:사용/ false:사용하지 않음)
+					bUseModeChanger : false
+				}
+			});
+
+		</script>
 
     </div>
         
