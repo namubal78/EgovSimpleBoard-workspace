@@ -2,16 +2,23 @@ package egovframework.board.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -252,18 +259,21 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("insert.bo")
-	public ModelAndView insertBoard(Board b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
+	public ModelAndView insertBoard(Board b, List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
 
-		// 첨부파일이 있는 경우
-		if(!upfile.getOriginalFilename().equals("")) {
+		System.out.println("b: " + b);
+		System.out.println("multipart: " + upfile);
+		String fileExist1 = upfile.get(0).getOriginalFilename();
+		System.out.println("fileExist1: " + fileExist1);
 		
-			// 첨부파일명 가공
-			String changeName = saveFile(upfile, session);			
-						
-			b.setOriginName(upfile.getOriginalFilename());
-			b.setChangeName("uploadFiles/" + changeName); 
-		}
-		
+		/*
+		 * // 첨부파일이 있는 경우 if(!upfile.getOriginalFilename().equals("")) {
+		 * 
+		 * // 첨부파일명 가공 String changeName = saveFile(upfile, session);
+		 * 
+		 * b.setOriginName(upfile.getOriginalFilename()); b.setChangeName("uploadFiles/"
+		 * + changeName); }
+		 */
 		// BOARD 테이블에 INSERT
 		int result = boardService.insertBoard(b);
 
@@ -342,25 +352,21 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("update.bo")
-	public String updateBoard(Board b, MultipartFile reupfile, HttpSession session, Model model) {
-		
-		// 새로 넘어온 첨부파일이 있는 경우
-		if(!reupfile.getOriginalFilename().equals("")) {
-			
-			// 1. 기존 첨부파일이 있었을 경우 => 기존 첨부파일을 찾아서 삭제
-			if(b.getOriginName() != null) {
-				String realPath = session.getServletContext().getRealPath(b.getChangeName());
-				new File(realPath).delete();
-			}
-			
-			// 2. 새로 넘어온 첨부파일을 수정명으로 바꾸고 서버에 업로드 시키기
-			String changeName = saveFile(reupfile, session);
-			
-			// 3. b 객체에 새로 넘어온 첨부파일에 대한 원본명, 수정파일명 필드에 담기
-			b.setOriginName(reupfile.getOriginalFilename());
-			b.setChangeName("uploadFiles/" + changeName);
-		}
-		
+	public String updateBoard(Board b, HttpSession session, Model model) {
+		/*
+		 * // 새로 넘어온 첨부파일이 있는 경우 if(!reupfile.getOriginalFilename().equals("")) {
+		 * 
+		 * // 1. 기존 첨부파일이 있었을 경우 => 기존 첨부파일을 찾아서 삭제 if(b.getOriginName() != null) {
+		 * String realPath = session.getServletContext().getRealPath(b.getChangeName());
+		 * new File(realPath).delete(); }
+		 * 
+		 * // 2. 새로 넘어온 첨부파일을 수정명으로 바꾸고 서버에 업로드 시키기 String changeName =
+		 * saveFile(reupfile, session);
+		 * 
+		 * // 3. b 객체에 새로 넘어온 첨부파일에 대한 원본명, 수정파일명 필드에 담기
+		 * b.setOriginName(reupfile.getOriginalFilename());
+		 * b.setChangeName("uploadFiles/" + changeName); }
+		 */
 		int result = boardService.updateBoard(b);
 		
 		if(result > 0) { // 게시글 수정 성공
@@ -385,17 +391,17 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("delete.bo")
-	public String deleteBoard(int bno, String filePath, HttpSession session, Model model) {
+	public String deleteBoard(int bno, HttpSession session, Model model) {
 				
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 게시글 삭제 성공
-
-			if(!filePath.equals("")) {
-				
-				String realPath = session.getServletContext().getRealPath(filePath);
-				new File(realPath).delete(); // 첨부파일 삭제
-			}
+			/*
+			 * if(!filePath.equals("")) {
+			 * 
+			 * String realPath = session.getServletContext().getRealPath(filePath); new
+			 * File(realPath).delete(); // 첨부파일 삭제 }
+			 */
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
 			return "redirect:/list.bo";
@@ -416,17 +422,17 @@ public class BoardController {
 	 * @return
 	 */
 	@RequestMapping("adminDelete.bo")
-	public String deleteAdminBoard(int bno, String filePath, HttpSession session, Model model) {
+	public String deleteAdminBoard(int bno, HttpSession session, Model model) {
 
 		int result = boardService.deleteBoard(bno);
 		
 		if(result > 0) { // 게시글 삭제 성공
-
-			if(!filePath.equals("")) {
-
-				String realPath = session.getServletContext().getRealPath(filePath);
-				new File(realPath).delete();
-			}
+			/*
+			 * if(!filePath.equals("")) {
+			 * 
+			 * String realPath = session.getServletContext().getRealPath(filePath); new
+			 * File(realPath).delete(); }
+			 */
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 삭제되었습니다.");
 			return "redirect:/adminBoardList.bo";
@@ -436,6 +442,57 @@ public class BoardController {
 			model.addAttribute("errorMsg", "게시글 삭제 실패");
 			return "common/errorPage";
 		}
-	}	
+	}
+	
+	/**
+	 * 파일 첨부
+	 * @param r
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@ResponseBody
+	@RequestMapping(value="insert.fi", method = RequestMethod.POST)
+	public String insertFile(@RequestParam("attach_file") List<MultipartFile> multipartFile
+			, HttpServletRequest request) {
+		
+		System.out.println("컨트롤러 도착");
+		
+		String strResult = "{ \"result\":\"FAIL\" }";
+		String contextRoot = new HttpServletRequestWrapper(request).getRealPath("/");
+		String fileRoot;
+		try {
+			// 파일이 있을때 탄다.
+			if(multipartFile.size() > 0 && !multipartFile.get(0).getOriginalFilename().equals("")) {
+				
+				for(MultipartFile file:multipartFile) {
+					fileRoot = contextRoot + "images/upfile/";
+					System.out.println(fileRoot);
+					
+					String originalFileName = file.getOriginalFilename();	//오리지날 파일명
+					String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+					String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+					
+					File targetFile = new File(fileRoot + savedFileName);	
+					try {
+						InputStream fileStream = file.getInputStream();
+						FileUtils.copyInputStreamToFile(fileStream, targetFile); //파일 저장
+						
+					} catch (Exception e) {
+						//파일삭제
+						FileUtils.deleteQuietly(targetFile);	//저장된 현재 파일 삭제
+						e.printStackTrace();
+						break;
+					}
+				}
+				strResult = "{ \"result\":\"OK\" }";
+			}
+			// 파일 아무것도 첨부 안했을때 탄다.(게시판일때, 업로드 없이 글을 등록하는경우)
+			else
+				strResult = "{ \"result\":\"OK\" }";
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return strResult;
+	}
 	
 }

@@ -103,7 +103,7 @@ public class SubBoardController {
 	@RequestMapping("insert.sub")
 	public ModelAndView insertBoard(SubBoard b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
 
-		// 첨부파일 없을 경우
+		// 첨부파일 있을 경우
 		if(!upfile.getOriginalFilename().equals("")) {
 		
 			String changeName = saveFile(upfile, session);			
@@ -118,7 +118,7 @@ public class SubBoardController {
 		// 넘어온 첨부파일이 있을 경우 b : 제목, 작성자, 내용, 원본파일명, 경로 + 수정파일명
 		// 넘어온 첨부파일이 없을 경우 b : 제목, 작성자, 내용
 		int result = subBoardService.insertBoard(b);
-
+		
 		if(result > 0) { // 성공 => 게시글 리스트 페이지로 url 재요청
 			
 			session.setAttribute("alertMsg", "성공적으로 게시글이 등록되었습니다.");
@@ -138,7 +138,7 @@ public class SubBoardController {
 	 * @param upfile
 	 * @param session
 	 * @return
-	 */
+	 */ 
 	public String saveFile(MultipartFile upfile, HttpSession session) {
 		
 		// 1. 원본파일명 뽑아오기

@@ -9,8 +9,8 @@
 		<result column="BOARD_WRITER" property="boardWriter" />
 		<result column="BOARD_DATE" property="boardDate" />
 		<result column="BOARD_COUNT" property="boardCount" />
-		<result column="ORIGIN_NAME" property="originName" />
-		<result column="CHANGE_NAME" property="changeName" />
+<!-- 		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" /> -->
 		<result column="BOARD_STATUS" property="boardStatus" />
 		<result column="MEMBER_NO" property="memberNo" />
 	</resultMap>
@@ -21,6 +21,14 @@
 		<result column="REPLY_CONTENT" property="replyContent" />
 		<result column="REPLY_DATE" property="replyDate" />
 		<result column="REPLY_STATUS" property="replyStatus" />
+	</resultMap>
+	
+	<resultMap id="fileResultSet" type="file">
+		<result column="FILE_NO" property="fileNo" />	
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="CHANGE_NAME" property="changeName" />
+		<result column="FILE_PATH" property="filePath" />
+		<result column="RILE_STATUS" property="fileStatus" />
 	</resultMap>
 	
 	<select id="selectMainList" resultMap="boardResultSet">
@@ -88,8 +96,8 @@
 			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
 			 , BOARD_COUNT
 			 , BOARD_WRITER
-			 , CHANGE_NAME
-			 , MEMBER_NO
+<!-- 			 , CHANGE_NAME
+ -->			 , MEMBER_NO
 		FROM BOARD
 		WHERE BOARD_STATUS = 'Y'
 		AND MEMBER_NO = #{memberNo}
@@ -107,8 +115,8 @@
 			 , BOARD_TITLE
 			 , BOARD_CONTENT
 			 , TO_CHAR(BOARD_DATE, 'YYYY-MM-DD') AS "BOARD_DATE"
-			 , ORIGIN_NAME
-			 , CHANGE_NAME
+<!-- 			 , ORIGIN_NAME
+			 , CHANGE_NAME -->
 			 , BOARD_COUNT
 			 , BOARD_WRITER
 		FROM BOARD
@@ -148,15 +156,15 @@
 						 , BOARD_TITLE
 						 , BOARD_WRITER
 						 , BOARD_CONTENT
-						 , ORIGIN_NAME
-						 , CHANGE_NAME
+<!-- 						 , ORIGIN_NAME
+						 , CHANGE_NAME -->
 						 , MEMBER_NO)
 				   VALUES (SEQ_BOARD_NO.NEXTVAL
 				   		 , #{boardTitle}
 				   		 , #{boardWriter}
 				   		 , #{boardContent}
-				   		 , #{originName}
-				   		 , #{changeName}
+<!-- 				   		 , #{originName}
+				   		 , #{changeName} -->
 				   		 , #{memberNo})
 	</insert>
 
@@ -164,8 +172,8 @@
         UPDATE BOARD
         SET BOARD_TITLE = #{boardTitle}
           , BOARD_CONTENT = #{boardContent}
-          , ORIGIN_NAME = #{originName}
-          , CHANGE_NAME = #{changeName}
+<!--           , ORIGIN_NAME = #{originName}
+          , CHANGE_NAME = #{changeName} -->
     	WHERE BOARD_NO = #{boardNo}
     </update>
 

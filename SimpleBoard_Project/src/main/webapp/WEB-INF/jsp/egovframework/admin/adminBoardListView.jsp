@@ -106,8 +106,8 @@
 							                    <div class="modal-footer" align="center">
 							                        <button type="submit" class="btn btn-danger">삭제하기</button>
 							                    </div>
-							                    <input type="hidden" name="filePath" value="${ b.changeName }">
-							                    <input type="hidden" name="mno" value="${ b.memberNo }">
+<%-- 							                    <input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>							                    <input type="hidden" name="mno" value="${ b.memberNo }">
 							                </form>
 							            </div>
 							        </div>
@@ -123,7 +123,7 @@
 			<!-- 클릭 시 해당 게시글 상세 조회 -->                        
             <script>
             	$(function(){
-            		$("#boardList>tbody>tr>td[class='detailRow']").click(function(){
+            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
             			
             			location.href = "adminDetail.bo?bno=" + $(this).parent().children().eq(0).text();
             		});

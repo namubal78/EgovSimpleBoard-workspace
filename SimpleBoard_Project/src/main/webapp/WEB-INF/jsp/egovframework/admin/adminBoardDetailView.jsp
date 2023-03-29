@@ -40,7 +40,7 @@
 					<th>작성일</th>
 					<td>${ b.boardDate }</td>
 				</tr>
-				<tr>
+<%-- 				<tr>
 					<th>첨부파일</th>
 					<td colspan="3">
 						<c:choose>
@@ -52,7 +52,7 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
-				</tr>
+				</tr> --%>
 				<tr>
 					<th>내용</th>
 					<td colspan="3"></td>
@@ -73,8 +73,8 @@
 					
 					<form id="postForm" action="adminDelete.bo" method="post">
 						<input type="hidden" name="bno" value="${ b.boardNo }">
-						<input type="hidden" name="filePath" value="${ b.changeName }">
-					</form>
+<%-- 						<input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>					</form>
 				</c:when>
 				<c:otherwise></c:otherwise>
 			</c:choose>
@@ -103,8 +103,8 @@
 		                    <div class="modal-footer" align="center">
 		                        <button type="submit" class="btn btn-danger">삭제하기</button>
 		                    </div>
-		                    <input type="hidden" name="filePath" value="${ b.changeName }">
-		                </form>
+<%-- 		                    <input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>		                </form>
 		            </div>
 				</div>
 			</div>

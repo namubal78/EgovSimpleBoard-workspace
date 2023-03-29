@@ -12,8 +12,9 @@ public class Board extends CommonVo {
 	private String boardWriter;
 	private Date boardDate;
 	private int boardCount;
-	private String originName;
-	private String changeName;
+	/*
+	 * private String originName; private String changeName;
+	 */
 	private String boardStatus;
 
 	private int memberNo;
@@ -23,7 +24,7 @@ public class Board extends CommonVo {
 	}
 
 	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, Date boardDate,
-			int boardCount, String originName, String changeName, String boardStatus, int memberNo) {
+			int boardCount, String boardStatus, int memberNo) {
 		super();
 		this.boardNo = boardNo;
 		this.boardTitle = boardTitle;
@@ -31,8 +32,6 @@ public class Board extends CommonVo {
 		this.boardWriter = boardWriter;
 		this.boardDate = boardDate;
 		this.boardCount = boardCount;
-		this.originName = originName;
-		this.changeName = changeName;
 		this.boardStatus = boardStatus;
 		this.memberNo = memberNo;
 	}
@@ -85,22 +84,6 @@ public class Board extends CommonVo {
 		this.boardCount = boardCount;
 	}
 
-	public String getOriginName() {
-		return originName;
-	}
-
-	public void setOriginName(String originName) {
-		this.originName = originName;
-	}
-
-	public String getChangeName() {
-		return changeName;
-	}
-
-	public void setChangeName(String changeName) {
-		this.changeName = changeName;
-	}
-
 	public String getBoardStatus() {
 		return boardStatus;
 	}
@@ -121,8 +104,11 @@ public class Board extends CommonVo {
 	public String toString() {
 		return "Board [boardNo=" + boardNo + ", boardTitle=" + boardTitle + ", boardContent=" + boardContent
 				+ ", boardWriter=" + boardWriter + ", boardDate=" + boardDate + ", boardCount=" + boardCount
-				+ ", originName=" + originName + ", changeName=" + changeName + ", boardStatus=" + boardStatus
-				+ ", memberNo=" + memberNo + "]";
+				+ ", boardStatus=" + boardStatus + ", memberNo=" + memberNo + "]";
 	}
+
+	
+	
+	
 	
 }

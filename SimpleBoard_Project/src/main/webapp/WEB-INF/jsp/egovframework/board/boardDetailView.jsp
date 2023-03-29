@@ -32,7 +32,7 @@
 					<th>작성일</th>
 					<td>${ b.boardDate }</td>
 				</tr>
-				<tr>
+				<%-- <tr>
 					<th>첨부파일</th>
 					<td colspan="3">
 						<c:choose>
@@ -44,7 +44,7 @@
 							</c:otherwise>
 						</c:choose>
 					</td>
-				</tr>
+				</tr> --%>
 				<tr>
 					<th>내용</th>
 					<td colspan="3"></td>
@@ -60,15 +60,35 @@
 			<!-- 삭제 및 수정 버튼 -->
 			<c:choose>
 				<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
-					<div align="center">
-						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
-					</div>
-					<br><br>
+					
+					<c:choose>
+						<c:when test="${ loginUser.memberName eq b.boardWriter }">
+							<div align="center">
+								<!-- 수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 -->
+								<a class="btn btn-primary" onclick="postFormSubmit(1);">수정하기</a>
+								<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
+							</div>
+							<br><br>
+		
+							<form id="postForm" action="" method="post">
+								<input type="hidden" name="bno" value="${ b.boardNo }">
+<%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>							</form>						
+						</c:when>
+						<c:otherwise>
+							<div align="center">
+								<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
+							</div>
+							<br><br>
+		
+							<form id="postForm" action="" method="post">
+								<input type="hidden" name="bno" value="${ b.boardNo }">
+<%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>							</form>
+						</c:otherwise>
+					
+					</c:choose>
 
-					<form id="postForm" action="" method="post">
-						<input type="hidden" name="bno" value="${ b.boardNo }">
-						<input type="hidden" name="filePath" value="${ b.changeName }">
-					</form>
 				</c:when>
 				<c:when test="${ loginUser.memberName eq b.boardWriter }">
 					<div align="center">
@@ -80,8 +100,8 @@
 
 					<form id="postForm" action="" method="post">
 						<input type="hidden" name="bno" value="${ b.boardNo }">
-						<input type="hidden" name="filePath" value="${ b.changeName }">
-					</form>
+<%-- 						<input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>					</form>
 				</c:when>
 			</c:choose>
 			
@@ -109,8 +129,8 @@
 		                    <div class="modal-footer" align="center">
 		                        <button type="submit" class="btn btn-danger">삭제하기</button>
 		                    </div>
-		                    <input type="hidden" name="filePath" value="${ b.changeName }">
-		                </form>
+<%-- 		                    <input type="hidden" name="filePath" value="${ b.changeName }">
+ --%>		                </form>
 		            </div>
 				</div>
 			</div>
