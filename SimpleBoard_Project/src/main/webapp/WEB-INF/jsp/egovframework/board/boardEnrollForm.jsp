@@ -8,40 +8,66 @@
 <title>Insert title here</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://kit.fontawesome.com/6cda7ccd12.js" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <style>
 	#enrollForm>table {width:100%;}
 	#enrollForm>table * {margin:5px;}
+
+    i { cursor: pointer; }
+	  
+	.filebox input[type="file"] {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
+	}
+
+	.filebox.bs3-primary .col-sm-10>label {
+		color: #fff;
+		background-color: #337ab7;
+		border-color: #2e6da4;
+	}
+
+	.filebox .col-sm-10>label {
+		display: inline-block;
+		padding: .5em .75em;
+		color: #999;
+		font-size: inherit;
+		font-weight: 600;
+		line-height: normal;
+		vertical-align: middle;
+		background-color: #fdfdfd;
+		cursor: pointer;
+		border: 1px solid #ebebeb;
+		border-bottom-color: #e2e2e2;
+		border-radius: .20em;
+	}
+
+	.filebox .upload-name {
+		display: inline-block;
+		width: 520px;
+		padding: .5em .75em;
+		/* label의 패딩값과 일치 */
+		font-size: inherit;
+		font-family: inherit;
+		line-height: normal;
+		vertical-align: middle;
+		background-color: #f5f5f5;
+		border: 1px solid #ebebeb;
+		border-bottom-color: #e2e2e2;
+		border-radius: .20em;
+		-webkit-appearance: none;
+		/* 네이티브 외형 감추기 */
+		-moz-appearance: none;
+		appearance: none;
+	}
 	
-	.insert {
-    padding: 20px 30px;
-    display: block;
-    width: 100%;
-    margin: 5vh auto;
-    height: 200px;
-    border: 1px solid #dbdbdb;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-	}
-	.insert .file-list {
-	    height: 100px;
-	    overflow: auto;
-	    border: 1px solid #989898;
-	    padding: 10px;
-	}
-	.insert .file-list .filebox p {
-	    font-size: 14px;
-	    margin-top: 10px;
-	    display: inline-block;
-	}
-	.insert .file-list .filebox .delete i{
-	    color: #ff5353;
-	    margin-left: 5px;
-	}
-		
 </style>
 </head>
 
@@ -54,7 +80,7 @@
             <h2>게시글 작성</h2>
             <br>
 
-            <form id="enrollForm" method="post" action="insert.bo" enctype="multipart/form-data" onsubmit="return false;" >
+            <form id="enrollForm" method="post" action="insert.bo" enctype="multipart/form-data">
                 <input type="hidden" value="${loginUser.memberNo}" name="memberNo">
                 <table align="center">
                     <tr>
@@ -69,15 +95,23 @@
                         <th><label for="content">내용</label></th>
                         <td><textarea name="boardContent" id="content" style="width: 100%; height: 312px;" required></textarea></td> 
                     </tr>
-                    <tr>
-                        <th><label for="upfile">첨부파일</label></th>
-                       	<td class="insert">
-					        <input type="file" onchange="addFile(this);" multiple/>
-					        <div class="file-list"></div>
+					<tr data-name="fileDiv" class="form-group filebox bs3-primary">
+						<th><label for="file_0" class=" control-label" style="padding: 0px;">첨부(최대 5개)</label></th>
+						<td class="col-sm-10" style="padding: 0px;">
+							<input type="text" class="upload-name" value="첨부 파일을 등록해주세요." style="color: gray; margin-left:0px;" readonly />
+							<label for="file_0" class="control-label" style="background-color: lightgray; border: none;">찾아보기</label>
+							<input type="file" name="upfile" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
+						
+							<button type="button" onclick="addFile()" class="btn btn-outline-primary">
+								<i class="fa fa-plus" aria-hidden="true"></i>
+							</button>
+							<button type="button" onclick="removeFile(this)" class="btn btn-outline-secondary">
+								<i class="fa fa-minus" aria-hidden="true"></i>
+							</button>
 						</td>
-<!--                         <td><input type="file" id="upfile" class="form-control-file border" name="upfile"></td>
- -->                </tr>
-                                        
+					</tr>
+
+                	<tr id="inputInsertTr"></tr>                        
                 </table>
                 <br>
 
@@ -130,8 +164,7 @@
 				return false;
 				
 			} else {
-				console.log("insert.fi 전");
-				submitForm();
+				console.log("insert 스크립트");
 				
 		        document.getElementById('enrollForm').submit();
 
@@ -143,115 +176,63 @@
 	
 	<script>
 		
-		var fileNo = 0;
-		var filesArr = new Array();
+		let fileIdx = 0;
 	
-		/* 첨부파일 추가 */
-		function addFile(obj){
-		    var maxFileCnt = 3;   // 첨부파일 최대 개수
-		    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-		    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-		    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-	
-		    // 첨부파일 개수 확인
-		    if (curFileCnt > remainFileCnt) {
-		        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-		    }
-	
-		    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
-	
-		        const file = obj.files[i];
-	
-		        // 첨부파일 검증
-		        if (validation(file)) {
-		            // 파일 배열에 담기
-		            var reader = new FileReader();
-		            reader.onload = function () {
-		                filesArr.push(file);
-		            };
-		            reader.readAsDataURL(file)
-	
-		            // 목록 추가
-		            let htmlData = '';
-		            htmlData += '<div id="file' + fileNo + '" class="filebox">';
-		            htmlData += '   <p class="name">' + file.name + '</p>';
-		            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
-		            htmlData += '</div>';
-		            $('.file-list').append(htmlData);
-		            fileNo++;
-		        } else {
-		            continue;
-		        }
-		    }
-		    // 초기화
-		    document.querySelector("input[type=file]").value = "";
-		}
-	
-		/* 첨부파일 검증 */
-		function validation(obj){
-		    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-		    if (obj.name.length > 100) {
-		        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-		        return false;
-		    } else if (obj.size > (100 * 1024 * 1024)) {
-		        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-		        return false;
-		    } else if (obj.name.lastIndexOf('.') == -1) {
-		        alert("확장자가 없는 파일은 제외되었습니다.");
-		        return false;
-		    } else if (!fileTypes.includes(obj.type)) {
-		        alert("첨부가 불가능한 파일은 제외되었습니다.");
-		        return false;
-		    } else {
-		        return true;
-		    }
-		}
-	
-		/* 첨부파일 삭제 */
-		function deleteFile(num) {
-		    document.querySelector("#file" + num).remove();
-		    filesArr[num].is_delete = true;
-		}
-	
-		/* 폼 전송 */
-		function submitForm() {
-			console.log("insert.fi 도착");
-
-		    // 폼데이터 담기
-		    var form = document.querySelector(".insert");
-		    var formData = new FormData(form);
-		    for (var i = 0; i < filesArr.length; i++) {
-		        // 삭제되지 않은 파일만 폼데이터에 담기
-		        if (!filesArr[i].is_delete) {
-		            formData.append("attach_file", filesArr[i]);
-		        }
-		    }
-	
-			$.ajax({
-		   	      type: "POST",
-		   	   	  enctype: "multipart/form-data",
-		   	      url: "insert.fi",
-		       	  data : formData,
-		       	  processData: false,
-		   	      contentType: false,
-		   	      success: function (data) {
-		   	    	if(JSON.parse(data)['result'] == "OK"){
-		   	    		alert("파일업로드 성공");
-					} else
-						alert("서버내 오류로 처리가 지연되고있습니다. 잠시 후 다시 시도해주세요");
-		   	      },
-		   	      error: function (xhr, status, error) {
-		   	    	alert("서버오류로 지연되고있습니다. 잠시 후 다시 시도해주시기 바랍니다.");
-		   	     return false;
-		   	      }
-		   	    });
-		   	    return false;
+		function addFile() {
+			
+			console.log(fileIdx.value);
+			
+/* 			파일 개수 제한할 때 필요
+ */			const fileDivs = $('tr[data-name="fileDiv"]');
+			if (fileDivs.length > 4) {
+				alert('첨부 파일은 최대 다섯 개까지 업로드 할 수 있습니다.');
+				return false;
 			}
-		
+	
+			fileIdx++;
+			
+			var fileHtml = "";
+			fileHtml += "<tr data-name='fileDiv' class='form-group filebox bs3-primary'>"
+						+ "<th><label for='file_"+fileIdx+"' class='col-sm-2 control-label'></label></th>"
+						+ "<td class='col-sm-10' style='padding: 0px;'>"
+							+ "<input type='text' class='upload-name' value='첨부 파일을 등록해주세요.' style='color: gray; margin-left:0px;' readonly />"
+							+ "<label for='file_"+fileIdx+"' class='control-label' style='background-color: lightgray; border: none; margin-left: 10px;'>찾아보기</label>"
+							+ "<input type='file' name='upfile' id='file_"+fileIdx+"' class='upload-hidden' onchange='changeFilename(this);' />"
+							+ "<button type='button' onclick='removeFile(this)' class='btn btn-outline-secondary' style='margin-left: 7px;'>"
+							+ "<i class='fa fa-minus' aria-hidden='true'></i>"
+							+ "</button>"
+						+ "</td>"
+					+ "</tr>";
+			$('#inputInsertTr').before(fileHtml);
+		}
+	
+		function removeFile(elem) {
+	
+			const prevTag = $(elem).prev().prop('tagName');
+			if (prevTag === 'BUTTON') {
+				const file = $(elem).prevAll('input[type="file"]');
+				const filename = $(elem).prevAll('input[type="text"]');
+				file.val('');
+				filename.val('첨부 파일을 등록해주세요');
+				return false;
+			}
+	
+			const target = $(elem).parents('tr[data-name="fileDiv"]');
+			target.remove();
+		}
+	
+		function changeFilename(file) {
+	
+			file = $(file);
+			const filename = file[0].files[0].name; // pill14.png
+			
+			const target = file.prevAll('input');
+			target.val(filename);
+		}
+	
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />
 
-        
 </body>
 </html>

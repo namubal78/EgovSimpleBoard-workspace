@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import egovframework.board.model.vo.Board;
+import egovframework.board.model.vo.BoardFile;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
 
@@ -69,6 +70,30 @@ public class BoardDao {
 
 	public ArrayList<Board> selectMainList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("boardMapper.selectMainList");
+	}
+
+	public int insertRawBoard(SqlSessionTemplate sqlSession, Board b) {
+		return sqlSession.insert("boardMapper.insertRawBoard", b);
+	}
+
+	public Board selectRawBoard(int memberNo, SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("boardMapper.selectRawBoard", memberNo);
+	}
+
+	public int insertBoardFile(BoardFile boardFile, SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("boardMapper.insertBoardFile", boardFile);
+	}
+
+	public ArrayList<BoardFile> selectBoardFile(int bno, SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("boardMapper.selectBoardFile", bno);
+	}
+
+	public int deleteBoardFile(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.update("boardMapper.deleteBoardFile", fileNo);
+	}
+
+	public int deletePrevFile(SqlSessionTemplate sqlSession, int fileNo) {
+		return sqlSession.update("boardMapper.deletePrevFile", fileNo);
 	}
 
 }

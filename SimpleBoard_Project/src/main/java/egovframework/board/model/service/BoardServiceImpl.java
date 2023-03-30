@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.board.model.dao.BoardDao;
 import egovframework.board.model.vo.Board;
+import egovframework.board.model.vo.BoardFile;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
 
@@ -83,6 +84,36 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public ArrayList<Board> selectMainList() {
 		return boardDao.selectMainList(sqlSession);
+	}
+
+	@Override
+	public int insertRawBoard(Board b) {
+		return boardDao.insertRawBoard(sqlSession, b);
+	}
+
+	@Override
+	public Board selectRawBoard(int memberNo) {
+		return boardDao.selectRawBoard(memberNo, sqlSession);
+	}
+
+	@Override
+	public int insertBoardFile(BoardFile boardFile) {
+		return boardDao.insertBoardFile(boardFile, sqlSession);
+	}
+
+	@Override
+	public ArrayList<BoardFile> selectBoardFile(int bno) {
+		return boardDao.selectBoardFile(bno, sqlSession);
+	}
+
+	@Override
+	public int deleteBoardFile(int fileNo) {
+		return boardDao.deleteBoardFile(sqlSession, fileNo);
+	}
+
+	@Override
+	public int deletePrevFile(int fileNo) {
+		return boardDao.deletePrevFile(sqlSession, fileNo);
 	}
 
 }

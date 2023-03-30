@@ -1,6 +1,6 @@
 package egovframework.board.model.vo;
 
-public class File {
+public class BoardFile {
 
 	private int fileNo;
 	private String originName;
@@ -11,10 +11,10 @@ public class File {
 	private int boardNo;
 
 	
-	public File() {
+	public BoardFile() {
 		super();
 	}
-	public File(int fileNo, String originName, String changeName, String filePath, String fileStatus, int boardNo) {
+	public BoardFile(int fileNo, String originName, String changeName, String filePath, String fileStatus, int boardNo) {
 		super();
 		this.fileNo = fileNo;
 		this.originName = originName;
@@ -61,7 +61,7 @@ public class File {
 	}
 	@Override
 	public String toString() {
-		return "File [fileNo=" + fileNo + ", originName=" + originName + ", changeName=" + changeName + ", filePath="
+		return "BoardFile [fileNo=" + fileNo + ", originName=" + originName + ", changeName=" + changeName + ", filePath="
 				+ filePath + ", fileStatus=" + fileStatus + ", boardNo=" + boardNo + "]";
 	}
 

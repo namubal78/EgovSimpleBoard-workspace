@@ -40,19 +40,21 @@
 					<th>작성일</th>
 					<td>${ b.boardDate }</td>
 				</tr>
-<%-- 				<tr>
+				<tr>
 					<th>첨부파일</th>
 					<td colspan="3">
 						<c:choose>
-							<c:when test="${ empty b.originName }">
+							<c:when test="${ empty boardFileList }">
 								첨부파일이 없습니다.
 							</c:when>
 							<c:otherwise>
-								<a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>
+								<c:forEach var="boardFile" items="${ boardFileList }">
+									<a href="${ boardFile.changeName }" download="${ boardFile.originName }">${ boardFile.originName }</a><br>						
+								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 					</td>
-				</tr> --%>
+				</tr>
 				<tr>
 					<th>내용</th>
 					<td colspan="3"></td>
@@ -115,11 +117,12 @@
 					<tr>
 						<th colspan="2">
 							<textarea class="form-control" name="" id="content" cols="55" rows="2"
-								style="resize:none; width:100%;"></textarea>
+								style="resize:none; width:700px;"></textarea>
 						</th>
 						<th id="rep2" width="10%" align="center">
 							<span id="textCount" style="font-size: 15px; color: #78C2AD; font-weight: lighter;">0</span>
-							<span id="textCount" style="font-weight: lighter; font-size: 15px;">/300</span>
+							<span style="font-weight: lighter; font-size: 15px;">/
+							300</span>
 						</th>
 						<th style="vertical-align:middle">
 							<button class="btn btn-primary" onclick="addReply();">등록</button>
@@ -201,7 +204,7 @@
 
 								// 댓글 작성 창 초기화 효과
 								$("#content").val("");
-								$('#textCount').val("");
+								$('#textCount').html(0);
 							}
 						},
 						error: function() {

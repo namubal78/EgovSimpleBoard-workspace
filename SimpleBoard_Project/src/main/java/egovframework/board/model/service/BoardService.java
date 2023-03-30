@@ -3,6 +3,7 @@ package egovframework.board.model.service;
 import java.util.ArrayList;
 
 import egovframework.board.model.vo.Board;
+import egovframework.board.model.vo.BoardFile;
 import egovframework.board.model.vo.Reply;
 import egovframework.common.model.vo.CommonVo;
 
@@ -46,5 +47,23 @@ public interface BoardService {
 
 	// 메인 페이지 게시글 조회
 	ArrayList<Board> selectMainList();
+
+	// 첨부파일 넣기 전 게시글 작성
+	int insertRawBoard(Board b);
+
+	// 첨부파일 넣기 전 게시글 조회
+	Board selectRawBoard(int memberNo);
+
+	// 첨부파일 INSERT
+	int insertBoardFile(BoardFile boardFile);
+
+	// 첨부파일 조회
+	ArrayList<BoardFile> selectBoardFile(int bno);
+
+	// 첨부파일 삭제
+	int deleteBoardFile(int fileNo);
+
+	// 첨부파일 수정폼에서 삭제
+	int deletePrevFile(int fileNo);
 
 }

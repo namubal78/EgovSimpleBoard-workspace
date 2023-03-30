@@ -14,32 +14,58 @@
 <style>
     #updateForm>table {width:100%;}
     #updateForm>table * {margin:5px;}
-    
-	.insert {
-    padding: 20px 30px;
-    display: block;
-    width: 100%;
-    margin: 5vh auto;
-    height: 200px;
-    border: 1px solid #dbdbdb;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+
+    i { cursor: pointer; }
+	  
+	.filebox input[type="file"] {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		border: 0;
 	}
-	.insert .file-list {
-	    height: 100px;
-	    overflow: auto;
-	    border: 1px solid #989898;
-	    padding: 10px;
+
+	.filebox.bs3-primary .col-sm-10>label {
+		color: #fff;
+		background-color: #337ab7;
+		border-color: #2e6da4;
 	}
-	.insert .file-list .filebox p {
-	    font-size: 14px;
-	    margin-top: 10px;
-	    display: inline-block;
+
+	.filebox .col-sm-10>label {
+		display: inline-block;
+		padding: .5em .75em;
+		color: #999;
+		font-size: inherit;
+		font-weight: 600;
+		line-height: normal;
+		vertical-align: middle;
+		background-color: #fdfdfd;
+		cursor: pointer;
+		border: 1px solid #ebebeb;
+		border-bottom-color: #e2e2e2;
+		border-radius: .20em;
 	}
-	.insert .file-list .filebox .delete i{
-	    color: #ff5353;
-	    margin-left: 5px;
+
+	.filebox .upload-name {
+		display: inline-block;
+		width: 520px;
+		padding: .5em .75em;
+		/* label의 패딩값과 일치 */
+		font-size: inherit;
+		font-family: inherit;
+		line-height: normal;
+		vertical-align: middle;
+		background-color: #f5f5f5;
+		border: 1px solid #ebebeb;
+		border-bottom-color: #e2e2e2;
+		border-radius: .20em;
+		-webkit-appearance: none;
+		/* 네이티브 외형 감추기 */
+		-moz-appearance: none;
+		appearance: none;
 	}
 		
 </style>
@@ -65,40 +91,57 @@
                         <th><label for="writer">작성자</label></th>
                         <td><input type="text" id="writer" class="form-control" value="${ b.boardWriter }" readonly></td>
                     </tr>
-                    <%-- <tr>
-                        <th><label for="upfile">첨부파일</label></th>
-                        <td>
-                            <input type="file" id="upfile" class="form-control-file border" name="reupfile">
-                            	
-                            <c:if test="${ not empty b.originName }">
-                            	현재 업로드된 파일 : 
-                            <a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>
-                            
-                            <!-- 기존 파일이 있을때 -->
-                            <input type="hidden" name="originName" value="${ b.originName }">
-                            <input type="hidden" name="changeName" value="${ b.changeName }">
-                            </c:if>
-                            
-                        </td>
-                    </tr> --%>
-                    <tr>
+					<tr>
                         <th><label for="content">내용</label></th>
-                         <td><textarea name="boardContent" id="content" style="width: 100%; height: 312px;">${ b.boardContent }</textarea></td>                     
- 					</tr>
- 					<tr>
-                        <th><label for="upfile">첨부파일</label></th>
-                       	<td class="insert">
-					        <input type="file" onchange="addFile(this);" multiple />
-					        <div class="file-list"></div>
+                        <td><textarea name="boardContent" id="content" style="width: 100%; height: 312px;" required>${ b.boardContent }</textarea></td> 
+                    </tr>
+					<tr data-name="fileDiv" class="form-group filebox bs3-primary">
+						<th><label for="file_0" class=" control-label" style="padding: 0px;">첨부(최대 5개)</label></th>
+						<c:choose>
+							<c:when test="${ not empty boardFileList }">
+								<td class="col-sm-10" style="padding: 0px;">
+									<% int count = 0; %>
+									<c:forEach var="boardFile" items="${ boardFileList }">
+										<input type="text" class="upload-name" value="${ boardFile.originName }" style="color: gray; margin-left:0px;" readonly />
+										<button type="button" onclick="removePrevFile(this)" class="btn btn-outline-secondary">
+											<i class="fa fa-minus" aria-hidden="true"></i>
+										</button>
+										<input type="hidden" name="fileNo" value="${ boardFile.fileNo }">
+									</c:forEach>
+								</td>
+							</c:when>
+							<c:otherwise>
+							</c:otherwise>							
+						</c:choose>
+						
+					</tr>
+					<tr data-name="fileDiv" class="form-group filebox bs3-primary">
+						<th><label for="file_0" class=" control-label" style="padding: 0px;"></label></th>
+						<td class="col-sm-10" style="padding: 0px;">
+							<input type="text" class="upload-name" value="첨부 파일을 추가해주세요." style="color: gray; margin-left:0px;" readonly />
+							<label for="file_0" class="control-label" style="background-color: lightgray; border: none;">찾아보기</label>
+							<input type="file" name="upfile" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
+						
+							<button type="button" onclick="addFile()" class="btn btn-outline-primary">
+								<i class="fa fa-plus" aria-hidden="true"></i>
+							</button>
+							<button type="button" onclick="removeFile(this)" class="btn btn-outline-secondary">
+								<i class="fa fa-minus" aria-hidden="true"></i>
+							</button>
 						</td>
-<!--                         <td><input type="file" id="upfile" class="form-control-file border" name="upfile"></td>
- -->                </tr>
+					</tr>
+
+                	<tr id="inputInsertTr"></tr>
                 </table>
                 <br>
+				<input id="boardFileListValue" type="hidden" value="${ boardFileList.size() }">
+				<input id="deleteFileNames" name="deleteFileNames" type="hidden" value="">
+
 
                 <div align="center">
                     <button id="updateBtn" type="button" class="btn btn-primary">수정하기</button>
                 </div>
+
             </form>
         </div>
         <br><br>
@@ -154,112 +197,98 @@
 	
 	</script>
 
-
 	<script>
+		let boardFileListValue = document.getElementById('boardFileListValue');
+		let fileIdx = boardFileListValue.value;
 		
-		var fileNo = 0;
-		var filesArr = new Array();
+		function addFile() {
+			
+			console.log(fileIdx.value);
+			
+/* 			파일 개수 제한할 때 필요
+ */			const fileDivs = $('tr[data-name="fileDiv"]');
+			if (fileDivs.length > 4) {
+				alert('첨부 파일은 최대 다섯 개까지 업로드 할 수 있습니다.');
+				return false;
+			}
 	
-		/* 첨부파일 추가 */
-		function addFile(obj){
-		    var maxFileCnt = 5;   // 첨부파일 최대 개수
-		    var attFileCnt = document.querySelectorAll('.filebox').length;    // 기존 추가된 첨부파일 개수
-		    var remainFileCnt = maxFileCnt - attFileCnt;    // 추가로 첨부가능한 개수
-		    var curFileCnt = obj.files.length;  // 현재 선택된 첨부파일 개수
-	
-		    // 첨부파일 개수 확인
-		    if (curFileCnt > remainFileCnt) {
-		        alert("첨부파일은 최대 " + maxFileCnt + "개 까지 첨부 가능합니다.");
-		    }
-	
-		    for (var i = 0; i < Math.min(curFileCnt, remainFileCnt); i++) {
-	
-		        const file = obj.files[i];
-	
-		        // 첨부파일 검증
-		        if (validation(file)) {
-		            // 파일 배열에 담기
-		            var reader = new FileReader();
-		            reader.onload = function () {
-		                filesArr.push(file);
-		            };
-		            reader.readAsDataURL(file)
-	
-		            // 목록 추가
-		            let htmlData = '';
-		            htmlData += '<div id="file' + fileNo + '" class="filebox">';
-		            htmlData += '   <p class="name">' + file.name + '</p>';
-		            htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
-		            htmlData += '</div>';
-		            $('.file-list').append(htmlData);
-		            fileNo++;
-		        } else {
-		            continue;
-		        }
-		    }
-		    // 초기화
-		    document.querySelector("input[type=file]").value = "";
+			fileIdx++;
+			
+			var fileHtml = "";
+			fileHtml += "<tr data-name='fileDiv' class='form-group filebox bs3-primary'>"
+						+ "<th><label for='file_"+fileIdx+"' class='col-sm-2 control-label'></label></th>"
+						+ "<td class='col-sm-10' style='padding: 0px;'>"
+							+ "<input type='text' class='upload-name' value='첨부 파일을 등록해주세요.' style='color: gray; margin-left:0px;' readonly />"
+							+ "<label for='file_"+fileIdx+"' class='control-label' style='background-color: lightgray; border: none; margin-left: 10px;'>찾아보기</label>"
+							+ "<input type='file' name='upfile' id='file_"+fileIdx+"' class='upload-hidden' onchange='changeFilename(this);' />"
+							+ "<button type='button' onclick='removeFile(this)' class='btn btn-outline-secondary' style='margin-left: 7px;'>"
+							+ "<i class='fa fa-minus' aria-hidden='true'></i>"
+							+ "</button>"
+						+ "</td>"
+					+ "</tr>";
+			$('#inputInsertTr').before(fileHtml);
 		}
 	
-		/* 첨부파일 검증 */
-		function validation(obj){
-		    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-		    if (obj.name.length > 100) {
-		        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
-		        return false;
-		    } else if (obj.size > (100 * 1024 * 1024)) {
-		        alert("최대 파일 용량인 100MB를 초과한 파일은 제외되었습니다.");
-		        return false;
-		    } else if (obj.name.lastIndexOf('.') == -1) {
-		        alert("확장자가 없는 파일은 제외되었습니다.");
-		        return false;
-		    } else if (!fileTypes.includes(obj.type)) {
-		        alert("첨부가 불가능한 파일은 제외되었습니다.");
-		        return false;
-		    } else {
-		        return true;
-		    }
+		function removeFile(elem) {
+	
+			const prevTag = $(elem).prev().prop('tagName');
+			if (prevTag === 'BUTTON') {
+				const file = $(elem).prevAll('input[type="file"]');
+				const filename = $(elem).prevAll('input[type="text"]');
+				file.val('');
+				filename.val('첨부 파일을 등록해주세요');
+				return false;
+			}
+	
+			const target = $(elem).parents('tr[data-name="fileDiv"]');
+			target.remove();
 		}
 	
-		/* 첨부파일 삭제 */
-		function deleteFile(num) {
-		    document.querySelector("#file" + num).remove();
-		    filesArr[num].is_delete = true;
+		function changeFilename(file) {
+	
+			file = $(file);
+			const filename = file[0].files[0].name;
+			
+			const target = file.prevAll('input');
+			target.val(filename);
 		}
 	
-		/* 폼 전송 */
-		function submitForm() {
-		    // 폼데이터 담기
-		    var form = document.querySelector("form");
-		    var formData = new FormData(form);
-		    for (var i = 0; i < filesArr.length; i++) {
-		        // 삭제되지 않은 파일만 폼데이터에 담기
-		        if (!filesArr[i].is_delete) {
-		            formData.append("attach_file", filesArr[i]);
-		        }
-		    }
-	
-		    $.ajax({
-		        method: 'POST',
-		        url: '/register',
-		        dataType: 'json',
-		        data: formData,
-		        async: true,
-		        timeout: 30000,
-		        cache: false,
-		        headers: {'cache-control': 'no-cache', 'pragma': 'no-cache'},
-		        success: function () {
-		            alert("파일업로드 성공");
-		        },
-		        error: function (xhr, desc, err) {
-		            alert('에러가 발생 하였습니다.');
-		            return;
-		        }
-		    })
+		let deleteFileNames = new Array();
+		
+		function removePrevFile(elem) {
+			
+			let prevFileNo = $(elem).next('input[type="hidden"]').val();
+			console.log(prevFileNo);
+			
+			const file = $(elem).prev('input[type="file"]');
+			const filename = $(elem).prev('input[type="text"]');
+			
+			if(confirm("정말 삭제하시겠습니까?")){
+
+	            $.ajax({
+	                url : "deletePrevFile.bo",
+	                data : { 
+	                    fileNo: prevFileNo,
+	                },
+	                success : function(result) {
+	                    
+	                    if(result == "success") {
+	                        
+	            			file.val('');
+	            			filename.val('첨부 파일이 삭제되었습니다');
+	            			$(elem).prop("disabled", "disabled");
+	                    	
+	                    }
+	                },
+	                error : function() {
+	                    console.log("파일 삭제용 ajax 통신 실패!");
+	                }
+	            });
+			} 
 		}
 		
 	</script>
-
+	
 	<jsp:include page="../common/footer.jsp" />
 
         

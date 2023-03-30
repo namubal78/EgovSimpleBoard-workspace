@@ -23,7 +23,7 @@
 		<result column="REPLY_STATUS" property="replyStatus" />
 	</resultMap>
 	
-	<resultMap id="fileResultSet" type="file">
+	<resultMap id="boardFileResultSet" type="boardFile">
 		<result column="FILE_NO" property="fileNo" />	
 		<result column="ORIGIN_NAME" property="originName" />
 		<result column="CHANGE_NAME" property="changeName" />
@@ -183,18 +183,63 @@
    		WHERE BOARD_NO = #{boardNo}	 
    </update>
 
+	<insert id="insertRawBoard" parameterType="board">
+		INSERT INTO BOARD (BOARD_NO
+						 , BOARD_TITLE
+						 , BOARD_WRITER
+						 , BOARD_CONTENT
+<!-- 						 , ORIGIN_NAME
+						 , CHANGE_NAME -->
+						 , MEMBER_NO)
+				   VALUES (SEQ_BOARD_NO.NEXTVAL
+				   		 , #{boardTitle}
+				   		 , #{boardWriter}
+				   		 , #{boardContent}
+<!-- 				   		 , #{originName}
+				   		 , #{changeName} -->
+				   		 , #{memberNo})
+	</insert>
 
+	<select id="selectRawBoard" resultMap="boardResultSet" parameterType="_int">
+		SELECT *
+        FROM (SELECT *
+                FROM BOARD
+                WHERE BOARD_STATUS = 'Y'
+                  AND MEMBER_NO = #{memberNo}
+                ORDER BY BOARD_NO DESC)
+        WHERE ROWNUM = 1
+	</select>
 
+	<insert id="insertBoardFile" parameterType="boardFile">
+		INSERT INTO BOARDFILE (FILE_NO
+						  , ORIGIN_NAME
+						  , CHANGE_NAME
+						  , FILE_PATH
+						  , BOARD_NO)
+					VALUES (SEQ_BOARDFILE_NO.NEXTVAL
+						  , #{originName}
+						  , #{changeName}
+						  , #{filePath}
+						  , #{boardNo})
+	</insert>	
 
+	<select id="selectBoardFile" resultMap="boardFileResultSet" parameterType="_int">
+		SELECT *
+		FROM BOARDFILE
+		WHERE FILE_STATUS = 'Y'
+		  AND BOARD_NO = #{boardNo}
+	</select>
 
-
-
-
-
-
-
-
-
-
+    <update id="deleteBoardFile" parameterType="_int">
+    	UPDATE BOARDFILE
+		   SET FILE_STATUS = 'N'
+		 WHERE FILE_NO = #{fileNo}
+    </update>
+    
+    <update id="deletePrevFile" parameterType="_int">
+    	UPDATE BOARDFILE
+		   SET FILE_STATUS = 'N'
+		 WHERE FILE_NO = #{fileNo}
+    </update>
 
 </mapper>

@@ -32,19 +32,21 @@
 					<th>작성일</th>
 					<td>${ b.boardDate }</td>
 				</tr>
-				<%-- <tr>
+				<tr>
 					<th>첨부파일</th>
 					<td colspan="3">
 						<c:choose>
-							<c:when test="${ empty b.originName }">
+							<c:when test="${ empty boardFileList }">
 								첨부파일이 없습니다.
 							</c:when>
 							<c:otherwise>
-								<a href="${ b.changeName }" download="${ b.originName }">${ b.originName }</a>
+								<c:forEach var="boardFile" items="${ boardFileList }">
+									<a href="${ boardFile.changeName }" download="${ boardFile.originName }">${ boardFile.originName }</a><br>						
+								</c:forEach>
 							</c:otherwise>
 						</c:choose>
 					</td>
-				</tr> --%>
+				</tr>
 				<tr>
 					<th>내용</th>
 					<td colspan="3"></td>
@@ -72,7 +74,8 @@
 		
 							<form id="postForm" action="" method="post">
 								<input type="hidden" name="bno" value="${ b.boardNo }">
-<%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
+<%-- 								<input type="hidden" name="boardFileList" value="${ boardFileList }">
+ --%><%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
  --%>							</form>						
 						</c:when>
 						<c:otherwise>
@@ -157,7 +160,7 @@
 								<!-- 로그인 전 -->
 								<th colspan="2">
 									<textarea class="form-control" name="" id="content" cols="55" rows="2"
-										style="resize:none; width:100%;"
+										style="resize:none; width:700px;"
 										readonly>로그인한 사용자만 이용가능한 서비스 입니다. 로그인 후 이용바랍니다.</textarea>
 								</th>
 								<th style="vertical-align:middle"><button class="btn btn-secondary"
@@ -167,11 +170,11 @@
 								<!-- 로그인 후 -->
 								<th colspan="2">
 									<textarea class="form-control" name="" id="content" cols="55" rows="2"
-										style="resize:none; width:100%;"></textarea>
+										style="resize:none; width:700px;"></textarea>
 								</th>
 								<th id="rep2" width="10%" align="center"><span id="textCount"
-										style="font-size: 15px; color: #78C2AD; font-weighter: lighter;">0</span><span
-										id="textCount" style="font-weight: lighter; font-size: 15px;">/
+										style="font-size: 15px; color: #78C2AD; font-weighter:lighter;">0</span><span
+										style="font-weight: lighter; font-size: 15px;">/
 										300</span></th>
 								<th style="vertical-align:middle"><button class="btn btn-primary"
 										onclick="addReply();">등록</button></th>
@@ -248,12 +251,14 @@
 
 							if (result == "success") {
 
+								// 댓글 작성 창 초기화 효과
+								$("#content").val("");
+								$('#textCount').html(0);
+								
 								// 댓글 목록 새로고침
 								selectReplyList();
 
-								// 댓글 작성 창 초기화 효과
-								$("#content").val("");
-								$('#textCount').val("");
+						
 							}
 						},
 						error: function() {
