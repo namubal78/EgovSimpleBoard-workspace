@@ -92,6 +92,8 @@
 			<h2>게시판 관리</h2>
 			<br>
 			<br>
+			<p>총 <span style="color: #78C2AD; font-weight: bold;">${ list.size() }</span>개 게시판</p>
+			<br>
 			<!-- 게시판 목록 조회 -->
 			<table id="boardList" class="table table-hover" align="center">
 				<thead>

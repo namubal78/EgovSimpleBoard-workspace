@@ -20,18 +20,17 @@
                 <input type="hidden" name="memberPwd" value="${ loginUser.memberPwd }">
                 <input type="hidden" name="memberNo" value="${ loginUser.memberNo }">
                 <div class="form-group">
-                    <label for="memberId">* 아이디 : </label>
+                    <label for="memberId">아이디 : </label>
                     <input type="text" class="form-control" id="memberId" value="${ loginUser.memberId }" name="memberId" readonly> <br>
 
-                    <label for="memberName">* 이름 : </label>
+                    <label for="memberName">이름 : </label>
                     <input type="text" class="form-control" id="memberName" value="${ loginUser.memberName }" name="memberName" required> <br>
 
-                    <label for="email"> &nbsp; 이메일 : </label>
+                    <label for="email">이메일 : </label>
                     <input type="text" class="form-control" id="email" value="${ loginUser.email }" name="email"> <br>
 
-                    <label for="phone"> &nbsp; 연락처 : </label>
+                    <label for="phone">연락처 : </label>
                     <input type="text" class="form-control" id="phone" value="${ loginUser.phone }" name="phone"> <br>
-                    
                 </div> 
                 <br>
                 <div class="btns" align="center">
@@ -43,7 +42,7 @@
         </div>
         
         <script>
-        	$(function() {
+        	$(function() { // 클릭 시 게시글 상세 조회
         		$("#myList").click(function() {
         			location.href = "myList.bo?mno=" + $(this).parent().parent().children().eq(1).val();
         		});

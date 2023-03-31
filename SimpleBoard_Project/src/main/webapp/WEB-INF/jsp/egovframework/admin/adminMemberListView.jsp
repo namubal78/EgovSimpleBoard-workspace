@@ -38,23 +38,23 @@
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>회원 관리</h2>
-            <br>
+            <br><br>
            
             <!-- 검색 키워드 및 결과 -->
             <c:choose> 
            		<c:when test="${ empty cv.keyword }">
-           			<br>
+					<p>총 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>명</p>
            		</c:when>
            		<c:otherwise>
            			<c:choose>
            				<c:when test="${ cv.category eq 'memberId' }">
-           					<p><span style="color: #78C2AD; font-weight: bold;">아이디</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           					<p><span style="color: #78C2AD; font-weight: bold;">아이디</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>명 입니다.</p>
            				</c:when>
            				<c:when test="${ cv.category eq 'memberName' }">
-           					<p><span style="color: #78C2AD; font-weight: bold;">이름</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           					<p><span style="color: #78C2AD; font-weight: bold;">이름</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>명 입니다.</p>
            				</c:when>
            				<c:when test="${ cv.category eq 'phone' }">
-           					<p><span style="color: #78C2AD; font-weight: bold;">연락처</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
+           					<p><span style="color: #78C2AD; font-weight: bold;">연락처</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>명 입니다.</p>
            				</c:when>           				           				
            			</c:choose>
            		</c:otherwise>

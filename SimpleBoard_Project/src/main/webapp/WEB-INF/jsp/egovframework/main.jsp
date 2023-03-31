@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>        
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +48,14 @@
                 	<c:forEach var="sub" items="${ subList }" begin="0" end="2">
                 		<tr>
                 			<td style="width: 1px;"><input type="hidden" name="subBno" value="${ sub.subBoardNo }"></td>
-	                        <td style="width: 500px;">${ sub.subBoardTitle }</td>
+	                        <c:choose>
+	                        	<c:when test="${ sub.subBoardTitle.length() < 30 }">
+	                        		<td style="width: 500px;">${ sub.subBoardTitle }</td>
+	                        	</c:when>
+	                        	<c:when test="${ sub.subBoardTitle.length() >= 30 }">
+	                     			<td style="width: 500px;">${ fn:substring(sub.subBoardTitle, 0, 30) }...</td>
+	                        	</c:when>
+	                        </c:choose>
 	                        <td style="width: 200px; text-align: right;">${ sub.subBoardDate }</td>
 	                    </tr>
                 	</c:forEach>
@@ -74,7 +82,14 @@
                 	<c:forEach var="b" items="${ list }" begin="0" end="2">
                 		<tr>
                 			<td style="width: 1px;"><input type="hidden" name="bno" value="${ b.boardNo }"></td>
-                		    <td style="width: 500px;">${ b.boardTitle }</td>
+	                        <c:choose>
+	                        	<c:when test="${ b.boardTitle.length() < 30 }">
+	                        		<td style="width: 500px;">${ b.boardTitle }</td>
+	                        	</c:when>
+	                        	<c:when test="${ b.boardTitle.length() >= 30 }">
+	                     			<td style="width: 500px;">${ fn:substring(b.boardTitle, 0, 30) }...</td>
+	                        	</c:when>
+	                        </c:choose>	                        
 	                        <td style="width: 200px; text-align: right;">${ b.boardDate }</td>
 	                    </tr>
                 	</c:forEach>

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -271,8 +270,8 @@ public class BoardController {
 	@RequestMapping("insert.bo")
 	public ModelAndView insertBoard(Board b, List<MultipartFile> upfile, HttpSession session, ModelAndView mv) {
 
-		System.out.println("b: " + b);
-		System.out.println("upfile: " + upfile);
+		// System.out.println("b: " + b);
+		// System.out.println("upfile: " + upfile);
 		
 		
 		int memberNo = ((Member)session.getAttribute("loginUser")).getMemberNo();

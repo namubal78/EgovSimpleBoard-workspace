@@ -40,8 +40,8 @@
             <h2>작성 글</h2>
             <br>
 			<br>
-            <br>
-            <br>
+			<br>
+			<p>총 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건</p> <!-- 총 작성글 개수 -->
             <table id="boardList" class="table table-hover" align="center">
                 <thead>
                     <tr>
@@ -86,7 +86,6 @@
 							                    <div class="modal-footer" align="center">
 							                        <button type="submit" class="btn btn-danger">삭제하기</button>
 							                    </div>
-							                    <input type="hidden" name="filePath" value="${ b.changeName }">
 							                    <input type="hidden" name="mno" value="${ b.memberNo }">
 							                </form>
 							            </div>
@@ -101,13 +100,13 @@
             
             <script>
             	$(function(){
-            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){
-            			
+            		$("#boardList>tbody>tr>td[class!='deleteBoard']").click(function(){ // 클릭 시 게시글 상세 조회
             			location.href = "detail.bo?bno=" + $(this).parent().children().eq(0).text();
             		});
             	});	
             </script>
 
+			<!-- 페이징 -->
             <div id="pagingArea">
                 <ul class="pagination">
                 	

@@ -20,10 +20,8 @@
         <div class="innerOuter">
             <h2>공지사항</h2>
             <br>
-
             <a class="btn btn-secondary" style="float:right;" href="list.sub">목록으로</a>
             <br><br>
-
             <table id="contentArea" align="center" class="table">
                 <tr>
                     <th width="100">제목</th>
@@ -53,7 +51,7 @@
                     <td colspan="3"></td>
                 </tr>
                 <tr>
-                    <td colspan="4"><pre style="height:150px; white-space: pre-line;">${ b.subBoardContent }</pre></td>
+                    <td colspan="4"><pre style="white-space: pre-line;">${ b.subBoardContent }</pre></td>
                 </tr>
             </table>
             <br>
@@ -65,7 +63,6 @@
 						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
                     </div>
                     <br>
-                    
                     <form id="postForm" action="delete.sub" method="post">
                         <input type="hidden" name="subBno" value="${ b.subBoardNo }">
                         <input type="hidden" name="filePath" value="${ b.subChangeName }">
@@ -89,7 +86,7 @@
 		                    <!-- Modal body -->
 		                    <div class="modal-body">
 		                        <div align="center">
-		                            	정말로 삭제 하시겠습니까? <br>
+		                            정말로 삭제 하시겠습니까?<br>
 		                        </div>
 		                        <br>
 								<br>

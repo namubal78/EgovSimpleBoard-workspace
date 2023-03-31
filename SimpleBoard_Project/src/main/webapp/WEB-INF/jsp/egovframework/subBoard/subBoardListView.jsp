@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>            
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,12 +39,12 @@
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>공지사항</h2>
-            <br>
+            <br><br>
             
             <!-- 검색 키워드 및 결과 -->
             <c:choose> 
            		<c:when test="${ empty cv.keyword }">
-           			<br>
+					<p>총 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건</p>
            		</c:when>
            		<c:otherwise>
            			<c:choose>
@@ -77,7 +78,14 @@
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
 	                        <td style="width: 100px;">${ b.subBoardNo }</td>
-	                        <td style="width: 400px;" align="left"><span id="titleSpan">${ b.subBoardTitle }</span></td>
+	                       	<c:choose>
+	                        	<c:when test="${ b.subBoardTitle.length() < 25 }">
+	                        		<td style="width: 400px;" align="left"><span id="titleSpan">${ b.subBoardTitle }</span></td>
+	                        	</c:when>
+	                        	<c:when test="${ b.subBoardTitle.length() >= 25 }">
+	                        		<td style="width: 400px;" align="left"><span id="titleSpan">${ fn:substring(b.subBoardTitle, 0, 25) }...</span></td>
+	                        	</c:when>
+	                        </c:choose>
 	                        <td style="width: 100px;">${ b.subBoardWriter }</td>
 	                        <td style="width: 100px;">${ b.subBoardCount }</td>
 	                        <td style="width: 100px;">${ b.subBoardDate }</td>

@@ -53,7 +53,7 @@
 				</tr>
 				<tr>
 					<td colspan="4">
-						<pre style="height:150px; white-space: pre-line;">${ b.boardContent }</pre>
+						<pre style="white-space: pre-line;">${ b.boardContent }</pre>
 					</td>
 				</tr>
 			</table>
@@ -172,12 +172,13 @@
 									<textarea class="form-control" name="" id="content" cols="55" rows="2"
 										style="resize:none; width:700px;"></textarea>
 								</th>
-								<th id="rep2" width="10%" align="center"><span id="textCount"
-										style="font-size: 15px; color: #78C2AD; font-weighter:lighter;">0</span><span
-										style="font-weight: lighter; font-size: 15px;">/
-										300</span></th>
-								<th style="vertical-align:middle"><button class="btn btn-primary"
-										onclick="addReply();">등록</button></th>
+								<th id="rep2" width="10%" align="center">
+									<span id="textCount" style="font-size: 15px; color: #78C2AD; font-weighter:lighter;">0</span>
+									<span style="font-weight: lighter; font-size: 15px;">/300</span>
+								</th>
+								<th style="vertical-align:middle">
+									<button class="btn btn-primary" onclick="addReply();">등록</button>
+								</th>
 							</c:otherwise>
 						</c:choose>
 					</tr>

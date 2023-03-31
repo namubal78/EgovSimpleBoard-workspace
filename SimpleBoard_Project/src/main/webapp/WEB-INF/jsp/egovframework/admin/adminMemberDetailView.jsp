@@ -65,7 +65,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
-                <form action="delete.me" method="post">
+                <form action="adminDelete.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <div align="center">

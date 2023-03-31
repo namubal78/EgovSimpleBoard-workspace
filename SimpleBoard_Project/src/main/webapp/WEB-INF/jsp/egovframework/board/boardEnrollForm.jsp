@@ -85,7 +85,7 @@
                 <table align="center">
                     <tr>
                         <th><label for="title">제목</label></th>
-                        <td><input type="text" id="title" class="form-control" name="boardTitle" placeholder="150byte 이내로 작성해주세요" maxlength="150" required></td>
+                        <td><input type="text" id="title" class="form-control" name="boardTitle" placeholder="150byte 이내로 작성해주세요" maxlength="45" required></td>
                     </tr>
                     <tr>
                         <th><label for="writer">작성자</label></th>
@@ -93,7 +93,7 @@
                     </tr>
 					<tr>
                         <th><label for="content">내용</label></th>
-                        <td><textarea name="boardContent" id="content" style="width: 100%; height: 312px;" required></textarea></td> 
+                        <td><textarea name="boardContent" id="content" style="width: 100%; height: 312px;" required maxlength="1000"></textarea></td> 
                     </tr>
 					<tr data-name="fileDiv" class="form-group filebox bs3-primary">
 						<th><label for="file_0" class=" control-label" style="padding: 0px;">첨부(최대 5개)</label></th>
@@ -185,7 +185,7 @@
 /* 			파일 개수 제한할 때 필요
  */			const fileDivs = $('tr[data-name="fileDiv"]');
 			if (fileDivs.length > 4) {
-				alert('첨부 파일은 최대 다섯 개까지 업로드 할 수 있습니다.');
+				alertify.alert('첨부 파일은 최대 다섯 개까지 업로드 할 수 있습니다.');
 				return false;
 			}
 	
@@ -225,11 +225,46 @@
 	
 			file = $(file);
 			const filename = file[0].files[0].name; // pill14.png
+			const fileElem = file[0].files[0];
 			
-			const target = file.prevAll('input');
-			target.val(filename);
+			if(validation(fileElem)) {
+				
+				console.log("validation true");
+
+				const target = file.prevAll('input');
+				target.val(fileElem.name);
+				
+			}
+			
 		}
 	
+		/* 첨부파일 검증 */
+		function validation(fileElem){
+			
+			console.log("validation 도착");
+
+		    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
+		    if (fileElem.name.length > 100) {
+		    	
+		        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
+		        return false;
+		    } else if (fileElem.size > (2 * 1000 * 1000)) {
+
+		        alert("최대 파일 용량인 2MB를 초과한 파일은 제외되었습니다.");
+		        return false;
+		    } else if (fileElem.name.lastIndexOf('.') == -1) {
+
+		        alert("확장자가 없는 파일은 제외되었습니다.");
+		        return false;
+		    } else if (!fileTypes.includes(fileElem.type)) {
+
+		        alert("첨부가 불가능한 파일은 제외되었습니다.");
+		        return false;
+		    } else {
+		        return true;
+		    }
+		}
+
 	</script>
 
 	<jsp:include page="../common/footer.jsp" />

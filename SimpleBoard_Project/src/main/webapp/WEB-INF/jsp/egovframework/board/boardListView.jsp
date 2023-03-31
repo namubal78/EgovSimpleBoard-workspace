@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>                
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,12 +39,12 @@
         <br><br>
         <div class="innerOuter" style="padding:5% 10%;">
             <h2>자유게시판</h2>
-            <br>
+            <br><br>
             
             <!-- 검색 키워드 및 결과 -->
             <c:choose> 
            		<c:when test="${ empty cv.keyword }">
-           			<br>
+					<p>총 <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건</p>
            		</c:when>
            		<c:otherwise>
            			<c:choose>
@@ -55,7 +56,7 @@
            				</c:when>
            				<c:when test="${ cv.category eq 'boardWriter' }">
            					<p><span style="color: #78C2AD; font-weight: bold;">작성자</span>에 대한 검색어 <span style="color: #78C2AD; font-weight: bold;">${ cv.keyword }</span>에 대한 결과  <span style="color: #78C2AD; font-weight: bold;">${ cv.listCount }</span>건 입니다.</p>
-           				</c:when>           				           				
+           				</c:when>
            			</c:choose>
            		</c:otherwise>
             </c:choose>
@@ -80,7 +81,14 @@
                 	<c:forEach var="b" items="${ list }">
                 		<tr>
 	                        <td style="width: 100px;">${ b.boardNo }</td>
-	                        <td style="width: 400px;" align="left"><span id="titleSpan">${ b.boardTitle }</span></td>
+	                        <c:choose>
+	                        	<c:when test="${ b.boardTitle.length() < 25 }">
+	                        		<td style="width: 400px;" align="left"><span id="titleSpan">${ b.boardTitle }</span></td>
+	                        	</c:when>
+	                        	<c:when test="${ b.boardTitle.length() >= 25 }">
+	                        		<td style="width: 400px;" align="left"><span id="titleSpan">${ fn:substring(b.boardTitle, 0, 25) }...</span></td>
+	                        	</c:when>
+	                        </c:choose>
 	                        <td style="width: 100px;"><span id="writerSpan">${ b.boardWriter }</span></td>
 	                        <td style="width: 100px;">${ b.boardCount }</td>
 	                        <td style="width: 100px;">${ b.boardDate }</td>
