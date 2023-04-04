@@ -12,6 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="se2/js/HuskyEZCreator.js" charset="utf-8"></script>
 <style>
+
 	#enrollForm>table {width:100%;}
 	#enrollForm>table * {margin:5px;}
 
@@ -72,6 +73,7 @@
 </head>
 
 <body>
+
     <jsp:include page="../common/header.jsp" />
 
     <div class="content">
@@ -111,7 +113,8 @@
 						</td>
 					</tr>
 
-                	<tr id="inputInsertTr"></tr>                        
+                	<tr id="inputInsertTr"></tr>         
+
                 </table>
                 <br>
 
@@ -134,6 +137,7 @@
 			sSkinURI : "se2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
 			fCreator : "createSEditor2",
 			htParams : {
+
 				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
 				bUseToolbar : true,
 		
@@ -164,6 +168,7 @@
 				return false;
 				
 			} else {
+
 				console.log("insert 스크립트");
 				
 		        document.getElementById('enrollForm').submit();
@@ -185,8 +190,10 @@
 /* 			파일 개수 제한할 때 필요
  */			const fileDivs = $('tr[data-name="fileDiv"]');
 			if (fileDivs.length > 4) {
+
 				alertify.alert('첨부 파일은 최대 다섯 개까지 업로드 할 수 있습니다.');
-				return false;
+				return false; 
+
 			}
 	
 			fileIdx++;
@@ -210,11 +217,15 @@
 	
 			const prevTag = $(elem).prev().prop('tagName');
 			if (prevTag === 'BUTTON') {
+
 				const file = $(elem).prevAll('input[type="file"]');
 				const filename = $(elem).prevAll('input[type="text"]');
+				
 				file.val('');
 				filename.val('첨부 파일을 등록해주세요');
+
 				return false;
+
 			}
 	
 			const target = $(elem).parents('tr[data-name="fileDiv"]');
@@ -232,7 +243,7 @@
 				console.log("validation true");
 
 				const target = file.prevAll('input');
-				target.val(fileElem.name);
+				target.val(fileElem.name); // 파일명을 input 태그에 담음
 				
 			}
 			
@@ -244,7 +255,7 @@
 			console.log("validation 도착");
 
 		    const fileTypes = ['application/pdf', 'image/gif', 'image/jpeg', 'image/png', 'image/bmp', 'image/tif', 'application/haansofthwp', 'application/x-hwp'];
-		    if (fileElem.name.length > 100) {
+		    if (fileElem.name.length > 100) { // 파일 종류 제한
 		    	
 		        alert("파일명이 100자 이상인 파일은 제외되었습니다.");
 		        return false;
@@ -261,6 +272,7 @@
 		        alert("첨부가 불가능한 파일은 제외되었습니다.");
 		        return false;
 		    } else {
+				
 		        return true;
 		    }
 		}

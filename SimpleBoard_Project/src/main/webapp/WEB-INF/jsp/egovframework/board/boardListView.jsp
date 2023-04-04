@@ -101,9 +101,11 @@
             <!-- 클릭시 게시글 상세 조회 -->
             <script>
             	$(function(){
+
             		$("#boardList>tbody>tr").click(function(){
             			
             			location.href = "detail.bo?bno=" + $(this).children().eq(0).text();
+
             		});
             	});	
             </script>
@@ -167,12 +169,18 @@
                 let keyword = "${cv.keyword}"; // 검색 키워드 변수에 담기
 
                 // 검색 카테고리 유지 함수
-            	if(category == "boardTitle") {  // 카테고리가 제목
+            	if(category == "boardTitle") {
+					  // 카테고리가 제목
 					$("option[value='boardTitle']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+
             	} else if(category == 'boardContent') { // 카테고리가 내용
+
 					$("option[value='boardContent']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+
             	} else if(category == 'boardWriter') { // 카테고리가 작성자
+
 					$("option[value='boardWriter']").attr("selected", true); // 해당 카테고리 option 에 selected 속성 부여
+
             	}
             	
             	// 검색 키워드 색깔 처리
@@ -184,6 +192,7 @@
                 		$(this).html($(this).text().replace(regex, "<span style='color:#78C2AD;'>" + keyword + "</span>")); // 색깔 변경
 
                 	});
+					
                 } else if(keyword != "" && category == 'boardWriter') { // 작성자 카테고리에 검색어가 있을 경우
                 	
                 	$("span[id='writerSpan']:contains('" + keyword + "')" ).each(function() {

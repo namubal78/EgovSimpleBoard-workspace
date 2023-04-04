@@ -137,7 +137,6 @@
 				<input id="boardFileListValue" type="hidden" value="${ boardFileList.size() }">
 				<input id="deleteFileNames" name="deleteFileNames" type="hidden" value="">
 
-
                 <div align="center">
                     <button id="updateBtn" type="button" class="btn btn-primary">수정하기</button>
                 </div>
@@ -157,6 +156,7 @@
 			sSkinURI : "se2/SmartEditor2Skin.html", //경로를 꼭 맞춰주세요!
 			fCreator : "createSEditor2",
 			htParams : {
+
 				// 툴바 사용 여부 (true:사용/ false:사용하지 않음)
 				bUseToolbar : true,
 		
@@ -224,14 +224,16 @@
 							+ "<i class='fa fa-minus' aria-hidden='true'></i>"
 							+ "</button>"
 						+ "</td>"
-					+ "</tr>";
+					 + "</tr>";
 			$('#inputInsertTr').before(fileHtml);
 		}
 	
 		function removeFile(elem) {
 	
 			const prevTag = $(elem).prev().prop('tagName');
+
 			if (prevTag === 'BUTTON') {
+
 				const file = $(elem).prevAll('input[type="file"]');
 				const filename = $(elem).prevAll('input[type="text"]');
 				file.val('');
@@ -315,6 +317,8 @@
 		        alert("첨부가 불가능한 파일은 제외되었습니다.");
 		        return false;
 		    } else {
+
+				alert("파일을 첨부했습니다.");
 		        return true;
 		    }
 		}
@@ -322,7 +326,6 @@
 	</script>
 	
 	<jsp:include page="../common/footer.jsp" />
-
         
 </body>
 </html>

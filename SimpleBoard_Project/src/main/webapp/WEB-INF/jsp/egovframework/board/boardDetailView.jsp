@@ -6,7 +6,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Document</title>
-
 </head>
 <body>
 
@@ -62,7 +61,6 @@
 			<!-- 삭제 및 수정 버튼 -->
 			<c:choose>
 				<c:when test="${ loginUser.memberId eq 'admin' or loginUser.memberId eq 'subadmin' }">
-					
 					<c:choose>
 						<c:when test="${ loginUser.memberName eq b.boardWriter }">
 							<div align="center">
@@ -75,8 +73,8 @@
 							<form id="postForm" action="" method="post">
 								<input type="hidden" name="bno" value="${ b.boardNo }">
 <%-- 								<input type="hidden" name="boardFileList" value="${ boardFileList }">
- --%><%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
- --%>							</form>						
+--%><%-- 						<input type="hidden" name="filePath" value="${ b.changeName }">
+--%>						</form>						
 						</c:when>
 						<c:otherwise>
 							<div align="center">
@@ -89,9 +87,7 @@
 <%-- 								<input type="hidden" name="filePath" value="${ b.changeName }">
  --%>							</form>
 						</c:otherwise>
-					
 					</c:choose>
-
 				</c:when>
 				<c:when test="${ loginUser.memberName eq b.boardWriter }">
 					<div align="center">
@@ -100,7 +96,6 @@
 						<a class="btn btn-danger" data-toggle="modal" data-target="#deleteForm">삭제하기</a>
 					</div>
 					<br><br>
-
 					<form id="postForm" action="" method="post">
 						<input type="hidden" name="bno" value="${ b.boardNo }">
 <%-- 						<input type="hidden" name="filePath" value="${ b.changeName }">
@@ -163,8 +158,11 @@
 										style="resize:none; width:700px;"
 										readonly>로그인한 사용자만 이용가능한 서비스 입니다. 로그인 후 이용바랍니다.</textarea>
 								</th>
-								<th style="vertical-align:middle"><button class="btn btn-secondary"
-										disabled>등록</button></th>
+								<th style="vertical-align:middle">
+									<button class="btn btn-secondary" disabled>
+										등록
+									</button>
+								</th>
 							</c:when>
 							<c:otherwise>
 								<!-- 로그인 후 -->
@@ -232,6 +230,7 @@
 						$("#rcount").text(result.length);
 					},
 					error: function() {
+						
 						console.log("댓글리스트 조회용 ajax 통신 실패!");
 					}
 				});
