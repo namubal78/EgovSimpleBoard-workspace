@@ -36,8 +36,11 @@ WAS: Apache Tomcat (8.5.82)
 * 1.0.0
     * 1차 발표 upload
 * 1.1.0
-    * 2차 발표 upload(last updated 2023-03-31)
-
+    * 2차 발표 upload
+* 1.1.1(last updated 2023-04-11)
+    * 기존 spring mapping 방식 -> @Mapping 어노테이션 방식으로 수정 연습
+    * 기존 spring SqlSessionTemplate -> 전자정부 제공 EgovAbastractDAO 통한 template으로 수정 연습
+    
 ## 정보
 
 한영섭 – [@깃허브 블로그](https://namubal78.github.io/) – namubal78@gmail.com
