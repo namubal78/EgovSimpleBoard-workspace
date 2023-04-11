@@ -1,10 +1,15 @@
 package egovframework.subBoard.model.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import egovframework.common.model.vo.CommonVo;
 import egovframework.subBoard.model.vo.SubBoard;
 
+/**
+ * @author GASystem
+ *
+ */
 public interface SubBoardService {
 
 	// 공지사항 전체 조회 리스트 카운트
@@ -23,6 +28,11 @@ public interface SubBoardService {
 	int insertBoard(SubBoard b);
 
 	// 공지사항 삭제
+	/**
+	 * @param subBno
+	 * @return
+	 * @throws SQLException
+	 */
 	int deleteBoard(int subBno);
 
 	// 메인 페이지 공지사항 조회

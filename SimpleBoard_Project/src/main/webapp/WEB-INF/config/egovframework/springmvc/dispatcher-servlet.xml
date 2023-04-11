@@ -69,6 +69,8 @@
 		<property name="tail" value='@naver.com'/>
 		<property name="user" value='namubal78'/>
 	</bean> 	
+	
+	
     
     
 </beans>

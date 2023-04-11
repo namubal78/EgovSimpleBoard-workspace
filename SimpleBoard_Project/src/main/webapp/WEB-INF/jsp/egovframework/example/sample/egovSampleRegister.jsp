@@ -93,7 +93,7 @@
     			<td class="tbtd_caption"><label for="name"><spring:message code="title.sample.name" /></label></td>
     			<td class="tbtd_content">
     				<form:input path="name" maxlength="30" cssClass="txt"/>
-    				&nbsp;<form:errors path="name" />
+    				<form:errors path="name" />
     			</td>
     		</tr>
     		<tr>
@@ -108,7 +108,7 @@
     		<tr>
     			<td class="tbtd_caption"><label for="description"><spring:message code="title.sample.description" /></label></td>
     			<td class="tbtd_content">
-    				<form:textarea path="description" rows="5" cols="58" />&nbsp;<form:errors path="description" />
+    				<form:textarea path="description" rows="5" cols="58" /><form:errors path="description" />
                 </td>
     		</tr>
     		<tr>
@@ -116,12 +116,13 @@
     			<td class="tbtd_content">
                     <c:if test="${registerFlag == 'modify'}">
         				<form:input path="regUser" maxlength="10" cssClass="essentiality" readonly="true" />
-        				&nbsp;<form:errors path="regUser" /></td>
+        				&nbsp;<form:errors path="regUser" />
                     </c:if>
                     <c:if test="${registerFlag != 'modify'}">
         				<form:input path="regUser" maxlength="10" cssClass="txt"  />
-        				&nbsp;<form:errors path="regUser" /></td>
+        				&nbsp;<form:errors path="regUser" />
                     </c:if>
+            	</td>
     		</tr>
     	</table>
       </div>

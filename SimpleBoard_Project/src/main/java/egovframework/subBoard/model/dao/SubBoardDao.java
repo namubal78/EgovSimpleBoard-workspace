@@ -7,10 +7,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import egovframework.common.model.vo.CommonVo;
+import egovframework.rte.psl.dataaccess.EgovAbstractMapper;
 import egovframework.subBoard.model.vo.SubBoard;
 
-@Repository
-public class SubBoardDao {
+@Repository("SubBoardDao")
+@SuppressWarnings("unchecked")
+public class SubBoardDao extends EgovAbstractMapper {
 
 	public int selectListCount(CommonVo cvPi, SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("subBoardMapper.selectListCount", cvPi);
@@ -40,6 +42,7 @@ public class SubBoardDao {
 	}
 
 	public int deleteBoard(SqlSessionTemplate sqlSession, int subBno) {
+				
 		return sqlSession.update("subBoardMapper.deleteBoard", subBno);
 	}
 

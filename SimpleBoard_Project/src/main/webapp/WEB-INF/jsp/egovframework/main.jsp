@@ -43,7 +43,7 @@
 		<!-- 공지사항 최근 3건 게시 -->
         <div id="recentSubBoard">
             <p>최근 공지사항</p>
-            <table id="subBoardList" class="table table-hover" align="center">
+            <table id="subBoardList" class="table table-hover" style="text-align:center">
                 <tbody>
                 	<c:forEach var="sub" items="${ subList }" begin="0" end="2">
                 		<tr>

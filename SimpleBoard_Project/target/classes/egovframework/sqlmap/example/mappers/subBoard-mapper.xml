@@ -136,7 +136,7 @@
    <update id="deleteBoard" parameterType="_int">
    		UPDATE SUBBOARD
    		   SET SUBBOARD_STATUS = 'N'
-   		 WHERE SUBBOARD_NO = #{subBoardNo}	 
+   		 WHERE SUBBOARD_NO = #{subBoardNo}
    </update>
 
 </mapper>

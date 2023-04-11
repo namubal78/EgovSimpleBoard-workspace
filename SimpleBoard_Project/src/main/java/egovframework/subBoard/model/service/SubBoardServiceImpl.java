@@ -2,18 +2,23 @@ package egovframework.subBoard.model.service;
 
 import java.util.ArrayList;
 
+import javax.annotation.Resource;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.common.model.vo.CommonVo;
 import egovframework.subBoard.model.dao.SubBoardDao;
 import egovframework.subBoard.model.vo.SubBoard;
 
 @Service
+@Transactional
 public class SubBoardServiceImpl implements SubBoardService {
 
-	@Autowired
+	
+	@Resource(name="SubBoardDao")
 	private SubBoardDao subBoardDao;
 	
 	@Autowired
@@ -46,6 +51,7 @@ public class SubBoardServiceImpl implements SubBoardService {
 
 	@Override
 	public int deleteBoard(int subBno) {
+				
 		return subBoardDao.deleteBoard(sqlSession, subBno);
 	}
 

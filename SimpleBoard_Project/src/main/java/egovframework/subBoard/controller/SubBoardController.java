@@ -8,6 +8,8 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +21,19 @@ import org.springframework.web.servlet.ModelAndView;
 import egovframework.common.model.vo.CommonVo;
 import egovframework.common.template.Pagination;
 import egovframework.subBoard.model.service.SubBoardService;
+import egovframework.subBoard.model.service.SubBoardServicePractice;
 import egovframework.subBoard.model.vo.SubBoard;
 
 @Controller
 public class SubBoardController {
 
+	private Log logger = LogFactory.getLog(getClass());
+	
 	@Autowired
 	private SubBoardService subBoardService;
+	
+	@Autowired
+	private SubBoardServicePractice subBoardServicePractice;
 	
 	/**
 	 * 공지사항 전체조회 및 검색조회
@@ -102,7 +110,7 @@ public class SubBoardController {
 	 */
 	@RequestMapping("insert.sub")
 	public ModelAndView insertBoard(SubBoard b, MultipartFile upfile, HttpSession session, ModelAndView mv) {
-
+		
 		// 첨부파일 있을 경우
 		if(!upfile.getOriginalFilename().equals("")) {
 		
@@ -178,30 +186,44 @@ public class SubBoardController {
 	 * @return
 	 */
 	@RequestMapping("delete.sub")
-	public String deleteBoard(int subBno, String filePath, HttpSession session, Model model) {
-				
-		// 공지사항 삭제
-		int result = subBoardService.deleteBoard(subBno);
+	public String deleteBoard(int subBno, String filePath, HttpSession session, Model model) throws Exception {
 		
-		if(result > 0) { // 삭제 성공
+		System.out.println("subBno: " + subBno);
+		
+		try {
 			
-			// 첨부파일이 있을 경우 => 파일 삭제
-			if(!filePath.equals("")) {
+			// 공지사항 삭제
+			int result = subBoardServicePractice.deleteBoard(subBno);
+			
+			System.out.println("result: " + result);
+			
+			if(result > 0) { // 삭제 성공
 				
-				String realPath = session.getServletContext().getRealPath(filePath);
-				new File(realPath).delete();
+				// 첨부파일이 있을 경우 => 파일 삭제
+				if(!filePath.equals("")) {
+					
+					String realPath = session.getServletContext().getRealPath(filePath);
+					new File(realPath).delete();
+				}
+				
+				session.setAttribute("alertMsg", "성공적으로 공지가 삭제되었습니다.");
+				
+				return "redirect:/list.sub";
+			}
+			else { // 게시글 삭제 실패
+				
+				model.addAttribute("errorMsg", "공지 삭제 실패");
+				
+				return "common/errorPage";
 			}
 			
-			session.setAttribute("alertMsg", "성공적으로 공지가 삭제되었습니다.");
-			
-			return "redirect:/list.sub";
-		}
-		else { // 게시글 삭제 실패
+		} catch (Exception e) {
 			
 			model.addAttribute("errorMsg", "공지 삭제 실패");
-			
-			return "common/errorPage";
+			logger.error(e);
 		}
+				
+		return "redirect:/list.sub";
 	}	
 	
 }

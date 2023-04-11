@@ -21,6 +21,9 @@
 			commonVo: 페이징, 키워드 검색 테이블
 		-->
 		
+		<!-- 
+			기술임치사업에서는 mapper xml 파일 내에서 기술한 부분
+		-->	
 		<typeAlias alias="member" type="egovframework.member.model.vo.Member"/> 
 		<typeAlias alias="board" type="egovframework.board.model.vo.Board"/>
 		<typeAlias alias="reply" type="egovframework.board.model.vo.Reply"/>
@@ -33,5 +36,7 @@
 <!-- 		<typeAlias alias="smarteditorVo" type="egovframework.common.model.vo.SmarteditorVO"/>
  -->		
     </typeAliases>
+    
+    
 
 </configuration>
