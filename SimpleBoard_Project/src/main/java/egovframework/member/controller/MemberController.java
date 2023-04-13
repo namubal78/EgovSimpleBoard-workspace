@@ -118,9 +118,10 @@ public class MemberController {
 	 * @param saveId
 	 * @param response
 	 * @return
+	 * @throws Exception 
 	 */
 	@RequestMapping("login.me")
-	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, String saveId, HttpServletResponse response) {
+	public ModelAndView loginMember(Member m, ModelAndView mv, HttpSession session, String saveId, HttpServletResponse response) throws Exception {
 		
 		// 아이디 저장 여부 확인
 		if(saveId != null && saveId.equals("y")) {
@@ -139,6 +140,20 @@ public class MemberController {
 			
 		}
 		
+		/*
+		 * 여기서 RSA 암호화한 비밀번호 복호화 
+		 */
+//		Rsa r = new Rsa();
+//		//로그인전에 세션에 저장된 개인키를 가져온다.
+//		PrivateKey privateKey = (PrivateKey)session.getAttribute(Rsa.RSA_WEB_KEY);
+//		//암호화 된 비밀번호를 복호화 시킨다.
+//		String password = r.decryptRsa(privateKey, m.getMemberPwd());
+//		// ShA 256 암호화 = 단방향 
+//		String sha = EgovFileScrty.encryptPassword(password);
+//		m.setMemberPwd(sha);
+//		
+//		System.out.println("sha: " + sha);
+//		
 		// 입력한 정보로 MEMBER 테이블 조회
 		Member loginUser = memberService.loginMember(m);
 		

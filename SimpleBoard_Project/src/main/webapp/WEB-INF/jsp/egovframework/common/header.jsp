@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,6 +28,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <!-- 부트스트랩에서 제공하고 있는 스크립트 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- RSA 암호화 -->
+<script type="text/javascript" src="http://www-cs-students.stanford.edu/~tjw/jsbn/rsa.js"></script>
+<script type="text/javascript" src="http://www-cs-students.stanford.edu/~tjw/jsbn/jsbn.js"></script>
+<script type="text/javascript" src="http://www-cs-students.stanford.edu/~tjw/jsbn/prng4.js"></script>
+<script type="text/javascript" src="http://www-cs-students.stanford.edu/~tjw/jsbn/rng.js"></script>
 <style>
 	div {box-sizing:border-box;}
 	#header {
@@ -167,7 +174,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
         
-                <form action="login.me" method="post">
+                <form:form id="loginForm" name="loginForm" action="login.me" method="post">
                     <!-- Modal body -->
                     <div class="modal-body">
                         <label for="memberId" class="mr-sm-2">아이디 : </label>
@@ -175,6 +182,9 @@
                         <label for="userPwd" class="mr-sm-2">비밀번호 : </label>
                         <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력하세요." id="memberPwd" name="memberPwd" required>
                         <br>
+                        
+<%--                         <input type="hidden" id="RSAModulus" value="${RSAModulus}"/> --%>
+<%--     					<input type="hidden" id="RSAExponent" value="${RSAExponent}"/> --%>
                         
                         <c:choose>
                         	<c:when test="${ not empty cookie.saveId }">
@@ -192,7 +202,33 @@
                         <button type="submit" class="btn btn-primary">로그인</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
                     </div>
-                </form>
+                    
+                    <script>
+                    
+// 	            	    // 비밀번호 암호화
+// 	                    function frm_check(){
+	                    
+// 	            	    	var pw = document.loginForm.memberPwd.value;
+// 		            	    console.log(pw);
+
+// 	            	    	// rsa 암호화
+// 	                    	var rsa = new RSAKey();
+	            	    	
+// 	            	    	console.log(rsa);
+// 	                    	rsa.setPublic($('#RSAModulus').val(),$('#RSAExponent').val());
+	                    	
+// 	                    	console.log($('#RSAModulus').val());
+// 	                    	console.log($('#RSAExponent').val());
+// 	                    	console.log(rsa.encrypt(pw));
+	                    	
+	                    	
+// 	                    	$("#memberPwd").val(rsa.encrypt(pw));
+	                	
+// 	            	    }
+                    	
+	            	     
+                    </script>
+                </form:form>
             </div>
         </div>
 
