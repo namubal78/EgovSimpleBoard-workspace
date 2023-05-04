@@ -38,6 +38,19 @@
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
     
+    <!-- 
+    	action 이라는 이름의 servlet 은 url 패턴이 프로젝트 이름 경로 아래의 모든 것이므로
+    	모두 contextConfigLocation 이라는 이름의 param 으로 init 되는데
+    	그건 param-value 에 있는 경로 xml 파일에 bean들로 설정되어있음 
+    	아마 viewResolver 로 prefix suffix, handlerMapping 으로 url 가려받기 등 찾아봐야 함
+    	load-on-startup
+    	원래 servlet 은 브라우저에서 최초 요청할 때 init() 메서드 실행되면서 메모리에 로드됨
+    	이게 느릴 수 있어서 톰캣 컨테이너 실행될 때 가능하게 0보다 큰 숫자들이 작은 순으로 미리 servlet 실행되게 하는게 저거
+    	어노테이션과 web.xml 방식 있음
+    	
+    	밑에 default 이름 servlet 해당하는 *.~~~ 들은 action에 안 걸려서 prefix, suffix 적용 안 받게 하려는 게 목적
+    -->
+    
 	<servlet>
 		<servlet-name>action</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
